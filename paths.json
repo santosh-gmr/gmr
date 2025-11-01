@@ -1,6 +1,8 @@
 {
   "mappings": [
     "/content/GMR/:/",
+    "/content/GMR/en/:/",
+    "/content/GMR/fr/:/fr/",
     "/content/GMR/configuration:/.helix/config.json",
     "/content/GMR/metadata:/metadata.json"
   ],
