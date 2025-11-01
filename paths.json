@@ -1,10 +1,10 @@
 {
   "mappings": [
-    "/content/GMR/en/:/",
-    "/content/GMR/en/configuration:/.helix/config.json",
-    "/content/GMR/en/metadata:/metadata.json"
+    "/content/GMR/:/",
+    "/content/GMR/configuration:/.helix/config.json",
+    "/content/GMR/metadata:/metadata.json"
   ],
   "includes": [
-    "/content/GMR/en/"
+    "/content/GMR/"
   ]
 }
