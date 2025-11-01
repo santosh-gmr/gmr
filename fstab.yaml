@@ -3,3 +3,11 @@ mountpoints:
     url: "https://author-p168597-e1803019.adobeaemcloud.com/bin/franklin.delivery/santosh-gmr/gmr/main"
     type: "markup"
     suffix: ".html"
+  /en/:
+    url: "https://author-p168597-e1803019.adobeaemcloud.com/bin/franklin.delivery/santosh-gmr/gmr/main/en"
+    type: "markup"
+    suffix: ".html"
+  /fr/:
+    url: "https://author-p168597-e1803019.adobeaemcloud.com/bin/franklin.delivery/santosh-gmr/gmr/main/fr"
+    type: "markup"
+    suffix: ".html"
