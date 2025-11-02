@@ -8,5 +8,5 @@ helix-importer-ui
 *.bak
 .idea
 .well-known
-fstab.html
+fstab.yaml
 paths.json
