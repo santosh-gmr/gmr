@@ -56,8 +56,7 @@
     {
       "id": "cards",
       "components": [
-        "card",
-        "text"
+        "card"
       ]
     }
   ]
