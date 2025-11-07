@@ -60,5 +60,13 @@
       "button",
       "title"
     ]
+  },
+  {
+    "id": "slide",
+    "components": [
+      "text",
+      "image",
+      "button"
+    ]
   }
 ]
