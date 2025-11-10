@@ -2,7 +2,7 @@
   "mappings": [
     "/content/GMR/:/",
     "/content/GMR/en/:/",
-    "/content/GMR/fr_fr/:/",
+    "/content/GMR/fr_fr/:/fr/",
     "/content/GMR/configuration:/.helix/config.json",
     "/content/GMR/metadata:/metadata.json"
   ],
