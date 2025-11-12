@@ -11,6 +11,14 @@ import {
   loadSections,
   loadCSS,
 } from './aem.js';
+// Added bootstrap links 
+import('https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js');
+
+// Added the swiper links
+import('https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js')
+  .then(() => {
+    console.log('Swiper loaded globally');
+  });
 
 /**
  * Moves all the attributes from a given elmenet to another given element.
