@@ -33,6 +33,10 @@
             {
               "name": "Highlight",
               "value": "highlight"
+            },
+            {
+              "name": "Background Blue",
+              "value": "bg-primary"
             }
           ]
         }

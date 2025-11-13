@@ -18,21 +18,6 @@ export default async function decorate(block) {
   const footer = document.createElement("div");
   footer.className = "page-footer";
 
-  const logoWrapper = document.createElement("div");
-  logoWrapper.className = "footer-logo-wrapper";
-  const logoContainer = document.createElement("div");
-  logoContainer.className = "container";
-
-  const logo = document.createElement("img");
-  logo.src = "/icons/logo.svg";
-  logo.alt = "GMR";
-  logo.className = "footer-logo";
-  footer.appendChild(logo);
-
-  footer.appendChild(logoWrapper);
-  logoWrapper.appendChild(logoContainer);
-  logoContainer.appendChild(logo);
-
   while (fragment.firstElementChild) footer.append(fragment.firstElementChild);
 
   block.append(footer);
