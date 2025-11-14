@@ -76,5 +76,11 @@
     "components": [
       "footer-nav-item"
     ]
+  },
+  {
+    "id": "footer-nav-item",
+    "components": [
+      "text"
+    ]
   }
 ]
