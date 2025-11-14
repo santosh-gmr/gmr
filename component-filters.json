@@ -69,5 +69,11 @@
       "image",
       "button"
     ]
+  },
+  {
+    "id": "footer-nav",
+    "components": [
+      "footer-nav-item"
+    ]
   }
 ]
