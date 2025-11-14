@@ -164,7 +164,7 @@
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
                   "name": "Footer Nav Item",
-                  "filter": "footer-nav-item"
+                  "model": "footer-nav-item"
                 }
               }
             }
