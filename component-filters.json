@@ -81,8 +81,6 @@
     "id": "footerlink",
     "components": [
       "text",
-      "image",
-      "button",
       "title"
     ]
   }

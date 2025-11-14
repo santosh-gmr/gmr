@@ -310,17 +310,10 @@
     "id": "footerlink",
     "fields": [
       {
-        "component": "reference",
-        "valueType": "string",
-        "name": "image",
-        "label": "Image",
-        "multi": false
-      },
-      {
         "component": "text",
         "valueType": "string",
-        "name": "imageAlt",
-        "label": "Alt",
+        "name": "title",
+        "label": "Title",
         "value": ""
       },
       {
