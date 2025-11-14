@@ -1,9 +1,7 @@
 [
   {
     "id": "main",
-    "components": [
-      "section"
-    ]
+    "components": ["section"]
   },
   {
     "id": "section",
@@ -18,72 +16,48 @@
       "fragment",
       "carousel",
       "footerlinks",
-      "footer-topbar"
+      "footer-topbar",
+      "socialLinks"
     ]
   },
   {
     "id": "cards",
-    "components": [
-      "card"
-    ]
+    "components": ["card"]
   },
   {
     "id": "carousel",
-    "components": [
-      "slide"
-    ]
+    "components": ["slide"]
   },
   {
     "id": "columns",
-    "components": [
-      "column"
-    ]
+    "components": ["column"]
   },
   {
     "id": "column",
-    "components": [
-      "text",
-      "image",
-      "button",
-      "title"
-    ]
+    "components": ["text", "image", "button", "title"]
   },
   {
     "id": "columns",
-    "components": [
-      "column"
-    ]
+    "components": ["column"]
   },
   {
     "id": "column",
-    "components": [
-      "text",
-      "image",
-      "button",
-      "title"
-    ]
+    "components": ["text", "image", "button", "title"]
   },
   {
     "id": "slide",
-    "components": [
-      "text",
-      "image",
-      "button"
-    ]
+    "components": ["text", "image", "button"]
   },
   {
     "id": "footerlinks",
-    "components": [
-      "footerlink"
-    ]
+    "components": ["footerlink"]
   },
   {
     "id": "footerlink",
-    "components": [
-      "text",
-      "image",
-      "button",
-      "title"
-    ]
+    "components": ["text", "image", "button", "title"]
+  },
+  {
+    "id": "socialLinks",
+    "components": ["socialLinks"]
   }
 ]
