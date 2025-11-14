@@ -1,0 +1,11 @@
+.social-links ul {
+    list-style: none;
+    display: flex;
+    gap: 16px;
+    padding: 0;
+}
+
+.social-links a {
+    text-decoration: none;
+    font-weight: 600;
+}

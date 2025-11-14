@@ -41,3 +41,160 @@ body {
     font-size: 1rem;
     color: var(--charcoal);
 }
+img {
+    max-width: 100%;
+    height: auto;
+}
+a,
+button,
+input[type="submit"] {
+    -webkit-transition: all ease 0.3s;
+    -moz-transition: all ease 0.3s;
+    -o-transition: all ease 0.3s;
+    -ms-transition: all ease 0.3s;
+    transition: all ease 0.3s;
+}
+a,
+.btn-link {
+    color: var(--blue);
+}
+a:hover,
+a:focus {
+    color: var(--black);
+}
+a:hover,
+a:focus,
+button,
+.btn {
+    text-decoration: none;
+    outline: 0 !important;
+    outline-offset: 0px !important;
+}
+label {
+    font-weight: normal;
+}
+iframe {
+    width: 100% !important;
+}
+sub,
+sup {
+    font-size: 50%;
+}
+.row-gap {
+    margin: 0 -5px;
+}
+.row-gap [class*="col-"],
+.row-gap .col {
+    padding: 0 5px;
+}
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 500;
+}
+.h1,
+h1 {
+    font-size: 3.5rem;
+}
+.h2,
+h2 {
+    font-size: 3rem;
+}
+.h3,
+h3 {
+    font-size: 2rem;
+}
+.h4,
+h4 {
+    font-size: 1.5rem;
+}
+.h5,
+h5 {
+    font-size: 1rem;
+}
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-color: #eee;
+}
+
+.bg-blue,
+.bg-primary {
+    background-color: var(--blue) !important;
+}
+.bg-red {
+    background-color: var(--red) !important;
+}
+.bg-yellow,
+.bg-secondary {
+    background-color: var(--yellow) !important;
+}
+.bg-turquoise {
+    background-color: var(--turquoise) !important;
+}
+.bg-royal-blue {
+    background-color: var(--royal-blue) !important;
+}
+.bg-orange {
+    background-color: var(--orange) !important;
+}
+.bg-green {
+    background-color: var(--green) !important;
+}
+.bg-light-grey {
+    background-color: var(--light-grey) !important;
+}
+.bg-white {
+    background-color: var(--white) !important;
+}
+.bg-black {
+    background-color: var(--black) !important;
+}
+.bg-charcoal {
+    background-color: var(--charcoal) !important;
+}
+
+.text-blue,
+.text-primary {
+    color: var(--blue) !important;
+}
+.text-red {
+    color: var(--red) !important;
+}
+.text-yellow,
+.text-secondary {
+    color: var(--yellow) !important;
+}
+.text-turquoise {
+    color: var(--turquoise) !important;
+}
+.text-royal-blue {
+    color: var(--royal-blue) !important;
+}
+.text-orange {
+    color: var(--orange) !important;
+}
+.text-green {
+    color: var(--green) !important;
+}
+.text-light-grey {
+    color: var(--light-grey) !important;
+}
+.text-white {
+    color: var(--white) !important;
+}
+.text-black {
+    color: var(--black) !important;
+}
+.text-charcoal {
+    color: var(--charcoal) !important;
+}
