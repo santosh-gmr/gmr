@@ -321,7 +321,20 @@
         "valueType": "string",
         "name": "link",
         "label": "Link"
-      }
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "description",
+        "label": "Description"
+      },
+      {
+        "component": "text",
+        "name": "cssClass",
+        "label": "CSS Class",
+        "valueType": "string",
+        "placeholder": "Optional CSS class"
+    }
     ]
   }
 ]
