@@ -1,24 +1,24 @@
-import { createOptimizedPicture } from '../../scripts/aem.js';
-import { moveInstrumentation } from '../../scripts/scripts.js';
+import { getMetadata } from "../../scripts/aem.js";
+import { loadFragment } from "../fragment/fragment.js";
 
-export default function decorate(block) {
-  /* change to ul, li */
-  const ul = document.createElement('ul');
-  [...block.children].forEach((row) => {
-    const li = document.createElement('li');
-    moveInstrumentation(row, li);
-    while (row.firstElementChild) li.append(row.firstElementChild);
-    [...li.children].forEach((div) => {
-      if (div.children.length === 1 && div.querySelector('picture')) div.className = 'footerlink-image';
-      else div.className = 'page-footerlink';
-    });
-    ul.append(li);
-  });
-  ul.querySelectorAll('picture > img').forEach((img) => {
-    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-    moveInstrumentation(img, optimizedPic.querySelector('img'));
-    img.closest('picture').replaceWith(optimizedPic);
-  });
-  block.textContent = '';
-  block.append(ul);
+/**
+ * loads and decorates the footer
+ * @param {Element} block The footer block element
+ */
+export default async function decorate(block) {
+  // load footer as fragment
+  const footerMeta = getMetadata("footer");
+  const footerPath = footerMeta
+    ? new URL(footerMeta, window.location).pathname
+    : "/footer";
+  const fragment = await loadFragment(footerPath);
+
+  // decorate footer DOM
+  block.textContent = "";
+  const footer = document.createElement("div");
+  footer.className = "page-footerqq";
+
+  while (fragment.firstElementChild) footer.append(fragment.firstElementChild);
+
+  block.append(footer);
 }
