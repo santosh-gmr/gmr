@@ -322,6 +322,13 @@
         "value": "",
         "label": "Text",
         "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "cssClass",
+        "label": "CSS Class",
+        "valueType": "string",
+        "placeholder": "Optional CSS class"
       }
     ]
   }
