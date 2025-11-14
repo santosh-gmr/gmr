@@ -1,0 +1,33 @@
+.footer-topbar-wrapper {
+  background: #06356b;
+  padding: 15px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-logo img {
+  height: 40px;
+}
+
+.footer-social-icons {
+  display: flex;
+  gap: 15px;
+}
+
+.social-icon {
+  font-size: 20px;
+  color: white;
+  text-decoration: none;
+}
+
+.group-websites-btn {
+  background: #fbb040;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+/* ON CLICK COLLAPSE CSS HANDLED IN footer-columns.css */

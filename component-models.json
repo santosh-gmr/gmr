@@ -268,5 +268,42 @@
         "label": "Rows"
       }
     ]
+  },
+    {
+    "id": "footer-topbar",
+    "fields": [
+      {
+        "component": "text",
+        "name": "logo",
+        "label": "Logo Image URL"
+      },
+      {
+        "component": "multifield",
+        "name": "social",
+        "label": "Social Icons",
+        "fields": [
+          {
+            "component": "text",
+            "name": "icon",
+            "label": "Icon (SVG or text)"
+          },
+          {
+            "component": "text",
+            "name": "url",
+            "label": "URL"
+          }
+        ]
+      },
+      {
+        "component": "text",
+        "name": "buttonLabel",
+        "label": "Button Label"
+      },
+      {
+        "component": "text",
+        "name": "buttonLink",
+        "label": "Button Link (Optional)"
+      }
+    ]
   }
 ]
