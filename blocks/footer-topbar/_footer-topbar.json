@@ -1,31 +1,44 @@
 {
-  "title": "Footer Topbar",
-  "description": "Top portion of footer with logo, social icons & group websites button",
-  "type": "object",
-  "properties": {
-    "logo": {
-      "type": "string",
-      "title": "Logo Image URL"
-    },
-    "social": {
-      "type": "array",
-      "title": "Social Icons",
-      "items": {
-        "type": "object",
-        "properties": {
-          "icon": { "type": "string", "title": "Icon (SVG/text)" },
-          "url": { "type": "string", "title": "Link URL" }
+    "definitions": [],
+    "models": [
+        {
+            "id": "teaser",
+            "fields": [
+                {
+                    "component": "reference",
+                    "valueType": "string",
+                    "name": "image",
+                    "label": "Image",
+                    "multi": false
+                },
+                {
+                    "component": "text",
+                    "valueType": "string",
+                    "name": "imageAlt",
+                    "label": "Image alt text",
+                    "required": true
+                },
+                {
+                    "component": "richtext",
+                    "name": "textContent_text",
+                    "label": "Text",
+                    "valueType": "string",
+                    "required": true
+                },
+                {
+                    "component": "aem-content",
+                    "name": "textContent_cta",
+                    "label": "CTA",
+                    "valueType": "string"
+                },
+                {
+                    "component": "text",
+                    "name": "textContent_ctaText",
+                    "label": "CTA label",
+                    "valueType": "string"
+                }
+            ]
         }
-      }
-    },
-    "buttonLabel": {
-      "type": "string",
-      "title": "Button Label",
-      "default": "Group Websites"
-    },
-    "buttonLink": {
-      "type": "string",
-      "title": "Button Link (Optional)"
-    }
-  }
+    ],
+    "filters": []
 }
