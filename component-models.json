@@ -310,31 +310,19 @@
     "id": "footerlink",
     "fields": [
       {
-        "component": "text",
+        "component": "reference",
         "valueType": "string",
-        "name": "title",
-        "label": "Title",
-        "value": ""
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "link",
-        "label": "Link"
+        "name": "image",
+        "label": "Image",
+        "multi": false
       },
       {
         "component": "richtext",
-        "valueType": "string",
-        "name": "description",
-        "label": "Description"
-      },
-      {
-        "component": "text",
-        "name": "cssClass",
-        "label": "CSS Class",
-        "valueType": "string",
-        "placeholder": "Optional CSS class"
-    }
+        "name": "text",
+        "value": "",
+        "label": "Text",
+        "valueType": "string"
+      }
     ]
   }
 ]

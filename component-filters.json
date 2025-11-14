@@ -53,10 +53,6 @@
     "components": ["footerlink"]
   },
   {
-    "id": "footerlink",
-    "components": ["text", "title"]
-  },
-  {
     "id": "socialLinks",
     "components": ["socialLinks"]
   }
