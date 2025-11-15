@@ -11,12 +11,9 @@ export default function decorate(block) {
   // 1️⃣ Get root children
   const rootChildren = Array.from(block.querySelectorAll(":scope > div"));
 
-  // if (rootChildren.length < 2) {
-  //   console.warn("footer-links: need at least 2 child divs under block");
-  //   return;
-  // }
+  rootChildren.forEach((child) => {
 
-  const secondDiv = rootChildren[0]; // ⭐ second <div> under "footer-links block"
+  const secondDiv = child; // ⭐ second <div> under "footer-links block"
 
   // 2️⃣ Get inner divs inside secondDiv
   const innerDivs = Array.from(secondDiv.querySelectorAll(":scope > div"));
@@ -47,4 +44,5 @@ export default function decorate(block) {
 
   // OPTIONAL: remove the valueDiv from UI (if needed)
   // valueDiv.remove();
+});
 }
