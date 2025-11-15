@@ -27,12 +27,12 @@ export default async function decorate(block) {
   // 2️⃣ Access DIV children
   const children = Array.from(block.querySelectorAll(":scope > div"));
 
-  if (children.length < 2) {
-    console.warn("footer-links: block does not contain 2 child divs");
-    return;
-  }
+  // if (children.length < 2) {
+  //   console.warn("footer-links: block does not contain 2 child divs");
+  //   return;
+  // }
 
-  const secondDiv = children[1]; // ⭐ this is the one we modify
+  const secondDiv = children[0]; // ⭐ this is the one we modify
 
   // 3️⃣ Apply CSS class from JSON/model
   if (jsonData && jsonData.className) {
