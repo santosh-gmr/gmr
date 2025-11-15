@@ -6,7 +6,7 @@
  */
 
 export default function decorate(block) {
-
+  block.classList.add("row");
   // Get root children
   const rootChildren = Array.from(block.querySelectorAll(":scope > div"));
 
