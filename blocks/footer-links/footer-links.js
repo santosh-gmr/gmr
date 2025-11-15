@@ -30,7 +30,7 @@ export default function decorate(block) {
   const hideDiv = innerDivs[1];    // ⭐ second inner div (to hide)
 
   // 3️⃣ Get text/value from first inner div
-  const value = valueDiv.textContent.trim();
+  const value = hideDiv.textContent.trim();
   console.log("Value extracted:", value);
 
   // 4️⃣ Add that value as classname to secondDiv
