@@ -1,74 +1,50 @@
 /**
- * footer-links block renderer for AEM EDS
- * Applies CSS class to 2nd <div> inside the block
+ * footer-links block with:
+ * - read value from 2nd div's 1st child div
+ * - append that value as classname to secondDiv
+ * - hide the 2nd child div of secondDiv
  */
 
-export default async function decorate(block) {
+export default function decorate(block) {
+  console.log("footer-links: decorate() running");
 
-  console.log("footer-links: decorate() invoked", block);
+  // 1️⃣ Get root children
+  const rootChildren = Array.from(block.querySelectorAll(":scope > div"));
 
-  // 1️⃣ Load model data if UE has provided it
-  const modelData = block.dataset?.model
-    ? JSON.parse(block.dataset.model)
-    : null;
-
-  // fallback JSON load (optional)
-  let jsonData = modelData;
-  if (!jsonData) {
-    try {
-      const lang = document.documentElement.lang || "en";
-      const resp = await fetch(`/blocks/footer-links/footer-links.${lang}.json`);
-      if (resp.ok) jsonData = await resp.json();
-    } catch {
-      console.warn("footer-links: no JSON data found, continuing without it");
-    }
-  }
-
-  // 2️⃣ Access DIV children
-  const children = Array.from(block.querySelectorAll(":scope > div"));
-
-  // if (children.length < 2) {
-  //   console.warn("footer-links: block does not contain 2 child divs");
+  // if (rootChildren.length < 2) {
+  //   console.warn("footer-links: need at least 2 child divs under block");
   //   return;
   // }
 
-  const secondDiv = children[0]; // ⭐ this is the one we modify
+  const secondDiv = rootChildren[0]; // ⭐ second <div> under "footer-links block"
 
-  // 3️⃣ Apply CSS class from JSON/model
-  if (jsonData && jsonData.className) {
-    console.log("Applying CSS class:", jsonData.className);
-    secondDiv.classList.add(...jsonData.className.split(/\s+/));
+  // 2️⃣ Get inner divs inside secondDiv
+  const innerDivs = Array.from(secondDiv.querySelectorAll(":scope > div"));
+
+  if (innerDivs.length < 2) {
+    console.warn("footer-links: secondDiv has less than 2 child divs");
+    return;
   }
 
-  // 4️⃣ If you want to test it without JSON, use default
-  else {
-    console.log("Applying default class: footer-second-div");
-    secondDiv.classList.add("footer-second-div");
-  }
+  const valueDiv = innerDivs[0];   // ⭐ first inner div
+  const hideDiv = innerDivs[1];    // ⭐ second inner div (to hide)
 
-  // 5️⃣ OPTIONAL: render footer content
-  if (jsonData && jsonData.items) {
-    secondDiv.innerHTML = ""; // empty first
+  // 3️⃣ Get text/value from first inner div
+  const value = valueDiv.textContent.trim();
+  console.log("Value extracted:", value);
 
-    jsonData.items.forEach((item) => {
-      const div = document.createElement("div");
-      div.className = "footer-link-item";
+  // 4️⃣ Add that value as classname to secondDiv
+  // convert spaces → hyphen for valid class
+  const safeClass = value.toLowerCase().replace(/\s+/g, "-");
+  secondDiv.classList.add(safeClass);
 
-      // rich text
-      if (item.text) {
-        const rt = document.createElement("div");
-        rt.className = "footer-link-text";
-        rt.innerHTML = item.text;
-        div.appendChild(rt);
-      }
+  console.log("Added class:", safeClass);
 
-      // per-item CSS class
-      if (item.className) {
-        div.classList.add(...item.className.split(/\s+/));
-      }
+  // 5️⃣ Hide the second inner div
+  hideDiv.style.display = "none";
 
-      secondDiv.appendChild(div);
-    });
-  }
+  console.log("Hid 2nd inner div of secondDiv");
+
+  // OPTIONAL: remove the valueDiv from UI (if needed)
+  // valueDiv.remove();
 }
-
