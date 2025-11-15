@@ -6,43 +6,35 @@
  */
 
 export default function decorate(block) {
-  console.log("footer-links: decorate() running");
 
-  // 1️⃣ Get root children
+  // Get root children
   const rootChildren = Array.from(block.querySelectorAll(":scope > div"));
 
   rootChildren.forEach((child) => {
+    const secondDiv = child; // ⭐ second <div> under "footer-links block"
+    // Get inner divs inside secondDiv
+    const innerDivs = Array.from(secondDiv.querySelectorAll(":scope > div"));
 
-  const secondDiv = child; // ⭐ second <div> under "footer-links block"
+    if (innerDivs.length < 2) {
+      console.warn("footer-links: secondDiv has less than 2 child divs");
+      return;
+    }
 
-  // 2️⃣ Get inner divs inside secondDiv
-  const innerDivs = Array.from(secondDiv.querySelectorAll(":scope > div"));
+    const valueDiv = innerDivs[0];
+    const hideDiv = innerDivs[1];    // second inner div (to hide)
 
-  if (innerDivs.length < 2) {
-    console.warn("footer-links: secondDiv has less than 2 child divs");
-    return;
-  }
+    // Get text/value from first inner div
+    const value = hideDiv.textContent.trim();
 
-  const valueDiv = innerDivs[0];   // ⭐ first inner div
-  const hideDiv = innerDivs[1];    // ⭐ second inner div (to hide)
+    // Add that value as classname to secondDiv
+    // convert spaces → hyphen for valid class
+    const safeClass = value.toLowerCase().replace(/\s+/g, "-");
+    secondDiv.classList.add(safeClass);
+    
+    // Hide the second inner div
+    hideDiv.style.display = "none";
 
-  // 3️⃣ Get text/value from first inner div
-  const value = hideDiv.textContent.trim();
-  console.log("Value extracted:", value);
-
-  // 4️⃣ Add that value as classname to secondDiv
-  // convert spaces → hyphen for valid class
-  const safeClass = value.toLowerCase().replace(/\s+/g, "-");
-  secondDiv.classList.add(safeClass);
-
-  console.log("Added class:", safeClass);
-
-  // 5️⃣ Hide the second inner div
-  hideDiv.style.display = "none";
-
-  console.log("Hid 2nd inner div of secondDiv");
-
-  // OPTIONAL: remove the valueDiv from UI (if needed)
-  // valueDiv.remove();
-});
+    // OPTIONAL: remove the valueDiv from UI (if needed)
+    // valueDiv.remove();
+  });
 }
