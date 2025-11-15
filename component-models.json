@@ -324,5 +324,37 @@
         "placeholder": "Optional CSS class"
       }
     ]
+  },
+  {
+    "id": "footerbottom",
+    "fields": [
+      {
+        "component": "text",
+        "name": "footertext",
+        "label": "Footer Text",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Image",
+        "multi": false
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Text",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "cssClass",
+        "label": "CSS Class",
+        "valueType": "string",
+        "placeholder": "Optional CSS class"
+      }
+    ]
   }
 ]

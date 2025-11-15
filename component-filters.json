@@ -17,6 +17,7 @@
       "carousel",
       "footerlinks",
       "footer-topbar",
+      "footerbottoms",
       "socialLinks"
     ]
   },
@@ -51,6 +52,10 @@
   {
     "id": "footerlinks",
     "components": ["footerlink"]
+  },
+  {
+    "id": "footerbottoms",
+    "components": ["footerbottom"]
   },
   {
     "id": "socialLinks",
