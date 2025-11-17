@@ -1,87 +1,35 @@
 {
-  "definitions": [
-    {
-      "title": "Footer Topbars",
-      "id": "footertopbars",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block",
-            "template": {
-              "name": "Footer Topbars",
-              "filter": "footertopbars"
-            }
-          }
+  "title": "Footer Topbar",
+  "description": "Top bar of footer",
+  "type": "object",
+  "properties": {
+    "logo": {
+      "type": "string",
+      "title": "Logo Image"
+    },
+
+    "social": {
+      "type": "array",
+      "title": "Social Icons",
+      "items": {
+        "type": "object",
+        "properties": {
+          "icon": { "type": "string", "title": "Social Icon Image" },
+          "url": { "type": "string", "title": "Social Icon Link" }
         }
       }
     },
-    {
-      "title": "Footer Topbar",
-      "id": "footertopbar",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "name": "Footer Topbar",
-              "model": "footertopbar"
-            }
-          }
-        }
-      }
-    }
-  ],
-  "models": [
-    {
-      "id": "footertopbar",
-      "fields": [
-        {
-          "component": "reference",
-          "valueType": "string",
-          "name": "image",
-          "label": "Image",
-          "multi": false
-        },
-        {
-          "component": "multifield",
-          "name": "social",
-          "label": "Social Icons",
-          "fields": [
-            {
-              "component": "reference",
-              "name": "icon",
-              "label": "Social Icon Image",
-              "valueType": "string"
-            },
-            {
-              "component": "text",
-              "name": "url",
-              "label": "Social Link URL",
-              "valueType": "string"
-            }
-          ]
-        },
 
-        {
-          "component": "text",
-          "valueType": "string",
-          "name": "button",
-          "label": "Button"
-        },
-        {
-          "component": "richtext",
-          "name": "text",
-          "value": "",
-          "label": "Text",
-          "valueType": "string"
-        }
-      ]
+    "button": {
+      "type": "string",
+      "title": "Button Text",
+      "default": "Group Websites"
+    },
+
+    "text": {
+      "type": "string",
+      "title": "Description",
+      "format": "richtext"
     }
-  ],
-  "filters": [
-    {
-      "id": "footertopbars",
-      "components": ["footertopbar"]
-    }
-  ]
+  }
 }
