@@ -1,6 +1,6 @@
 {
   "title": "Footer Topbar",
-  "description": "Fully authorable topbar with logo, social icons, styles & button",
+  "description": "Top bar of footer: logo, social icons, button",
   "type": "object",
   "properties": {
     "logo": {
@@ -15,6 +15,7 @@
         "type": "object",
         "properties": {
           "icon": { "type": "string", "title": "Icon (SVG/Text)" },
+<<<<<<< HEAD
           "url": { "type": "string", "title": "Link URL" },
           "bgColor": {
             "type": "string",
@@ -31,6 +32,9 @@
             "title": "Icon Size (px)",
             "default": "16"
           }
+=======
+          "url": { "type": "string", "title": "Icon Link URL" }
+>>>>>>> 15c663e497dacc1c7db64e482c8cc016be9c4e5b
         }
       }
     },
@@ -45,59 +49,6 @@
       "type": "string",
       "title": "Button Icon",
       "default": "+"
-    },
-
-    "buttonLink": {
-      "type": "string",
-      "title": "Button Link (Optional)"
-    },
-
-    "buttonBgColor": {
-      "type": "string",
-      "title": "Button Background Color",
-      "default": "#fbb040"
-    },
-
-    "buttonTextColor": {
-      "type": "string",
-      "title": "Button Text Color",
-      "default": "#000000"
-    },
-
-    "buttonIconBgColor": {
-      "type": "string",
-      "title": "Button Icon Background",
-      "default": "#000000"
-    },
-
-    "buttonIconColor": {
-      "type": "string",
-      "title": "Button Icon Color",
-      "default": "#ffffff"
-    },
-
-    "backgroundColor": {
-      "type": "string",
-      "title": "Topbar Background Color",
-      "default": "#06356b"
-    },
-
-    "padding": {
-      "type": "string",
-      "title": "Padding (CSS syntax)",
-      "default": "15px 40px"
-    },
-
-    "logoHeight": {
-      "type": "string",
-      "title": "Logo Height (px)",
-      "default": "40"
-    },
-
-    "gap": {
-      "type": "string",
-      "title": "Gap Between Elements (px)",
-      "default": "20"
     }
   }
 }
