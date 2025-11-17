@@ -269,7 +269,7 @@
       }
     ]
   },
-    {
+  {
     "id": "footer-topbar",
     "fields": [
       {
@@ -303,6 +303,51 @@
         "component": "text",
         "name": "buttonLink",
         "label": "Button Link (Optional)"
+      }
+    ]
+  },
+  {
+    "id": "footertopbar",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Image",
+        "multi": false
+      },
+      {
+        "component": "multifield",
+        "name": "social",
+        "label": "Social Icons",
+        "fields": [
+          {
+            "component": "reference",
+            "name": "icon",
+            "label": "Social Icon Image",
+            "valueType": "string"
+          },
+          {
+            "component": "text",
+            "name": "url",
+            "label": "Social Link URL",
+            "valueType": "string"
+          }
+        ]
+      },
+
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "button",
+        "label": "Button"
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Text",
+        "valueType": "string"
       }
     ]
   },
