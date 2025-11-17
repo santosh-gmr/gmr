@@ -15,7 +15,22 @@
         "type": "object",
         "properties": {
           "icon": { "type": "string", "title": "Icon (SVG/Text)" },
-          "url": { "type": "string", "title": "Icon Link URL" }
+          "url": { "type": "string", "title": "Link URL" },
+          "bgColor": {
+            "type": "string",
+            "title": "Background Color",
+            "default": "#85a1bd"
+          },
+          "iconColor": {
+            "type": "string",
+            "title": "Icon Color",
+            "default": "#ffffff"
+          },
+          "size": {
+            "type": "string",
+            "title": "Icon Size (px)",
+            "default": "16"
+          }
         }
       }
     },

@@ -51,7 +51,7 @@
 
 body {
     font-family: var(--font-primary);
-    font-size: 1rem;
+    font-size: 0.875rem;
     color: var(--charcoal);
 }
 img {
