@@ -1,40 +1,53 @@
-/**
- * footer-links block with:
- * - read value from 2nd div's 1st child div
- * - append that value as classname to secondDiv
- * - hide the 2nd child div of secondDiv
- */
-
 export default function decorate(block) {
-  block.classList.add("row");
-  // Get root children
-  const rootChildren = Array.from(block.querySelectorAll(":scope > div"));
+  // CREATE a container before adding the row structure
+  const container = document.createElement("div");
+  container.classList.add("row");
 
-  rootChildren.forEach((child) => {
-    const secondDiv = child; // ⭐ second <div> under "footer-links block"
-    // Get inner divs inside secondDiv
-    const innerDivs = Array.from(secondDiv.querySelectorAll(":scope > div"));
+  // Move the current block children into container
+  // (They remain editable for Universal Editor)
+  while (block.firstChild) {
+    container.appendChild(block.firstChild);
+  }
 
-    if (innerDivs.length < 2) {
-      console.warn("footer-links: secondDiv has less than 2 child divs");
-      return;
-    }
+  // Add container inside block
+  block.appendChild(container);
 
-    const valueDiv = innerDivs[0];
-    const hideDiv = innerDivs[1];    // second inner div (to hide)
+  // Now add row class to block
+  block.classList.add("container");
 
-    // Get text/value from first inner div
-    const value = hideDiv.textContent.trim();
+  // Get each original row inside container
+  const rows = [...container.children];
 
-    // Add that value as classname to secondDiv
-    // convert spaces → hyphen for valid class
+  rows.forEach((row) => {
+    const cells = [...row.children];
+
+    if (cells.length < 2) return;
+
+    const titleDiv = cells[0];
+    const contentDiv = cells[1];
+
+    // Read heading for classname
+    const value = titleDiv.textContent.trim();
     const safeClass = value.toLowerCase().replace(/\s+/g, "-");
-    secondDiv.classList.add(safeClass);
-    
-    // Hide the second inner div
-    hideDiv.style.display = "none";
 
-    // OPTIONAL: remove the valueDiv from UI (if needed)
-    // valueDiv.remove();
+    // Build YOUR custom structure
+    const col = document.createElement("div");
+    col.classList.add("col", "w-20", safeClass);
+
+    const titleWrapper = document.createElement("div");
+    titleWrapper.classList.add("footer-nav");
+
+    const contentWrapper = document.createElement("div");
+    contentWrapper.classList.add("footer-text");
+
+    // ⭐ Move editable nodes (UE keeps edit capability)
+    titleWrapper.append(...titleDiv.childNodes);
+    contentWrapper.append(...contentDiv.childNodes);
+
+    // Final structure
+    col.append(titleWrapper, contentWrapper);
+
+    // Replace original table row with new column markup
+    row.replaceWith(col);
   });
 }
