@@ -1,40 +1,50 @@
-/**
- * footer-links block with:
- * - read value from 2nd div's 1st child div
- * - append that value as classname to secondDiv
- * - hide the 2nd child div of secondDiv
- */
-
 export default function decorate(block) {
-  block.classList.add("row");
-  // Get root children
-  const rootChildren = Array.from(block.querySelectorAll(":scope > div"));
+  // Your actual rows are inside the first child div
+  const row = block.querySelector(":scope > div");
+  if (!row) return;
 
-  rootChildren.forEach((child) => {
-    const secondDiv = child; // ⭐ second <div> under "footer-links block"
-    // Get inner divs inside secondDiv
-    const innerDivs = Array.from(secondDiv.querySelectorAll(":scope > div"));
+  const items = [...row.children]; // 4 inner divs
 
-    if (innerDivs.length < 2) {
-      console.warn("footer-bottoms: secondDiv has less than 2 child divs");
-      return;
-    }
+  // Create container
+  const container = document.createElement("div");
+  container.className = "container";
 
-    const valueDiv = innerDivs[0];
-    const hideDiv = innerDivs[3];    // second inner div (to hide)
+  // Create extra wrapper inside container
+  const wrapper = document.createElement("div");
+  wrapper.className = "row align-items-center";
 
-    // Get text/value from first inner div
-    const value = hideDiv.textContent.trim();
+  // Column 1
+  const col1 = document.createElement("div");
+  col1.className = "col-md-4 copyright opacity-50";
+  col1.append(items[0]);
+  wrapper.append(col1);
 
-    // Add that value as classname to secondDiv
-    // convert spaces → hyphen for valid class
-    const safeClass = value.toLowerCase().replace(/\s+/g, "-");
-    secondDiv.classList.add(safeClass);
-    
-    // Hide the second inner div
-    hideDiv.style.display = "none";
+  // Column 2
+  const col2 = document.createElement("div");
+  col2.className =
+    "col-md-3 d-flex justify-content-center align-items-center logo fw-medium gap-3";
+  const span = document.createElement("span");
+  span.textContent = "SECURED BY:";
+  col2.append(span);
+  col2.append(items[1]);
 
-    // OPTIONAL: remove the valueDiv from UI (if needed)
-    // valueDiv.remove();
-  });
+  wrapper.append(col2);
+
+  // Column 3
+  const col3 = document.createElement("div");
+  col3.className = "col-md-5 links";
+  col3.append(items[2]);
+  wrapper.append(col3);
+
+  // Append wrapper inside container
+  container.append(wrapper);
+
+  // Remove original row
+  row.remove();
+
+  // Append container to block
+  block.append(container);
+
+  // Remove hidden metadata row
+  if (items[3]) items[3].remove();
 }
