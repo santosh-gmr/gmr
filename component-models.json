@@ -269,40 +269,48 @@
       }
     ]
   },
-    {
-    "id": "footer-topbar",
+  {
+    "id": "footertopbar",
     "fields": [
       {
-        "component": "text",
-        "name": "logo",
-        "label": "Logo Image URL"
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Image",
+        "multi": false
       },
       {
-        "component": "multifield",
+        "component": "container",
         "name": "social",
         "label": "Social Icons",
+        "multi": true,
         "fields": [
           {
-            "component": "text",
+            "component": "reference",
             "name": "icon",
-            "label": "Icon (SVG or text)"
+            "label": "Social Icon Image",
+            "valueType": "string"
           },
           {
             "component": "text",
             "name": "url",
-            "label": "URL"
+            "label": "Social Link URL",
+            "valueType": "string"
           }
         ]
       },
       {
         "component": "text",
-        "name": "buttonLabel",
-        "label": "Button Label"
+        "valueType": "string",
+        "name": "button",
+        "label": "Button"
       },
       {
-        "component": "text",
-        "name": "buttonLink",
-        "label": "Button Link (Optional)"
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Text",
+        "valueType": "string"
       }
     ]
   },

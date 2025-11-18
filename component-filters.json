@@ -16,6 +16,7 @@
       "fragment",
       "carousel",
       "footerlinks",
+      "footertopbars",
       "footer-topbar",
       "footerbottoms",
       "socialLinks"
@@ -60,5 +61,14 @@
   {
     "id": "socialLinks",
     "components": ["socialLinks"]
-  }
+  },
+    {
+    "id": "footertopbars",
+    "components": ["footertopbar"]
+  },
+  {
+  "id": "footer-topbar",
+  "components": ["footer-topbar"]
+}
+
 ]
