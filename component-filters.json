@@ -62,13 +62,13 @@
     "id": "socialLinks",
     "components": ["socialLinks"]
   },
-    {
+  {
     "id": "footertopbars",
-    "components": ["footertopbar"]
+    "components": ["footertopbar","groupwebsitelink"]
   },
   {
   "id": "footer-topbar",
-  "components": ["footer-topbar", "footerlink"]
+  "components": ["footer-topbar"]
 }
 
 ]
