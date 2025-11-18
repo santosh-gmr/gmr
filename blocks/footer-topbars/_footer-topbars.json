@@ -71,7 +71,7 @@
           "component": "richtext",
           "name": "text",
           "value": "",
-          "multi":true,
+          "multi": true,
           "label": "Text",
           "valueType": "string"
         }
@@ -81,7 +81,7 @@
   "filters": [
     {
       "id": "footertopbars",
-      "components": ["footertopbar"]
+      "components": ["footertopbar", "footerlink"]
     }
   ]
 }
