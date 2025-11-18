@@ -306,14 +306,6 @@
         "valueType": "string",
         "name": "button",
         "label": "Button"
-      },
-      {
-        "component": "richtext",
-        "name": "text",
-        "value": "",
-        "multi": true,
-        "label": "Text",
-        "valueType": "string"
       }
     ]
   },
