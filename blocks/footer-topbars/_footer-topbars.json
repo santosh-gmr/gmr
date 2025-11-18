@@ -43,25 +43,24 @@
           "multi": false
         },
         {
-          "component": "container",
-          "name": "social",
-          "label": "Social Icons",
-          "multi": true,
-          "fields": [
-            {
-              "component": "reference",
-              "name": "icon",
-              "label": "Social Icon Image",
-              "valueType": "string"
-            },
-            {
-              "component": "text",
-              "name": "url",
-              "label": "Social Link URL",
-              "valueType": "string"
-            }
-          ]
+          "component": "text",
+          "valueType": "string",
+          "name": "linkedin",
+          "label": "Linkedin"
         },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "facebook",
+          "label": "Facebook"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "youtube",
+          "label": "Youthube"
+        },
+
         {
           "component": "text",
           "valueType": "string",
@@ -72,6 +71,7 @@
           "component": "richtext",
           "name": "text",
           "value": "",
+          "multi": true,
           "label": "Text",
           "valueType": "string"
         }
@@ -81,7 +81,7 @@
   "filters": [
     {
       "id": "footertopbars",
-      "components": ["footertopbar"]
+      "components": ["footertopbar", "footerlink"]
     }
   ]
 }

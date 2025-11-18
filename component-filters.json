@@ -68,7 +68,7 @@
   },
   {
   "id": "footer-topbar",
-  "components": ["footer-topbar"]
+  "components": ["footer-topbar", "footerlink"]
 }
 
 ]
