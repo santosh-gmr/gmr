@@ -319,61 +319,6 @@
             "placeholder": "e.g., ms-2"
           }
         ]
-      },
-      {
-        "id": "footer-topbar",
-        "fields": [
-          {
-            "component": "reference",
-            "name": "logo",
-            "label": "Logo Image",
-            "valueType": "string"
-          },
-          {
-            "component": "multifield",
-            "name": "social",
-            "label": "Social Icons",
-            "fields": [
-              {
-                "component": "reference",
-                "name": "icon",
-                "label": "Social Icon Image",
-                "valueType": "string"
-              },
-              {
-                "component": "text",
-                "name": "url",
-                "label": "Social Icon Link",
-                "valueType": "string"
-              }
-            ]
-          },
-          {
-            "component": "text",
-            "name": "button",
-            "label": "Button Text",
-            "valueType": "string"
-          },
-          {
-            "component": "richtext",
-            "name": "text",
-            "label": "Description"
-          }
-        ]
-      },
-
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "button",
-        "label": "Button"
-      },
-      {
-        "component": "richtext",
-        "name": "text",
-        "value": "",
-        "label": "Text",
-        "valueType": "string"
       }
     ]
   },
