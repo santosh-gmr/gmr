@@ -67,6 +67,11 @@
     {
       "id": "socialItem",
       "label": "Social Icon Item",
+      "multi": true,
+        "validation": {
+          "minSize": 1,
+          "maxSize": 6
+        },
       "fields": [
         {
           "component": "reference",
