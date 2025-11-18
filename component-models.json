@@ -283,18 +283,40 @@
         "component": "multifield",
         "name": "social",
         "label": "Social Icons",
+        "model": "socialItem",
+        "placeholder": "Add a social icon"
+      },
+      {
+        "id": "socialItem",
+        "label": "Social Icon Item",
         "fields": [
           {
             "component": "reference",
             "name": "icon",
             "label": "Social Icon Image",
-            "valueType": "string"
+            "valueType": "string",
+            "multi": false
           },
           {
             "component": "text",
             "name": "url",
             "label": "Social Link URL",
-            "valueType": "string"
+            "valueType": "string",
+            "placeholder": "https://..."
+          },
+          {
+            "component": "text",
+            "name": "alt",
+            "label": "Alt text",
+            "valueType": "string",
+            "placeholder": "Facebook icon"
+          },
+          {
+            "component": "text",
+            "name": "className",
+            "label": "CSS Class (optional)",
+            "valueType": "string",
+            "placeholder": "e.g., ms-2"
           }
         ]
       },
