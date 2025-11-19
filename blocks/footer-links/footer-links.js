@@ -28,6 +28,7 @@ export default function decorate(block) {
 
     // Read heading for classname
     const value = titleDiv.textContent.trim();
+    console.log(value);
     //const safeClass = value.toLowerCase().replace(/\s+/g, "-");
     const safeClass = '';
 
