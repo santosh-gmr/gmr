@@ -48,10 +48,11 @@ export default function decorate(block) {
 
     // Move editable nodes (UE keeps edit capability)
     titleWrapper.append(...titleDiv.childNodes);
-    contentWrapper.append(...contentDiv.childNodes);
+    //contentWrapper.append(...contentDiv.childNodes);
 
     // Final structure
-    col.append(titleWrapper, contentWrapper);
+    //col.append(titleWrapper, contentWrapper);
+    col.append(titleWrapper);
 
     // Replace original table row with new column markup
     row.replaceWith(col);
