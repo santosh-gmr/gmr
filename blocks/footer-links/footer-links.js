@@ -24,11 +24,11 @@ export default function decorate(block) {
     if (cells.length < 2) return;
 
     const titleDiv = cells[0];
-    //const contentDiv = cells[1];
+    const contentDiv = cells[1];
 
     // Read heading for classname
     const value = titleDiv.textContent.trim();
-    const safeClass = value.toLowerCase().replace(/\s+/g, "-");
+    const safeClass = value.toLowerCase();
 
     // Build YOUR custom structure
     const col = document.createElement("div");
@@ -42,7 +42,7 @@ export default function decorate(block) {
 
     // Move editable nodes (UE keeps edit capability)
     titleWrapper.append(...titleDiv.childNodes);
-    //contentWrapper.append(...contentDiv.childNodes);
+    contentWrapper.append(...contentDiv.childNodes);
 
     // Final structure
     col.append(titleWrapper, contentWrapper);
