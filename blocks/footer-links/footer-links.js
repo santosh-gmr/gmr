@@ -36,8 +36,12 @@ export default function decorate(block) {
 
     // Build YOUR custom structure
     const col = document.createElement("div");
-    col.classList.add("col", "w-20", safeClass);
-    //col.classList.add("col", "w-20");
+    if(value!='' && value!='undefined')
+    {
+      col.classList.add("col", "w-20", safeClass);
+    }else {
+      col.classList.add("col", "w-20");
+    }
 
     const titleWrapper = document.createElement("div");
     titleWrapper.classList.add("footer-nav");
