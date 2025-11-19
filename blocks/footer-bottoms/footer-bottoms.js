@@ -14,10 +14,10 @@ export default function decorate(block) {
   wrapper.className = "row align-items-center";
 
 
-  const col1 = document.createElement("div");
-  col1.className = "col-md-4 copyright opacity-50";
-  col1.append(items[0]);
-  wrapper.append(col1);
+  // const col1 = document.createElement("div");
+  // col1.className = "col-md-4 copyright opacity-50";
+  // col1.append(items[0]);
+  // wrapper.append(col1);
 
 
   const col2 = document.createElement("div");
