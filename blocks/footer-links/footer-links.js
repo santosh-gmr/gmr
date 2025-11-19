@@ -28,7 +28,8 @@ export default function decorate(block) {
 
     // Read heading for classname
     const value = titleDiv.textContent.trim();
-    const safeClass = value.toLowerCase().replace(/\s+/g, "-");
+    //const safeClass = value.toLowerCase().replace(/\s+/g, "-");
+    const safeClass = '';
 
     // Build YOUR custom structure
     const col = document.createElement("div");
