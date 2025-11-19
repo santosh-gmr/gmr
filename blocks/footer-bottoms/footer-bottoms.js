@@ -3,21 +3,21 @@ export default function decorate(block) {
   const row = block.querySelector(":scope > div");
   if (!row) return;
 
-  // const items = [...row.children]; // 4 inner divs
+  const items = [...row.children]; // 4 inner divs
 
 
-  // const container = document.createElement("div");
-  // container.className = "container";
+  const container = document.createElement("div");
+  container.className = "container";
 
 
-  // const wrapper = document.createElement("div");
-  // wrapper.className = "row align-items-center";
+  const wrapper = document.createElement("div");
+  wrapper.className = "row align-items-center";
 
 
-  // const col1 = document.createElement("div");
-  // col1.className = "col-md-4 copyright opacity-50";
-  // col1.append(items[0]);
-  // wrapper.append(col1);
+  const col1 = document.createElement("div");
+  col1.className = "col-md-4 copyright opacity-50";
+  col1.append(items[0]);
+  wrapper.append(col1);
 
 
   // const col2 = document.createElement("div");
