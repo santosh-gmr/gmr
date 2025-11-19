@@ -31,15 +31,15 @@ export default function decorate(block) {
   wrapper.append(col2);
 
 
-  // const col3 = document.createElement("div");
-  // col3.className = "col-md-5 links";
-  // col3.append(items[2]);
-  // wrapper.append(col3);
+  const col3 = document.createElement("div");
+  col3.className = "col-md-5 links";
+  col3.append(items[2]);
+  wrapper.append(col3);
 
 
   container.append(wrapper);
 
-  // row.remove();
+  row.remove();
 
   block.append(container);
 
