@@ -18,12 +18,12 @@ export default function decorate(block) {
   // Get each original row inside container
   const rows = [...container.children];
 
-  // rows.forEach((row) => {
+   rows.forEach((row) => {
   //   const cells = [...row.children];
 
   //   if (cells.length < 2) return;
 
-  //   const titleDiv = cells[0];
+     const titleDiv = cells[0];
   //   const contentDiv = cells[1];
 
   //   // Read heading for classname
@@ -40,23 +40,23 @@ export default function decorate(block) {
   //     col.classList.add("col", "w-20");
   //   }
 
-  //   const titleWrapper = document.createElement("div");
-  //   titleWrapper.classList.add("footer-nav");
+    const titleWrapper = document.createElement("div");
+    titleWrapper.classList.add("footer-nav");
 
   //   const contentWrapper = document.createElement("div");
   //   contentWrapper.classList.add("footer-text");
 
   //   // Move editable nodes (UE keeps edit capability)
-  //   titleWrapper.append(...titleDiv.childNodes);
+     titleWrapper.append(...titleDiv.childNodes);
   //   //contentWrapper.append(...contentDiv.childNodes);
 
   //   // Final structure
   //   //col.append(titleWrapper, contentWrapper);
-  //   col.append(titleWrapper);
+       col.append(titleWrapper);
 
   //   // Replace original table row with new column markup
-  //   row.replaceWith(col);
-  // });
+     row.replaceWith(col);
+   });
 }
 
 
