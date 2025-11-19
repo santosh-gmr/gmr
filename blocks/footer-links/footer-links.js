@@ -19,9 +19,9 @@ export default function decorate(block) {
   const rows = [...container.children];
 
    rows.forEach((row) => {
-  //   const cells = [...row.children];
+     const cells = [...row.children];
 
-  //   if (cells.length < 2) return;
+     if (cells.length < 2) return;
 
      const titleDiv = cells[0];
   //   const contentDiv = cells[1];
