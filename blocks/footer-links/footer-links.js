@@ -27,16 +27,12 @@ export default function decorate(block) {
     const contentDiv = cells[1];
 
     // Read heading for classname
-    //const value = contentDiv.textContent.trim();
-    //const value = titleDiv.textContent.trim();
-    //console.log(value);
-   // const safeClass = value.toLowerCase().replace(/\s+/g, "-");
-    //const safeClass = '';
+    const value = titleDiv.textContent.trim();
+    const safeClass = value.toLowerCase().replace(/\s+/g, "-");
 
     // Build YOUR custom structure
     const col = document.createElement("div");
-    //col.classList.add("col", "w-20", safeClass);
-    col.classList.add("col", "w-20");
+    col.classList.add("col", "w-20", safeClass);
 
     const titleWrapper = document.createElement("div");
     titleWrapper.classList.add("footer-nav");
@@ -55,5 +51,3 @@ export default function decorate(block) {
     row.replaceWith(col);
   });
 }
-
-
