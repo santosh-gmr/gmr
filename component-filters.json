@@ -64,11 +64,15 @@
   },
   {
     "id": "footertopbars",
-    "components": ["footertopbar","groupwebsitelink"]
+    "components": ["footertopbar", "groupwebsitelink"]
   },
   {
-  "id": "footer-topbar",
-  "components": ["footer-topbar"]
-}
+    "id": "headergmr",
+    "components": ["headergmr"]
+  },
 
+  {
+    "id": "footer-topbar",
+    "components": ["footer-topbar"]
+  }
 ]

@@ -1,0 +1,43 @@
+.gmr-header {
+  background-color: #002f62;
+  padding: 12px 0;
+}
+
+.gmr-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1600px;
+  margin: auto;
+}
+
+.gmr-header-logo img {
+  height: 55px;
+}
+
+.gmr-header-menu {
+  list-style: none;
+  display: flex;
+  gap: 40px;
+  margin: 0;
+  padding: 0;
+}
+
+.gmr-header-menu li a {
+  color: white;
+  text-decoration: none;
+  font-size: 15px;
+  letter-spacing: .5px;
+  display: flex;
+  align-items: center;
+}
+
+.gmr-header-menu li a:hover {
+  opacity: .7;
+}
+
+.gmr-header-search img {
+  height: 22px;
+  cursor: pointer;
+}
