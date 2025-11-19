@@ -21,7 +21,7 @@ export default function decorate(block) {
   rows.forEach((row) => {
     const cells = [...row.children];
     if (cells.length < 2) return;
-console.log(cells[0]); console.log(cells[1]); console.log(cells[2]);
+
     const titleDiv = cells[0];
     const contentDiv = cells[1];
     const value = contentDiv.textContent.trim();
