@@ -24,10 +24,10 @@ export default function decorate(block) {
      if (cells.length < 2) return;
 
      const titleDiv = cells[0];
-  //   const contentDiv = cells[1];
+     const contentDiv = cells[1];
 
   //   // Read heading for classname
-  //   const value = contentDiv.textContent.trim();
+     const value = contentDiv.textContent.trim();
   //   //const value = titleDiv.textContent.trim();
 
   //   // Build YOUR custom structure
