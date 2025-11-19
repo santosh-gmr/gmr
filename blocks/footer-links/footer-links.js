@@ -55,7 +55,8 @@ export default function decorate(block) {
        col.append(titleWrapper);
 
   //   // Replace original table row with new column markup
-     row.replaceWith(col);
+    // row.replaceWith(col);
+     row.append(col);
    });
 }
 
