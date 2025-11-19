@@ -25,9 +25,6 @@ export default function decorate(block) {
     const titleDiv = cells[0];
     const contentDiv = cells[1];
 
-    contentDiv.forEach((cDiv) => {
-      console.log(cDiv.length());
-    });
     const value = contentDiv.textContent.trim();
     const safeClass = '';
     // Prepare class name
