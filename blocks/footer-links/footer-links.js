@@ -1,8 +1,5 @@
 export default function decorate(block) {
   // CREATE a container before adding the row structure
-
-  setTimeout(() => {
-    console.log('test');
   const container = document.createElement("div");
   container.classList.add("row");
 
@@ -30,16 +27,17 @@ export default function decorate(block) {
     const contentDiv = cells[1];
 
     // Read heading for classname
-    //const value = contentDiv.textContent.trim();
+    const value = contentDiv.textContent.trim();
     //const value = titleDiv.textContent.trim();
-    //console.log(value);
-   // const safeClass = value.toLowerCase().replace(/\s+/g, "-");
+     console.log('value=');
+    console.log(value);
+    const safeClass = value.toLowerCase().replace(/\s+/g, "-");
     //const safeClass = '';
 
     // Build YOUR custom structure
     const col = document.createElement("div");
-    //col.classList.add("col", "w-20", safeClass);
-    col.classList.add("col", "w-20");
+    col.classList.add("col", "w-20", safeClass);
+    //col.classList.add("col", "w-20");
 
     const titleWrapper = document.createElement("div");
     titleWrapper.classList.add("footer-nav");
@@ -55,9 +53,8 @@ export default function decorate(block) {
     col.append(titleWrapper, contentWrapper);
 
     // Replace original table row with new column markup
-    row.replace(col);
+    row.replaceWith(col);
   });
-  },1000);
 }
 
 
