@@ -27,7 +27,8 @@ export default function decorate(block) {
     const contentDiv = cells[1];
 
     // Read heading for classname
-    const value = contentDiv.textContent.trim();
+    //const value = contentDiv.textContent.trim();
+    const value = titleDiv.textContent.trim();
     console.log(value);
     const safeClass = value.toLowerCase().replace(/\s+/g, "-");
     //const safeClass = '';
