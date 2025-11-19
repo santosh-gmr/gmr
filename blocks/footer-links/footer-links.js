@@ -29,15 +29,14 @@ export default function decorate(block) {
     // Read heading for classname
     const value = contentDiv.textContent.trim();
     //const value = titleDiv.textContent.trim();
-     console.log('value=');
-    console.log(value);
-    const safeClass = value.toLowerCase().replace(/\s+/g, "-");
-    //const safeClass = '';
 
     // Build YOUR custom structure
     const col = document.createElement("div");
     if(value!='' && value!='undefined')
     {
+        console.log('value=');
+        console.log(value);
+      const safeClass = value.toLowerCase().replace(/\s+/g, "-");
       col.classList.add("col", "w-20", safeClass);
     }else {
       col.classList.add("col", "w-20");
