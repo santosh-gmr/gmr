@@ -39,7 +39,7 @@ export default function decorate(block) {
 
   container.append(wrapper);
 
-  row.remove();
+  //row.remove();
 
   block.append(container);
 
