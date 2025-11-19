@@ -31,14 +31,14 @@ export default function decorate(block) {
   //   //const value = titleDiv.textContent.trim();
 
   //   // Build YOUR custom structure
-  //   const col = document.createElement("div");
-  //   if(value!='' && value!='undefined')
-  //   {
-  //     const safeClass = value.toLowerCase().replace(/\s+/g, "-");
-  //     col.classList.add("col", "w-20", safeClass);
-  //   }else {
-  //     col.classList.add("col", "w-20");
-  //   }
+     const col = document.createElement("div");
+    if(value!='' && value!='undefined')
+    {
+      const safeClass = value.toLowerCase().replace(/\s+/g, "-");
+      col.classList.add("col", "w-20", safeClass);
+    }else {
+      col.classList.add("col", "w-20");
+    }
 
     const titleWrapper = document.createElement("div");
     titleWrapper.classList.add("footer-nav");
