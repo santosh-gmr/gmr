@@ -20,15 +20,15 @@ export default function decorate(block) {
   wrapper.append(col1);
 
 
-  // const col2 = document.createElement("div");
-  // col2.className =
-  //   "col-md-3 d-flex justify-content-center align-items-center logo fw-medium gap-3";
-  // const span = document.createElement("span");
-  // span.textContent = "SECURED BY:";
-  // col2.append(span);
-  // col2.append(items[1]);
+  const col2 = document.createElement("div");
+  col2.className =
+    "col-md-3 d-flex justify-content-center align-items-center logo fw-medium gap-3";
+  const span = document.createElement("span");
+  span.textContent = "SECURED BY:";
+  col2.append(span);
+  col2.append(items[1]);
 
-  // wrapper.append(col2);
+  wrapper.append(col2);
 
 
   // const col3 = document.createElement("div");
@@ -37,11 +37,11 @@ export default function decorate(block) {
   // wrapper.append(col3);
 
 
-  // container.append(wrapper);
+  container.append(wrapper);
 
   // row.remove();
 
-  // block.append(container);
+  block.append(container);
 
   // if (items[3]) items[3].remove();
 }
