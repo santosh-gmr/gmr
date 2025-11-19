@@ -2,6 +2,7 @@ export default function decorate(block) {
   // CREATE a container before adding the row structure
 
   setTimeout(() => {
+    console.log('test');
   const container = document.createElement("div");
   container.classList.add("row");
 
@@ -56,7 +57,7 @@ export default function decorate(block) {
     // Replace original table row with new column markup
     row.replaceWith(col);
   });
-  },100);
+  },1000);
 }
 
 
