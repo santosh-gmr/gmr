@@ -43,6 +43,6 @@ export default function decorate(block) {
 
   block.append(container);
 
-  // if (items[3]) items[3].remove();
+  if (items[3]) items[3].remove();
 }
 
