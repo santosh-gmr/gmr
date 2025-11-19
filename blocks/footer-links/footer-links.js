@@ -15,49 +15,41 @@ export default function decorate(block) {
   // Now add row class to block
   block.classList.add("container");
 
-  // Get each original row inside container
+  // Get each original row inside container (snapshot)
   const rows = [...container.children];
 
-   rows.forEach((row) => {
-     const cells = [...row.children];
+  rows.forEach((row) => {
+    const cells = [...row.children];
+    if (cells.length < 2) return;
 
-     if (cells.length < 2) return;
+    const titleDiv = cells[0];
+    const contentDiv = cells[1];
+    const value = contentDiv.textContent.trim();
 
-     const titleDiv = cells[0];
-     const contentDiv = cells[1];
+    // Prepare class name
+    const safeClass = value && value !== "undefined"
+      ? value.toLowerCase().replace(/\s+/g, "-")
+      : "";
 
-  //   // Read heading for classname
-     const value = contentDiv.textContent.trim();
-  //   //const value = titleDiv.textContent.trim();
-
-  //   // Build YOUR custom structure
-    const col = document.createElement("div");
-    if(value!='' && value!='undefined')
-    {
-      const safeClass = value.toLowerCase().replace(/\s+/g, "-");
-      col.classList.add("col", "w-20", safeClass);
-    }else {
-      col.classList.add("col", "w-20");
-    }
-
+    // --- IMPORTANT: reuse the existing row element instead of creating a new one ---
+    // Clear existing children after we move the editable child nodes (so UE bindings on row remain).
     const titleWrapper = document.createElement("div");
     titleWrapper.classList.add("footer-nav");
 
-    // const contentWrapper = document.createElement("div");
-    // contentWrapper.classList.add("footer-text");
+    // Move editable nodes (this preserves the actual editable nodes, not clones)
+    titleWrapper.append(...titleDiv.childNodes);
 
-  //   // Move editable nodes (UE keeps edit capability)
-     titleWrapper.append(...titleDiv.childNodes);
-     //contentWrapper.append(...contentDiv.childNodes);
+    // Remove old children from row but keep the row itself (so UE keeps references)
+    while (row.firstChild) {
+      row.removeChild(row.firstChild);
+    }
 
-  //   // Final structure
-  //   //col.append(titleWrapper, contentWrapper);
-       col.append(titleWrapper);
+    // Reset or set classes on the same row element (preserves element identity)
+    row.className = "";            // if you want to remove previous classes; otherwise just add new ones
+    row.classList.add("col", "w-20");
+    if (safeClass) row.classList.add(safeClass);
 
-  //   // Replace original table row with new column markup
-     row.replaceWith(col);
-     //row.append(col);
-   });
+    // Append the new wrapper(s)
+    row.appendChild(titleWrapper);
+  });
 }
-
-
