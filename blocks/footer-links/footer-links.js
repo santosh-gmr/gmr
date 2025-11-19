@@ -34,8 +34,6 @@ export default function decorate(block) {
     const col = document.createElement("div");
     if(value!='' && value!='undefined')
     {
-        console.log('value=');
-        console.log(value);
       const safeClass = value.toLowerCase().replace(/\s+/g, "-");
       col.classList.add("col", "w-20", safeClass);
     }else {
