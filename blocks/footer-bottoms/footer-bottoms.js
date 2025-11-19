@@ -37,7 +37,7 @@ export default function decorate(block) {
   wrapper.append(col3);
 
 
-  container.append(wrapper);
+  //container.append(wrapper);
 
   //row.remove();
 
