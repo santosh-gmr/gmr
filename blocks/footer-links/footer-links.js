@@ -52,10 +52,10 @@ export default function decorate(block) {
     contentWrapper.append(...contentDiv.childNodes);
 
     // Final structure
-    //col.append(titleWrapper, contentWrapper);
+    col.append(titleWrapper, contentWrapper);
 
     // Replace original table row with new column markup
-   // row.replaceWith(col);
+    row.append(col);
   });
   },1000);
 }
