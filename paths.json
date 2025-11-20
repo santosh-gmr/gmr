@@ -1,1 +1,16 @@
-
+{
+  "mappings": [
+    "/content/GMR/:/",
+    "/content/GMR/en/:/",
+    "/content/GMR/fr_fr/:/fr/",
+    "/content/gmr-aero/:/aero/",
+    "/content/gmr-aero/en/:/aero/",
+    "/content/gmr-aero/fr_fr/:/aero/fr/",
+    "/content/GMR/configuration:/.helix/config.json",
+    "/content/GMR/metadata:/metadata.json"
+  ],
+  "includes": [
+    "/content/GMR/",
+    "/content/gmr-aero/"
+  ]
+}
