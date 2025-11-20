@@ -5,6 +5,7 @@ export default function decorate(block) {
   const firstRow = authoredRows[0];
   const cells = firstRow ? [...firstRow.children] : [];
 console.log(cells);
+  console.log(cells[0]);
   // Prevent duplicated logo image: extract only src
   let image = "";
   if (cells[0]) {
