@@ -383,7 +383,7 @@
           {
             "component": "text",
             "name": "url",
-            "label": "Menu URL"
+            "label": "Menu  "
           }
         ]
       },
@@ -394,6 +394,10 @@
         "valueType": "string"
       }
     ]
+  },
+  {
+    "id": "listed-companies",
+    "model": "/models/blocks/listed-companies.json"
   },
 
   {

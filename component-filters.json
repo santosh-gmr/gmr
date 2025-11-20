@@ -20,7 +20,8 @@
       "footer-topbar",
       "footerbottoms",
       "headergmr",
-      "socialLinks"
+      "socialLinks",
+      "listed-companies"
     ]
   },
   {
@@ -75,5 +76,9 @@
   {
     "id": "footer-topbar",
     "components": ["footer-topbar"]
+  },
+  {
+    "location": "main",
+    "allowed": ["listed-companies"]
   }
 ]
