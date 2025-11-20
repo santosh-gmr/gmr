@@ -1,10 +1,5 @@
 {
   "mappings": [
-    "/content/gmr-aero/:/aero/",
-    "/content/gmr-aero/en/:/aero/",
-    "/content/gmr-aero/fr_fr/:/aero/fr/",
-    "/content/gmr-aero/configuration:/.helix/config.json",
-    "/content/gmr-aero/metadata:/metadata.json",
     "/content/GMR/:/",
     "/content/GMR/en/:/",
     "/content/GMR/fr_fr/:/fr/",
@@ -12,7 +7,6 @@
     "/content/GMR/metadata:/metadata.json"
   ],
   "includes": [
-    "/content/gmr-aero/",
     "/content/GMR/"
   ]
 }
