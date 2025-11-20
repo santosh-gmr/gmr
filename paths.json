@@ -7,6 +7,7 @@
     "/content/GMR/metadata:/metadata.json"
   ],
   "includes": [
-    "/content/GMR/"
+    "/content/GMR/",
+    "/content/gmr-aero/"
   ]
 }
