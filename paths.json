@@ -5,9 +5,9 @@
     "/content/GMR/fr_fr/:/fr/",
     "/content/GMR/configuration:/.helix/config.json",
     "/content/GMR/metadata:/metadata.json",
-    "/content/gmr-aero/:/areo",
-    "/content/gmr-aero/en/:/areo",
-    "/content/gmr-aero/fr_fr/:/areo/fr/",
+    "/content/gmr-aero/:/aero",
+    "/content/gmr-aero/en/:/aero",
+    "/content/gmr-aero/fr_fr/:/aero/fr/",
     "/content/gmr-aero/configuration:/.helix/config.json",
     "/content/gmr-aero/metadata:/metadata.json"
   ],
