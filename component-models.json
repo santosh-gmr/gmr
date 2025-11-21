@@ -1,3 +1,20 @@
 {
-  "header": "/blocks/header/_header.json"
+  "header": "/blocks/header/_header.json",
+  "headergmr": "/blocks/headergmr/_headergmr.json",
+
+  "footer": "/blocks/footer/_footer.json",
+
+  "footerlinks": "/blocks/footer-links/_footer-links.json",
+  "footerlink": "/blocks/footer-links/_footer-link.json",
+
+  "footertopbars": "/blocks/footer-topbars/_footer-topbars.json",
+  "footertopbar": "/blocks/footer-topbars/_footer-topbar.json",
+
+  "footerbottoms": "/blocks/footer-bottoms/_footer-bottoms.json",
+  "footerbottom": "/blocks/footer-bottoms/_footer-bottom.json",
+
+  "socialLinks": "/blocks/footer-groupwebsitelink/_social-links.json",
+  "groupwebsitelink": "/blocks/footer-groupwebsitelink/_groupwebsitelink.json",
+
+  "commitment": "/blocks/commitment/_commitment.json"
 }
