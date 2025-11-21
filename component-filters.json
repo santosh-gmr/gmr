@@ -28,6 +28,11 @@
     ]
   },
   {
+    "id": "commitment",
+    "components": ["commitment"]
+  }
+  ,
+  {
     "id": "cards",
     "components": ["card"]
   },

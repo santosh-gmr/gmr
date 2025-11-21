@@ -14,8 +14,8 @@
   "footerbottoms": "/blocks/footer-bottoms/_footer-bottoms.json",
   "footerbottom": "/blocks/footer-bottoms/_footer-bottom.json",
 
-  "socialLinks": "/blocks/footer-groupwebsitelink/_social-links.json",
-  "groupwebsitelink": "/blocks/footer-groupwebsitelink/_groupwebsitelink.json",
+  "socialLinks": "/blocks/footer-groupwebsite/_social-links.json",
+  "groupwebsitelink": "/blocks/footer-groupwebsite/_groupwebsitelink.json",
 
   "cards": "/blocks/cards/_cards.json",
   "card": "/blocks/cards/_card.json",
