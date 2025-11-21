@@ -84,6 +84,7 @@
       "title": "Blocks",
       "id": "blocks",
       "components": [
+
         {
           "title": "Cards",
           "id": "cards",
@@ -99,6 +100,7 @@
             }
           }
         },
+
         {
           "title": "Card",
           "id": "card",
@@ -114,6 +116,7 @@
             }
           }
         },
+
         {
           "title": "Carousel",
           "id": "carousel",
@@ -129,6 +132,23 @@
             }
           }
         },
+
+        {
+          "title": "Commitment Section",
+          "id": "commitment",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "commitment",
+                  "model": "commitment"
+                }
+              }
+            }
+          }
+        },
+
         {
           "title": "Footer Topbars",
           "id": "footertopbars",
@@ -144,6 +164,7 @@
             }
           }
         },
+
         {
           "title": "Footer Topbar",
           "id": "footertopbar",
@@ -159,16 +180,17 @@
             }
           }
         },
+
         {
-          "title": "Footer Topbar",
-          "id": "footer-topbar",
+          "title": "Footer Bottoms",
+          "id": "footerbottoms",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block",
                 "template": {
-                  "name": "footer-topbar",
-                  "model": "footer-topbar"
+                  "name": "footerbottoms",
+                  "filter": "footerbottoms"
                 }
               }
             }
@@ -176,52 +198,21 @@
         },
 
         {
-          "title": "Header",
-          "id": "header",
+          "title": "Footer Bottom",
+          "id": "footerbottom",
           "plugins": {
             "xwalk": {
               "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
+                "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "name": "header",
-                  "model": "header"
+                  "name": "footerbottom",
+                  "model": "footerbottom"
                 }
               }
             }
           }
         },
 
-        {
-          "title": "Header GMR",
-          "id": "headergmr",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "headergmr",
-                  "model": "headergmr"
-                }
-              }
-            }
-          }
-        },
-
-        {
-          "id": "commitment",
-          "title": "Commitment Section",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "commitment",
-                  "model": "commitment"
-                }
-              }
-            }
-          }
-        },
         {
           "title": "Fragment",
           "id": "fragment",
@@ -252,55 +243,8 @@
               }
             }
           }
-        },
-
-        {
-          "title": "Listed Companies",
-          "id": "listed-companies",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "listed-companies",
-                  "model": "listed-companies"
-                }
-              }
-            }
-          }
-        },
-
-        {
-          "title": "Purpose Driven Team",
-          "id": "purpose-team",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "purpose-team",
-                  "model": "purpose-team"
-                }
-              }
-            }
-          }
-        },
-
-        {
-          "title": "Group Website Link",
-          "id": "groupwebsitelink",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "name": "groupwebsitelink",
-                  "model": "groupwebsitelink"
-                }
-              }
-            }
-          }
         }
+
       ]
     }
   ]
