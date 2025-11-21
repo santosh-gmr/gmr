@@ -1,4 +1,14 @@
+
+
 [
+  {
+  "include": [
+    
+    "./models/blocks/headergmr.json"
+    
+  ]
+},
+
   {
     "id": "page-metadata",
     "fields": [
@@ -361,43 +371,8 @@
     ]
   },
   {
-    "id": "headergmr",
-    "fields": [
-      {
-        "component": "reference",
-        "name": "logo",
-        "label": "Logo Image",
-        "valueType": "string"
-      },
-      {
-        "component": "container",
-        "name": "menuItems",
-        "label": "Menu Items",
-        "multi": true,
-        "fields": [
-          {
-            "component": "text",
-            "name": "label",
-            "label": "Menu Label"
-          },
-          {
-            "component": "text",
-            "name": "url",
-            "label": "Menu  "
-          }
-        ]
-      },
-      {
-        "component": "reference",
-        "name": "searchIcon",
-        "label": "Search Icon",
-        "valueType": "string"
-      }
-    ]
-  },
-  {
     "id": "listed-companies",
-    "model": "/models/blocks/listed-companies.json"
+    "model": "/models/blocks/listed-companies"
   },
 
   {
