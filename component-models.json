@@ -1,20 +1,7 @@
 {
-
-
-  "cards": "/blocks/cards/_cards.json",
-  "card": "/blocks/cards/_card.json",
-
-  "carousel": "/blocks/carousel/_carousel.json",
-  "slide": "/blocks/carousel/_slide.json",
-
-  "columns": "/blocks/columns/_columns.json",
-  "column": "/blocks/columns/_column.json",
-
-  "fragment": "/blocks/fragment/_fragment.json",
-  "hero": "/blocks/hero/_hero.json",
-
-  "listed-companies": "/blocks/listed-companies/_listed-companies.json",
-  "purpose-team": "/blocks/purpose-team/_purpose-team.json",
-
+  "header": "/blocks/header/_header.json",
+  "footer": "/blocks/footer/_footer.json",
+  "footerlinks": "/blocks/footer-links/_footer-links.json",
+  
   "commitment": "/blocks/commitment/_commitment.json"
 }

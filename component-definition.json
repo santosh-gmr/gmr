@@ -208,8 +208,8 @@
         },
 
         {
-          "title": "Commitment Section",
           "id": "commitment",
+          "title": "Commitment Section",
           "plugins": {
             "xwalk": {
               "page": {
@@ -222,7 +222,6 @@
             }
           }
         },
-
         {
           "title": "Fragment",
           "id": "fragment",
