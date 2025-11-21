@@ -1,13 +1,6 @@
 
 
 [
-  {
-  "include": [
-    
-    "./models/blocks/headergmr.json"
-    
-  ]
-},
 
   {
     "id": "page-metadata",
