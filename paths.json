@@ -15,6 +15,6 @@
   ],
   "includes": [
     "/content/GMR/",
-    "/content/aero/en/"
+    "/content/aero/"
   ]
 }
