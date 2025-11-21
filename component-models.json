@@ -9,12 +9,28 @@
 
   "footertopbars": "/blocks/footer-topbars/_footer-topbars.json",
   "footertopbar": "/blocks/footer-topbars/_footer-topbar.json",
+  "footer-topbar": "/blocks/footer-topbars/_footer-topbar.json",
 
   "footerbottoms": "/blocks/footer-bottoms/_footer-bottoms.json",
   "footerbottom": "/blocks/footer-bottoms/_footer-bottom.json",
 
   "socialLinks": "/blocks/footer-groupwebsitelink/_social-links.json",
   "groupwebsitelink": "/blocks/footer-groupwebsitelink/_groupwebsitelink.json",
+
+  "cards": "/blocks/cards/_cards.json",
+  "card": "/blocks/cards/_card.json",
+
+  "carousel": "/blocks/carousel/_carousel.json",
+  "slide": "/blocks/carousel/_slide.json",
+
+  "columns": "/blocks/columns/_columns.json",
+  "column": "/blocks/columns/_column.json",
+
+  "fragment": "/blocks/fragment/_fragment.json",
+  "hero": "/blocks/hero/_hero.json",
+
+  "listed-companies": "/blocks/listed-companies/_listed-companies.json",
+  "purpose-team": "/blocks/purpose-team/_purpose-team.json",
 
   "commitment": "/blocks/commitment/_commitment.json"
 }

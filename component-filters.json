@@ -20,11 +20,11 @@
       "footer-topbar",
       "footerbottoms",
       "headergmr",
+      "header",
       "commitment",
       "socialLinks",
       "listed-companies",
-      "purpose-team",
-      "header"
+      "purpose-team"
     ]
   },
   {
@@ -34,14 +34,6 @@
   {
     "id": "carousel",
     "components": ["slide"]
-  },
-  {
-    "id": "columns",
-    "components": ["column"]
-  },
-  {
-    "id": "column",
-    "components": ["text", "image", "button", "title"]
   },
   {
     "id": "columns",
@@ -72,13 +64,12 @@
     "components": ["footertopbar", "groupwebsitelink"]
   },
   {
-    "id": "headergmr",
-    "components": ["headergmr"]
-  },
-
-  {
     "id": "footer-topbar",
     "components": ["footer-topbar"]
+  },
+  {
+    "id": "headergmr",
+    "components": ["headergmr"]
   },
   {
     "location": "main",
