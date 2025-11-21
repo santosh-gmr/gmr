@@ -5,7 +5,7 @@
     "/content/GMR/fr_fr/:/fr/",
     "/content/GMR/configuration:/.helix/config.json",
     "/content/GMR/metadata:/metadata.json"
-    "/content/aero/:/",
+    "/content/aero/:/aero/",
     "/content/aero/configuration:/.helix/config.json",
     "/content/aero/metadata:/metadata.json"
   ],
