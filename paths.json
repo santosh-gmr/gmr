@@ -6,8 +6,8 @@
     "/content/GMR/configuration:/.helix/config.json",
     "/content/GMR/metadata:/metadata.json",
 
-    "/content/aero/:/aero/",
-    "/content/aero/index:/aero",
+    "/content/aero/en/:/aero/",
+    "/content/aero/en/:/aero/en/",
     "/content/aero/header:/aero/nav",
     "/content/aero/footer:/aero/footer",
     "/content/aero/configuration:/.helix/config.json",
