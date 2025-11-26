@@ -73,5 +73,9 @@
   {
     "location": "main",
     "allowed": ["listed-companies"]
+  },
+  {
+    "location": "success-story",
+    "allowed": ["success-story-text","story"]
   }
 ]
