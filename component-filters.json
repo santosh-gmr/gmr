@@ -21,6 +21,7 @@
       "footerbottoms",
       "headergmr",
       "socialLinks",
+      "successstory",
       "listed-companies"
     ]
   },
@@ -78,7 +79,12 @@
     "components": ["footer-topbar"]
   },
   {
+    "id": "successstory",
+    "components": ["successstory"]
+  },
+  {
     "location": "main",
     "allowed": ["listed-companies"]
   }
+  
 ]

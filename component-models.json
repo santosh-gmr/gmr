@@ -399,6 +399,25 @@
     "id": "listed-companies",
     "model": "/models/blocks/listed-companies"
   },
+  {
+      "id": "success-story-text",
+      "fields": [
+        { "component": "text", "valueType": "string", "name": "title", "label": "Title" },
+        { "component": "richtext", "valueType": "string", "name": "description", "label": "Description" },
+        { "component": "text", "valueType": "string", "name": "buttonText", "label": "Button Text" },
+        { "component": "text", "valueType": "string", "name": "buttonLink", "label": "Button Link" }
+      ]
+    },
+    {
+      "id": "story",
+      "fields": [
+        { "component": "reference", "valueType": "string", "name": "image", "label": "Slide Image" },
+        { "component": "text", "valueType": "string", "name": "title", "label": "Title" },
+        { "component": "richtext", "valueType": "string", "name": "description", "label": "Description" },
+        { "component": "text", "valueType": "string", "name": "buttonText", "label": "Button Text" },
+        { "component": "text", "valueType": "string", "name": "buttonLink", "label": "Button Link" }
+      ]
+    },
 
   {
     "id": "groupwebsitelink",
