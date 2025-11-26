@@ -79,8 +79,8 @@
     "components": ["footer-topbar"]
   },
   {
-    "id": "successstory",
-    "components": ["successstory"]
+    "id": "success-story",
+    "components": ["success-story"]
   },
   {
     "location": "main",

@@ -395,10 +395,7 @@
       }
     ]
   },
-  {
-    "id": "listed-companies",
-    "model": "/models/blocks/listed-companies"
-  },
+ 
   {
       "id": "success-story-text",
       "fields": [
