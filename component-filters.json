@@ -15,17 +15,15 @@
       "columns",
       "fragment",
       "carousel",
-      "commitment",
+      "footerlinks",
+      "footertopbars",
+      "footer-topbar",
+      "footerbottoms",
+      "headergmr",
       "socialLinks",
-      "listed-companies",
-      "purpose-team"
+      "listed-companies"
     ]
   },
-  {
-    "id": "commitment",
-    "components": ["commitment"]
-  }
-  ,
   {
     "id": "cards",
     "components": ["card"]
@@ -33,6 +31,14 @@
   {
     "id": "carousel",
     "components": ["slide"]
+  },
+  {
+    "id": "columns",
+    "components": ["column"]
+  },
+  {
+    "id": "column",
+    "components": ["text", "image", "button", "title"]
   },
   {
     "id": "columns",
@@ -63,19 +69,16 @@
     "components": ["footertopbar", "groupwebsitelink"]
   },
   {
+    "id": "headergmr",
+    "components": ["headergmr"]
+  },
+
+  {
     "id": "footer-topbar",
     "components": ["footer-topbar"]
   },
   {
-    "id": "headergmr",
-    "components": ["headergmr"]
-  },
-  {
     "location": "main",
     "allowed": ["listed-companies"]
-  },
-  {
-    "location": "success-story",
-    "allowed": ["success-story-text","story"]
   }
 ]
