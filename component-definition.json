@@ -309,97 +309,6 @@
           }
         },
         {
-          "id": "headergmr",
-          "title": "Header GMR",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "Header GMR",
-                  "model": "headergmr"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Purpose Team",
-          "id": "purpose-team",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "Purpose Team",
-                  "filter": "purpose-team"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Purpose Team Item",
-          "id": "purpose-item",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "name": "Purpose Team Item",
-                  "model": "purpose-item"
-                }
-              }
-            }
-          }
-        },
-
-        {
-          "title": "Success Story",
-          "id": "success-story",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "Success Story",
-                  "filter": "success-story"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Story",
-          "id": "story",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "name": "Story",
-                  "model": "story"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Listed Companies",
-          "id": "listed-companies",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "Listed Companies",
-                  "model": "listed-companies"
-                }
-              }
-            }
-          }
-        },
-        {
           "title": "Group Website Link",
           "id": "groupwebsitelink",
           "plugins": {
@@ -409,36 +318,6 @@
                 "template": {
                   "name": "Group Website Link",
                   "model": "groupwebsitelink"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Mega Menu",
-          "id": "mega-menu",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "Mega Menu",
-                  "filter": "mega-menu"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Menu",
-          "id": "menu",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "name": "Menu",
-                  "model": "menu"
                 }
               }
             }
