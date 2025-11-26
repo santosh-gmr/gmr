@@ -405,7 +405,7 @@
         { "component": "text", "valueType": "string", "name": "buttonLink", "label": "Button Link" }
       ]
     },
-    {
+     {
       "id": "story",
       "fields": [
         { "component": "reference", "valueType": "string", "name": "image", "label": "Slide Image" },

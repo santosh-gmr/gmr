@@ -233,22 +233,6 @@
             }
           }
         },
-
-        {
-          "title": "Social Link",
-          "id": "socialLinks",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "name": "Social Link",
-                  "model": "socialLinks"
-                }
-              }
-            }
-          }
-        },
         {
           "title": "Slide",
           "id": "slide",

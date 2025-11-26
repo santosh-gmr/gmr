@@ -77,10 +77,10 @@
     "id": "footer-topbar",
     "components": ["footer-topbar"]
   },
-  {
-    "id": "success-story",
-    "components": ["story"]
-  },
+    {
+      "id": "success-story",
+      "components": ["story"]
+    },
   {
     "location": "main",
     "allowed": ["listed-companies"]
