@@ -18,12 +18,7 @@
       "footerlinks",
       "footertopbars",
       "footer-topbar",
-      "footerbottoms",
-      "headergmr",
-      "success-story",
-      "mega-menu",
-      "purpose-item",
-      "listed-companies"
+      "footerbottoms"
     ]
   },
   {
@@ -59,34 +54,12 @@
     "components": ["footerbottom"]
   },
   {
-  "id": "purpose-team",
-  "components": ["purpose-item"]
-},
-  
-  {
     "id": "footertopbars",
     "components": ["footertopbar", "groupwebsitelink"]
   },
   {
-    "id": "headergmr",
-    "components": ["headergmr"]
-  },
-
-  {
     "id": "footer-topbar",
     "components": ["footer-topbar"]
-  },
-    {
-      "id": "success-story",
-      "components": ["story"]
-    },
-  {
-    "id": "mega-menu",
-    "components": ["menu"]
-  },
-  {
-    "location": "main",
-    "allowed": ["listed-companies"]
   }
   
 ]
