@@ -79,7 +79,7 @@
   },
   {
     "id": "success-story",
-    "components": ["success-story"]
+    "components": ["story"]
   },
   {
     "location": "main",
