@@ -21,6 +21,7 @@
       "footerbottoms",
       "headergmr",
       "success-story",
+      "mega-menu",
       "listed-companies"
     ]
   },
@@ -80,6 +81,10 @@
   {
     "id": "success-story",
     "components": ["story"]
+  },
+  {
+    "id": "mega-menu",
+    "components": ["menu"]
   },
   {
     "location": "main",
