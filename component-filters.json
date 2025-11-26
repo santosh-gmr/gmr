@@ -60,10 +60,7 @@
     "id": "footerbottoms",
     "components": ["footerbottom"]
   },
-  {
-    "id": "socialLinks",
-    "components": ["socialLinks"]
-  },
+  
   {
     "id": "footertopbars",
     "components": ["footertopbar", "groupwebsitelink"]
