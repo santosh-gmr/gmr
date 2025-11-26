@@ -22,6 +22,7 @@
       "headergmr",
       "success-story",
       "mega-menu",
+      "purpose-item",
       "listed-companies"
     ]
   },
@@ -62,9 +63,10 @@
     "components": ["footerbottom"]
   },
   {
-    "id": "socialLinks",
-    "components": ["socialLinks"]
-  },
+  "id": "purpose-team",
+  "components": ["purpose-item"]
+},
+  
   {
     "id": "footertopbars",
     "components": ["footertopbar", "groupwebsitelink"]
@@ -78,10 +80,10 @@
     "id": "footer-topbar",
     "components": ["footer-topbar"]
   },
-  {
-    "id": "success-story",
-    "components": ["story"]
-  },
+    {
+      "id": "success-story",
+      "components": ["story"]
+    },
   {
     "id": "mega-menu",
     "components": ["menu"]
