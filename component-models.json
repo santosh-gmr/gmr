@@ -395,6 +395,20 @@
       }
     ]
   },
+  {
+  "id": "purpose-item",
+  "fields": [
+    { "component": "reference", "valueType": "string", "name": "imageTop", "label": "Top Image" },
+    { "component": "reference", "valueType": "string", "name": "imageBottom", "label": "Bottom Image" },
+    { "component": "reference", "valueType": "string", "name": "rightImage", "label": "Right Column Image" },
+
+    { "component": "text", "valueType": "string", "name": "title", "label": "Title" },
+    { "component": "richtext", "valueType": "string", "name": "description", "label": "Description" },
+
+    { "component": "text", "valueType": "string", "name": "buttonText", "label": "Button Text" },
+    { "component": "text", "valueType": "string", "name": "buttonLink", "label": "Button Link" }
+  ]
+},
  
   {
       "id": "success-story-text",
