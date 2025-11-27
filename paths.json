@@ -6,14 +6,14 @@
     "/content/GMR/configuration:/.helix/config.json",
     "/content/GMR/metadata:/metadata.json",
 
-    "/content/aero/en/:/aero/",
-    "/content/aero/en/header:/aero/nav",
-    "/content/aero/en/footer:/aero/footer",
-    "/content/aero/configuration:/.helix/config.json",
-    "/content/aero/metadata:/metadata.json"
+    "/content/aero-gmr/en/:/aero-gmr/",
+    "/content/aero-gmr/en/header:/aero-gmr/nav",
+    "/content/aero-gmr/en/footer:/aero-gmr/footer",
+    "/content/aero-gmr/configuration:/.helix/config.json",
+    "/content/aero-gmr/metadata:/metadata.json"
   ],
   "includes": [
     "/content/GMR/",
-    "/content/aero/"
+    "/content/aero-gmr/"
   ]
 }
