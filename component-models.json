@@ -124,8 +124,20 @@
   {
     "id": "groupwebsitelink",
     "fields": [
-      { "component": "text", "name": "linkText", "label": "Link Text" },
-      { "component": "text", "name": "url", "label": "URL" }
+      {
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Group Website Link",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "cssClass",
+        "label": "CSS Class",
+        "valueType": "string",
+        "placeholder": "Optional CSS class"
+      }
     ]
   }
 ]
