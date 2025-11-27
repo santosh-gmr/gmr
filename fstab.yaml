@@ -1,5 +1,5 @@
 mountpoints:
   /:
-    url: "https://author-p168597-e1803019.adobeaemcloud.com/bin/franklin.delivery/santosh-gmr/gmr/main"
+    url: "https://author-p168597-e1803019.adobeaemcloud.com/bin/franklin.delivery/santosh-gmr/gmr/main/"
     type: "markup"
     suffix: ".html"
