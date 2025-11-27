@@ -212,6 +212,97 @@
         "value": "",
         "label": "Text",
         "valueType": "string"
+      },
+      {
+        "id": "footertopbar",
+        "fields": [
+          {
+            "component": "reference",
+            "valueType": "string",
+            "name": "image",
+            "label": "Image",
+            "multi": false
+          },
+          {
+            "component": "text",
+            "valueType": "string",
+            "name": "linkedin",
+            "label": "Linkedin",
+            "placeholder": "Linkedin URL"
+          },
+          {
+            "component": "text",
+            "valueType": "string",
+            "name": "facebook",
+            "label": "Facebook",
+            "placeholder": "Facebook URL"
+          },
+          {
+            "component": "text",
+            "valueType": "string",
+            "name": "youtube",
+            "label": "Youthube",
+            "placeholder": "Youtube URL"
+          },
+
+          {
+            "component": "text",
+            "valueType": "string",
+            "name": "button",
+            "label": "Button"
+          }
+        ]
+      },
+      {
+        "id": "footerlink",
+        "fields": [
+          {
+            "component": "richtext",
+            "name": "text",
+            "value": "",
+            "label": "Text",
+            "valueType": "string"
+          },
+          {
+            "component": "text",
+            "name": "cssClass",
+            "label": "CSS Class",
+            "valueType": "string",
+            "placeholder": "Optional CSS class"
+          }
+        ]
+      },
+      {
+        "id": "footerbottom",
+        "fields": [
+          {
+            "component": "text",
+            "name": "footertext",
+            "label": "Footer Text",
+            "valueType": "string"
+          },
+          {
+            "component": "reference",
+            "valueType": "string",
+            "name": "image",
+            "label": "Image",
+            "multi": false
+          },
+          {
+            "component": "richtext",
+            "name": "text",
+            "value": "",
+            "label": "Text",
+            "valueType": "string"
+          },
+          {
+            "component": "text",
+            "name": "cssClass",
+            "label": "CSS Class",
+            "valueType": "string",
+            "placeholder": "Optional CSS class"
+          }
+        ]
       }
     ]
   }

@@ -15,7 +15,11 @@
       "hero",
       "cards",
       "columns",
-      "fragment"
+      "fragment",
+      "footerlinks",
+      "footertopbars",
+      "footer-topbar",
+      "footerbottoms"
     ]
   },
   {
@@ -38,5 +42,21 @@
       "button",
       "title"
     ]
+  },
+   {
+    "id": "footerlinks",
+    "components": ["footerlink"]
+  },
+  {
+    "id": "footerbottoms",
+    "components": ["footerbottom"]
+  },
+  {
+    "id": "footertopbars",
+    "components": ["footertopbar", "groupwebsitelink"]
+  },
+  {
+    "id": "footer-topbar",
+    "components": ["footer-topbar"]
   }
 ]
