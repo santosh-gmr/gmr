@@ -1,7 +1,9 @@
 [
   {
     "id": "main",
-    "components": ["section"]
+    "components": [
+      "section"
+    ]
   },
   {
     "id": "section",
@@ -13,53 +15,28 @@
       "hero",
       "cards",
       "columns",
-      "fragment",
-      "carousel",
-      "footerlinks",
-      "footertopbars",
-      "footer-topbar",
-      "footerbottoms"
+      "fragment"
     ]
   },
   {
     "id": "cards",
-    "components": ["card"]
-  },
-  {
-    "id": "carousel",
-    "components": ["slide"]
+    "components": [
+      "card"
+    ]
   },
   {
     "id": "columns",
-    "components": ["column"]
+    "components": [
+      "column"
+    ]
   },
   {
     "id": "column",
-    "components": ["text", "image", "button", "title"]
-  },
-  {
-    "id": "column",
-    "components": ["text", "image", "button", "title"]
-  },
-  {
-    "id": "slide",
-    "components": ["text", "image", "button"]
-  },
-  {
-    "id": "footerlinks",
-    "components": ["footerlink"]
-  },
-  {
-    "id": "footerbottoms",
-    "components": ["footerbottom"]
-  },
-  {
-    "id": "footertopbars",
-    "components": ["footertopbar", "groupwebsitelink"]
-  },
-  {
-    "id": "footer-topbar",
-    "components": ["footer-topbar"]
+    "components": [
+      "text",
+      "image",
+      "button",
+      "title"
+    ]
   }
-  
 ]
