@@ -1,12 +1,19 @@
 {
   "mappings": [
-    "/content/GMR/:/",
     "/content/GMR/en/:/",
-    "/content/GMR/fr/:/fr/",
+    "/content/GMR/en/:/en/",
+    "/content/GMR/fr_fr/:/fr/",
     "/content/GMR/configuration:/.helix/config.json",
-    "/content/GMR/metadata:/metadata.json"
+    "/content/GMR/metadata:/metadata.json",
+
+    "/content/aero/en/:/aero/",
+    "/content/aero/en/header:/aero/nav",
+    "/content/aero/en/footer:/aero/footer",
+    "/content/aero/configuration:/.helix/config.json",
+    "/content/aero/metadata:/metadata.json"
   ],
   "includes": [
-    "/content/GMR/"
+    "/content/GMR/",
+    "/content/aero/"
   ]
 }
