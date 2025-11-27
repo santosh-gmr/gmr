@@ -18,7 +18,6 @@
       "fragment",
       "footerlinks",
       "footertopbars",
-      "footer-topbar",
       "footerbottoms"
     ]
   },
@@ -43,7 +42,7 @@
       "title"
     ]
   },
-   {
+  {
     "id": "footerlinks",
     "components": ["footerlink"]
   },
@@ -54,9 +53,5 @@
   {
     "id": "footertopbars",
     "components": ["footertopbar", "groupwebsitelink"]
-  },
-  {
-    "id": "footer-topbar",
-    "components": ["footer-topbar"]
   }
 ]
