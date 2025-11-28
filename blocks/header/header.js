@@ -110,7 +110,7 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
 export default async function decorate(block) {
   // load nav as fragment
   const navMeta = getMetadata('nav');
-  const navPathMain = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
+  const navPathMain = navMeta ? new URL(navMeta, window.location).pathname : '/en/nav';
   const isAero = window.location.pathname.startsWith('/aero-gmr/');
   const navPath = isAero ? '/aero-gmr/nav' : navPathMain;
   const fragment = await loadFragment(navPath);
@@ -166,5 +166,6 @@ export default async function decorate(block) {
   navWrapper.append(nav);
   block.append(navWrapper);
 }
+
 
 
