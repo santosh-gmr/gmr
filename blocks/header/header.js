@@ -109,10 +109,10 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
  */
 export default async function decorate(block) {
   // load nav as fragment
-  //const navMeta = getMetadata('nav');
-  //const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
-  const isAero = window.location.pathname.startsWith('/aero/');
-  const navPath = isAero ? '/aero/en/nav' : '/en/nav';
+  const navMeta = getMetadata('nav');
+  const navPathMain = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
+  const isAero = window.location.pathname.startsWith('/aero-gmr/');
+  const navPath = isAero ? '/aero-gmr/nav' : navPathMain;
   const fragment = await loadFragment(navPath);
 
   // decorate nav DOM
@@ -166,4 +166,5 @@ export default async function decorate(block) {
   navWrapper.append(nav);
   block.append(navWrapper);
 }
+
 
