@@ -139,7 +139,7 @@
   {
     "id": "header",
     "fields": [
-      { "component": "reference", "name": "logo", "label": "Logo" },
+      { "component": "reference", "name": "logo", "label": "Logo Image" },
       { "component": "text", "name": "logoLink", "label": "Logo Link" },
       { "component": "reference", "name": "searchIcon", "label": "Search Icon" }
     ]
