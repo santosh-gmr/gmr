@@ -112,7 +112,7 @@ export default async function decorate(block) {
   const navMeta = getMetadata('nav');
   const navPathMain = navMeta ? new URL(navMeta, window.location).pathname : '/en/nav';
   const isAero = window.location.pathname.startsWith('/aero-gmr/');
-  const navPath = isAero ? '/aero-gmr/nav' : navPathMain;
+  const navPath = isAero ? '/aero-gmr/en/nav' : navPathMain;
   const fragment = await loadFragment(navPath);
 
   // decorate nav DOM
@@ -166,6 +166,7 @@ export default async function decorate(block) {
   navWrapper.append(nav);
   block.append(navWrapper);
 }
+
 
 
 
