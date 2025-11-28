@@ -2,9 +2,25 @@
   {
     "id": "page-metadata",
     "fields": [
-      { "component": "text", "valueType": "string", "name": "jcr:title", "label": "Title" },
-      { "component": "text", "valueType": "string", "name": "jcr:description", "label": "Description" },
-      { "component": "text", "valueType": "string", "name": "keywords", "label": "Keywords", "multi": true }
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "jcr:title",
+        "label": "Title"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "jcr:description",
+        "label": "Description"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "keywords",
+        "label": "Keywords",
+        "multi": true
+      }
     ]
   },
 
@@ -118,6 +134,28 @@
       { "component": "reference", "name": "image", "label": "Image" },
       { "component": "richtext", "name": "text", "label": "Text" },
       { "component": "text", "name": "cssClass", "label": "CSS Class" }
+    ]
+  },
+  {
+    "id": "header",
+    "fields": [
+      { "component": "reference", "name": "logo", "label": "Logo" },
+      { "component": "text", "name": "logoLink", "label": "Logo Link" },
+      { "component": "reference", "name": "searchIcon", "label": "Search Icon" }
+    ]
+  },
+  {
+    "id": "nav-item",
+    "fields": [
+      { "component": "text", "name": "label", "label": "Menu Label" },
+      { "component": "text", "name": "link", "label": "Menu Link" }
+    ]
+  },
+  {
+    "id": "nav-child",
+    "fields": [
+      { "component": "text", "name": "childLabel", "label": "Child Label" },
+      { "component": "text", "name": "childLink", "label": "Child Link" }
     ]
   },
 

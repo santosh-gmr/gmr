@@ -18,7 +18,9 @@
       "fragment",
       "footerlinks",
       "footertopbars",
-      "footerbottoms"
+      "footerbottoms",
+      "header",
+      "nav-item"
     ]
   },
   {
@@ -53,5 +55,18 @@
   {
     "id": "footertopbars",
     "components": ["footertopbar", "groupwebsitelink"]
-  }
+  },
+  {
+  "id": "header",
+  "components": [
+    "nav-item"
+  ]
+},
+{
+  "id": "nav-item",
+  "components": [
+    "nav-child"
+  ]
+}
+
 ]
