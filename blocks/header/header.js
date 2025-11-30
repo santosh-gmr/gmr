@@ -153,6 +153,7 @@ export default async function decorate(block) {
   block.textContent = '';
   const nav = document.createElement('nav');
   nav.id = 'nav';
+  nav.setAttribute('aria-expanded', 'false');
   
   while (fragment.firstElementChild) {
     nav.append(fragment.firstElementChild);
@@ -172,6 +173,100 @@ export default async function decorate(block) {
       const btnContainer = brandLink.closest('.button-container');
       if (btnContainer) btnContainer.className = '';
     }
+
+    const mainUl = navBrand.querySelector(':scope > div > ul');
+    if (!mainUl) return;
+
+     [...mainUl.children].forEach((li) => {
+      if (li.tagName !== 'LI') return;
+
+      const ps = li.querySelectorAll(':scope > p');
+
+
+      const titleEl = li.querySelector(':scope > h4');
+      const descP = ps.length > 1 ? ps[1] : null;
+      const innerList = li.querySelector(':scope > ul, :scope > ul > li > ul > li:not(:has(ul ul))');
+      const inner2List = li.querySelector(':scope > ul > li > ul > li > ul');
+      //only ABOUT / BUSINESS / INVESTORS have extra content
+      const hasMega = titleEl || descP || innerList;
+      if (!hasMega) return;
+
+       li.classList.add('has-mega');
+
+
+      // // create mega wrapper
+      const mega = document.createElement('div');
+      mega.className = 'mega-wrapper';
+
+      //left column: title + description
+      const colLeft = document.createElement('div');
+      colLeft.className = 'mega-left';
+
+      if (titleEl) {
+        // move existing <h4> inside left column
+        colLeft.append(titleEl);
+      }
+
+      if (descP) {
+        // move description <p> inside left column
+        colLeft.append(descP);
+      }
+
+      // middle column: submenu / sub-sub menu
+      const colMid = document.createElement('div');
+      colMid.className = 'mega-mid';
+
+      if (innerList && descP) {
+        // move the whole <ul> structure into middle column
+        colMid.append(innerList);
+        
+      }else{
+        colLeft.append(innerList);
+        colMid.append(inner2List);
+        
+      }
+
+      // right column: image placeholder (for now empty)
+      const colRight = document.createElement('div');
+      colRight.className = 'mega-right';
+
+      const p = li.querySelector('p').textContent.trim().toLowerCase().replace(/\s+/g, '-');   // get p tag inside main li
+      if (p) {
+        console.log(p);
+
+         const menuImg = navBrand.querySelector(':scope > div > div');
+
+         [...menuImg.children].forEach((div) => {
+          const first = div.children[0];
+          const second = div.children[1];
+
+          const imgDivId = second.textContent.trim().toLowerCase().replace(/\s+/g, '-');
+  
+          if(p==imgDivId) {
+            const imgUrl = first.querySelector('img')?.src;
+
+            if (colRight && imgUrl) {
+              const img = document.createElement('img');
+              img.src = imgUrl;
+              console.log(img);
+              colRight.innerHTML = '';
+              colRight.append(img);
+            }
+          }
+         });
+      
+      }
+  
+
+      // If you later want to show an image, you can:
+      // - add <img> inside the LI in UE and move it here
+      // - or map to the header-image block
+
+      mega.append(colLeft, colMid, colRight);
+      li.append(mega);
+    });
+  //=================
+      
   }
 
   const navSections = nav.querySelector('.nav-sections');
