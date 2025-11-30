@@ -60,8 +60,7 @@
     "components": ["menu-img"]
   },
   {
-  "id": "success-stories",
-  "components": ["story-item"]
-}
-
+    "id": "success-stories",
+    "components": ["story-item"]
+  }
 ]
