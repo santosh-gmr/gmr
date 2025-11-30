@@ -20,7 +20,8 @@
       "header",
       "nav-item",
       "header-img",
-      "success-stories"
+      "success-stories",
+      "news-updates"
     ]
   },
   {
@@ -62,5 +63,9 @@
   {
     "id": "success-stories",
     "components": ["story-item"]
+  },
+  {
+    "id": "news-updates",
+    "components": ["news-item"]
   }
 ]
