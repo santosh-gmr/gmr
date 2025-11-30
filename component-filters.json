@@ -52,5 +52,9 @@
   {
     "id": "nav-item",
     "components": ["nav-child"]
+  },
+  {
+    "id": "header-img",
+    "components": ["menu-img"]
   }
 ]
