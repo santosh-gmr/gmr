@@ -19,7 +19,8 @@
       "footerbottoms",
       "header",
       "nav-item",
-      "header-img"
+      "header-img",
+      "success-stories"
     ]
   },
   {
@@ -57,5 +58,10 @@
   {
     "id": "header-img",
     "components": ["menu-img"]
-  }
+  },
+  {
+  "id": "success-stories",
+  "components": ["story-item"]
+}
+
 ]

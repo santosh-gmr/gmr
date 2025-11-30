@@ -179,20 +179,55 @@
     ]
   },
   {
-      "id": "menu-img",
-      "fields": [
-        {
-          "component": "reference",
-          "valueType": "string",
-          "name": "img",
-          "label": "Menu Image"
-        },
-        {
-          "component": "text",
-          "valueType": "string",
-          "name": "menuId",
-          "label": "Menu Id"
-        }
-      ]
-    }
+    "id": "menu-img",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "img",
+        "label": "Menu Image"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "menuId",
+        "label": "Menu Id"
+      }
+    ]
+  },
+  {
+    "id": "story-item",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Card Image"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "title",
+        "label": "Title"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "description",
+        "label": "Description"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "ctaText",
+        "label": "CTA Text"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "ctaLink",
+        "label": "CTA Link"
+      }
+    ]
+  }
 ]
