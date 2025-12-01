@@ -21,7 +21,8 @@
       "nav-item",
       "header-img",
       "success-stories",
-      "news-updates"
+      "news-updates",
+      "aviation-expertise"
     ]
   },
   {
@@ -67,5 +68,10 @@
   {
     "id": "news-updates",
     "components": ["news-item"]
-  }
+  },
+  {
+  "id": "aviation-expertise",
+  "components": ["aviation-item"]
+}
+
 ]
