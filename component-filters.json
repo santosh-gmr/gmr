@@ -10,7 +10,7 @@
       "image",
       "button",
       "title",
-      "hero",
+      "heroBanner",
       "cards",
       "columns",
       "fragment",
@@ -70,8 +70,7 @@
     "components": ["news-item"]
   },
   {
-  "id": "aviation-expertise",
-  "components": ["aviation-item"]
-}
-
+    "id": "aviation-expertise",
+    "components": ["aviation-item"]
+  }
 ]
