@@ -172,11 +172,18 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  display: block;
+  display: block !important;
 }
 .mega-left ul li ul li{
   padding: 5px 0;
   display: block;
+  font-size: 14px;
+  cursor: pointer;
+  color: #003366;
+}
+.mega-left ul li ul li ul{
+  padding: 5px 0;
+  display: none !important;
   font-size: 14px;
   cursor: pointer;
   color: #003366;
@@ -289,5 +296,22 @@
 
   .mega-right {
     display: none;
+  }
+
+  .mega-left ul li:hover > ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: block !important;
+  }
+
+  .mega-wrapper ul > li:hover > ul,
+  .mega-wrapper ul > li:focus-within > ul {
+    display: grid;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0px);
+    width: auto;
+    display: block !important;
   }
 }

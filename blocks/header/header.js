@@ -185,8 +185,8 @@ export default async function decorate(block) {
 
       const titleEl = li.querySelector(':scope > h4');
       const descP = ps.length > 1 ? ps[1] : null;
-      const innerList = li.querySelector(':scope > ul, :scope > ul > li > ul > li:not(:has(ul ul))');
-      const inner2List = li.querySelector(':scope > ul > li > ul > li > ul');
+      const innerList = li.querySelector(':scope > ul');
+      const inner2List = '';
       //only ABOUT / BUSINESS / INVESTORS have extra content
       const hasMega = titleEl || descP || innerList;
       if (!hasMega) return;
@@ -222,7 +222,70 @@ export default async function decorate(block) {
         
       }else{
         colLeft.append(innerList);
-        colMid.append(inner2List);
+        let counter = 0;
+        [...innerList.children].forEach((level1) => {
+        const level2Ul = level1.querySelector(':scope > ul'); // level 2 UL
+
+        if (!level2Ul) return;
+
+        level2Ul.querySelectorAll(':scope > li > ul').forEach(level3Ul => {
+          // level3Ul = 3rd level UL
+          counter++;
+          const id = `thirdMenu-${counter}`;
+
+          const level2Li = level3Ul.closest('li');
+          const level2Text = level2Li?.querySelector(':scope > p, :scope > a, :scope > span')
+      ?.textContent.trim() || '';
+
+      const level1Text = level1.querySelector(':scope > p, :scope > a, :scope > span')
+    ?.textContent.trim() || '';
+
+
+          const thirdMenu = document.createElement('div');
+          thirdMenu.classList.add('thirdMenu');
+          thirdMenu.id = id;
+
+          const headingWrapper = document.createElement('div');
+          headingWrapper.classList.add('thirdMenu-headings');
+
+          if (level1Text) {
+            const l1 = document.createElement('div');
+            l1.classList.add('thirdMenu-level1');
+            l1.textContent = level1Text;
+            headingWrapper.append(l1);
+          }
+
+          if (level2Text) {
+            const l2 = document.createElement('div');
+            l2.classList.add('thirdMenu-level2');
+            l2.textContent = level2Text;
+            headingWrapper.append(l2);
+          }
+
+          thirdMenu.append(headingWrapper);
+          
+          console.log('3rd level UL:', level3Ul);
+          thirdMenu.append(level3Ul.cloneNode(true));
+          colMid.append(thirdMenu);
+          const parentLi = level3Ul.closest('li');
+          if (parentLi) {
+            parentLi.dataset.target = id;
+          }
+        });
+        });
+        colMid.querySelectorAll('.thirdMenu').forEach(div => div.style.display = 'none');
+
+        innerList.querySelectorAll('li').forEach(li => {
+          li.addEventListener('mouseenter', () => {
+            const target = li.dataset.target;
+
+            colMid.querySelectorAll('.thirdMenu').forEach(div => div.style.display = 'none');
+
+            if (target) {
+              document.getElementById(target).style.display = 'block';
+            }
+          });
+        });
         
       }
 
@@ -256,16 +319,10 @@ export default async function decorate(block) {
          });
       
       }
-  
-
-      // If you later want to show an image, you can:
-      // - add <img> inside the LI in UE and move it here
-      // - or map to the header-image block
 
       mega.append(colLeft, colMid, colRight);
       li.append(mega);
     });
-  //=================
       
   }
 
