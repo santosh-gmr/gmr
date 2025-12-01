@@ -18,7 +18,7 @@ export default async function decorate(block) {
   `;
 
   try {
-    const resp = await fetch('/graphql/execute.json/data', {
+    const resp = await fetch('/graphql/execute.json/?config=GMR', {
       method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -72,3 +72,4 @@ export default async function decorate(block) {
     console.error('Failed to load news', e);
   }
 }
+
