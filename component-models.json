@@ -67,6 +67,16 @@
           { "name": "primary", "value": "primary" },
           { "name": "secondary", "value": "secondary" }
         ]
+      },
+      {
+        "component": "select",
+        "name": "linkTarget",
+        "label": "Target",
+        "options": [
+          { "name": "parent", "value": "_parent" },
+          { "name": "blank", "value": "_blank" },
+          { "name": "self", "value": "_self" }
+        ]
       }
     ]
   },
