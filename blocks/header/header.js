@@ -142,6 +142,9 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
+  // 🔹 imageMap available everywhere inside decorate
+  const imageMap = new Map();
+
   // load nav as fragment
   const navMeta = getMetadata('nav');
   const navPathMain = navMeta ? new URL(navMeta, window.location).pathname : '/en/nav';
@@ -154,7 +157,7 @@ export default async function decorate(block) {
   const nav = document.createElement('nav');
   nav.id = 'nav';
   nav.setAttribute('aria-expanded', 'false');
-  
+
   while (fragment.firstElementChild) {
     nav.append(fragment.firstElementChild);
   }
@@ -174,156 +177,206 @@ export default async function decorate(block) {
       if (btnContainer) btnContainer.className = '';
     }
 
+    // 🔹 Build imageMap from header-image block
+    // Structure expected:
+    // <div>
+    //   <div> <picture><img …></picture> </div>
+    //   <div><p>about</p></div>
+    // </div>
+    const menuImgWrapper = navBrand.querySelector(':scope > div > div');
+    if (menuImgWrapper) {
+      [...menuImgWrapper.children].forEach((div) => {
+        const first = div.children[0];
+        const second = div.children[1];
+
+        const labelEl = second?.querySelector('p');
+        const imgEl = first?.querySelector('img');
+
+        if (!labelEl || !imgEl) return;
+
+        const key = labelEl.textContent.trim().toLowerCase().replace(/\s+/g, '-');
+        imageMap.set(key, imgEl.src);
+      });
+    }
+
     const mainUl = navBrand.querySelector(':scope > div > ul');
     if (!mainUl) return;
 
-     [...mainUl.children].forEach((li) => {
+    [...mainUl.children].forEach((li) => {
       if (li.tagName !== 'LI') return;
 
       const ps = li.querySelectorAll(':scope > p');
-
-
       const titleEl = li.querySelector(':scope > h4');
       const descP = ps.length > 1 ? ps[1] : null;
       const innerList = li.querySelector(':scope > ul');
-      const inner2List = '';
-      //only ABOUT / BUSINESS / INVESTORS have extra content
+
+      // 🔹 main menu label: used as fallback for images
+      const mainLabelEl =
+        li.querySelector(':scope > p, :scope > a, :scope > span, :scope > h4');
+      const mainKey = mainLabelEl
+        ? mainLabelEl.textContent.trim().toLowerCase().replace(/\s+/g, '-')
+        : null;
+
+      // only ABOUT / BUSINESS / INVESTORS have extra content
       const hasMega = titleEl || descP || innerList;
-      if (!hasMega) return;
+      if (!hasMega || !innerList) return;
 
-       li.classList.add('has-mega');
+      li.classList.add('has-mega');
 
-
-      // // create mega wrapper
+      // wrapper
       const mega = document.createElement('div');
       mega.className = 'mega-wrapper';
 
-      //left column: title + description
+      // left column
       const colLeft = document.createElement('div');
       colLeft.className = 'mega-left';
 
-      if (titleEl) {
-        // move existing <h4> inside left column
-        colLeft.append(titleEl);
-      }
+      if (titleEl) colLeft.append(titleEl);
+      if (descP) colLeft.append(descP);
 
-      if (descP) {
-        // move description <p> inside left column
-        colLeft.append(descP);
-      }
-
-      // middle column: submenu / sub-sub menu
+      // middle column
       const colMid = document.createElement('div');
       colMid.className = 'mega-mid';
 
-      if (innerList && descP) {
-        // move the whole <ul> structure into middle column
-        colMid.append(innerList);
-        
-      }else{
-        colLeft.append(innerList);
-        let counter = 0;
-        [...innerList.children].forEach((level1) => {
-        const level2Ul = level1.querySelector(':scope > ul'); // level 2 UL
-
-        if (!level2Ul) return;
-
-        level2Ul.querySelectorAll(':scope > li > ul').forEach(level3Ul => {
-          // level3Ul = 3rd level UL
-          counter++;
-          const id = `thirdMenu-${counter}`;
-
-          const level2Li = level3Ul.closest('li');
-          const level2Text = level2Li?.querySelector(':scope > p, :scope > a, :scope > span')
-      ?.textContent.trim() || '';
-
-      const level1Text = level1.querySelector(':scope > p, :scope > a, :scope > span')
-    ?.textContent.trim() || '';
-
-
-          const thirdMenu = document.createElement('div');
-          thirdMenu.classList.add('thirdMenu');
-          thirdMenu.id = id;
-
-          const headingWrapper = document.createElement('div');
-          headingWrapper.classList.add('thirdMenu-headings');
-
-          if (level1Text) {
-            const l1 = document.createElement('div');
-            l1.classList.add('thirdMenu-level1');
-            l1.textContent = level1Text;
-            headingWrapper.append(l1);
-          }
-
-          if (level2Text) {
-            const l2 = document.createElement('div');
-            l2.classList.add('thirdMenu-level2');
-            l2.textContent = level2Text;
-            headingWrapper.append(l2);
-          }
-
-          thirdMenu.append(headingWrapper);
-          
-          console.log('3rd level UL:', level3Ul);
-          thirdMenu.append(level3Ul.cloneNode(true));
-          colMid.append(thirdMenu);
-          const parentLi = level3Ul.closest('li');
-          if (parentLi) {
-            parentLi.dataset.target = id;
-          }
-        });
-        });
-        colMid.querySelectorAll('.thirdMenu').forEach(div => div.style.display = 'none');
-
-        innerList.querySelectorAll('li').forEach(li => {
-          li.addEventListener('mouseenter', () => {
-            const target = li.dataset.target;
-
-            colMid.querySelectorAll('.thirdMenu').forEach(div => div.style.display = 'none');
-
-            if (target) {
-              document.getElementById(target).style.display = 'block';
-            }
-          });
-        });
-        
-      }
-
-      // right column: image placeholder (for now empty)
+      // right column
       const colRight = document.createElement('div');
       colRight.className = 'mega-right';
 
-      const p = li.querySelector('p').textContent.trim().toLowerCase().replace(/\s+/g, '-');   // get p tag inside main li
-      if (p) {
-        console.log(p);
+      // CASE 1: simple mega → put innerList in middle
+      if (innerList && descP) {
+        colMid.append(innerList);
 
-         const menuImg = navBrand.querySelector(':scope > div > div');
+        // default image for this mega = main menu image if available
+        if (mainKey) {
+          const imgUrl = imageMap.get(mainKey);
+          if (imgUrl) {
+            const img = document.createElement('img');
+            img.src = imgUrl;
+            colRight.append(img);
+          }
+        }
+      } else {
+        // CASE 2: 3-level mega: level1 → level2 → level3 (UL)
+        // move big UL to left
+        colLeft.append(innerList);
 
-         [...menuImg.children].forEach((div) => {
-          const first = div.children[0];
-          const second = div.children[1];
+        let counter = 0;
 
-          const imgDivId = second.textContent.trim().toLowerCase().replace(/\s+/g, '-');
-  
-          if(p==imgDivId) {
-            const imgUrl = first.querySelector('img')?.src;
+        [...innerList.children].forEach((level1) => {
+          const level2Ul = level1.querySelector(':scope > ul'); // level 2 UL
+          if (!level2Ul) return;
 
-            if (colRight && imgUrl) {
+          // level2Li = li that contains level3 <ul>
+          level2Ul.querySelectorAll(':scope > li > ul').forEach((level3Ul) => {
+            counter++;
+            const id = `thirdMenu-${counter}`;
+
+            const level2Li = level3Ul.closest('li');
+
+            const level2Text =
+              level2Li?.querySelector(':scope > p, :scope > a, :scope > span')
+                ?.textContent.trim() || '';
+
+            const level1Text =
+              level1.querySelector(':scope > p, :scope > a, :scope > span')
+                ?.textContent.trim() || '';
+
+            const thirdMenu = document.createElement('div');
+            thirdMenu.classList.add('thirdMenu');
+            thirdMenu.id = id;
+
+            const headingWrapper = document.createElement('div');
+            headingWrapper.classList.add('thirdMenu-headings');
+
+            if (level1Text) {
+              const l1 = document.createElement('div');
+              l1.classList.add('thirdMenu-level1');
+              l1.textContent = level1Text;
+              headingWrapper.append(l1);
+            }
+
+            if (level2Text) {
+              const l2 = document.createElement('div');
+              l2.classList.add('thirdMenu-level2');
+              l2.textContent = level2Text;
+              headingWrapper.append(l2);
+            }
+
+            thirdMenu.append(headingWrapper);
+            thirdMenu.append(level3Ul.cloneNode(true));
+            colMid.append(thirdMenu);
+
+            // link level2 <li> → this panel
+            if (level2Li) {
+              level2Li.dataset.target = id;
+            }
+          });
+        });
+
+        // hide all panels by default
+        colMid.querySelectorAll('.thirdMenu').forEach((div) => {
+          div.style.display = 'none';
+        });
+
+        // default image = main menu image if available
+        if (mainKey) {
+          const defaultImg = imageMap.get(mainKey);
+          if (defaultImg) {
+            const img = document.createElement('img');
+            img.src = defaultImg;
+            colRight.append(img);
+          }
+        }
+
+        // hover on innerList <li> (2nd-level + possible 3rd-level)
+        innerList.querySelectorAll('li').forEach((levelLi) => {
+          levelLi.addEventListener('mouseenter', () => {
+            const target = levelLi.dataset.target;
+
+            // 🔹 panels: only if there is a target
+            colMid.querySelectorAll('.thirdMenu').forEach((div) => {
+              div.style.display = 'none';
+            });
+
+            if (target) {
+              const panel = document.getElementById(target);
+              if (panel) panel.style.display = 'block';
+            }
+
+            // 🔹 image logic ALWAYS runs (even when there's no panel)
+            const labelEl = levelLi.querySelector(
+              ':scope > p, :scope > a, :scope > span',
+            );
+
+            let imgUrl = null;
+
+            // try submenu-specific image
+            if (labelEl) {
+              const key = labelEl.textContent.trim().toLowerCase().replace(/\s+/g, '-');
+              imgUrl = imageMap.get(key) || null;
+            }
+
+            // fallback to main menu image
+            if (!imgUrl && mainKey) {
+              imgUrl = imageMap.get(mainKey) || null;
+            }
+
+            // update colRight
+            colRight.innerHTML = '';
+
+            if (imgUrl) {
               const img = document.createElement('img');
               img.src = imgUrl;
-              console.log(img);
-              colRight.innerHTML = '';
               colRight.append(img);
             }
-          }
-         });
-      
+            // else: nothing → colRight stays empty; or you could re-apply main image here
+          });
+        });
       }
 
       mega.append(colLeft, colMid, colRight);
       li.append(mega);
     });
-      
   }
 
   const navSections = nav.querySelector('.nav-sections');
@@ -357,11 +410,12 @@ export default async function decorate(block) {
 
   // initialize state based on current breakpoint
   toggleMenu(nav, navSections, isDesktop.matches);
-  isDesktop.addEventListener('change', () => toggleMenu(nav, navSections, isDesktop.matches));
+  isDesktop.addEventListener('change', () =>
+    toggleMenu(nav, navSections, isDesktop.matches),
+  );
 
   const navWrapper = document.createElement('div');
   navWrapper.className = 'nav-wrapper';
   navWrapper.append(nav);
   block.append(navWrapper);
 }
-
