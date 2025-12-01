@@ -47,6 +47,13 @@
           "name": "imageAlt",
           "label": "Banner Image Alt",
           "value": ""
+        },
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "video",
+          "label": "Banner Video",
+          "multi": false
         }
       ]
     }

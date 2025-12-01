@@ -110,11 +110,13 @@
   },
 
   {
-    "id": "hero",
+    "id": "heroBanner",
     "fields": [
-      { "component": "reference", "name": "image", "label": "Image" },
-      { "component": "text", "name": "imageAlt", "label": "Alt Text" },
-      { "component": "richtext", "name": "text", "label": "Text" }
+      { "component": "richtext", "name": "text", "label": "Banner Text" },
+      { "component": "text", "name": "button", "label": "Banner Button" },
+      { "component": "reference", "name": "image", "label": "Banner Image" },
+      { "component": "text", "name": "imageAlt", "label": "Banner Image Alt" },
+      { "component": "reference", "name": "video", "label": "Banner Video" }
     ]
   },
 
