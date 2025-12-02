@@ -1,0 +1,19 @@
+.cf-block {
+  padding: 20px;
+}
+
+.cf-card img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.cf-card h2 {
+  margin-top: 16px;
+}
+
+.cf-card .cta {
+  display: inline-block;
+  margin-top: 12px;
+  color: #0056d2;
+  text-decoration: underline;
+}
