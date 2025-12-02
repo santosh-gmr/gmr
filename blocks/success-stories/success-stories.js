@@ -1,13 +1,13 @@
 export default async function decorate(block) {
 
-  // ✅ Correct EDS persistent query endpoint
-  const resp = await fetch('/graphql/execute.json?persistedQuery=GMR/news-list', {
+  const endpoint = '/graphql/execute.json?persistedQuery=GMR/news-list';
+
+  const resp = await fetch(endpoint, {
     method: 'GET',
-    headers: {
-      'Accept': 'application/json'
-    }
+    headers: { Accept: 'application/json' }
   });
 
-  console.log("Response object:", resp);
+  console.log(resp);
+  const json = await resp.json();
+  console.log("DATA:", json);
 }
-
