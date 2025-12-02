@@ -124,7 +124,6 @@
     color: var(--charcoal);
     opacity: 0.7;
     font-weight: var(--fw-medium);
-
     max-width: 250px;
 }
 .mega-left ul {
@@ -133,33 +132,41 @@
     margin: 0;
     display: block;
 }
-.mega-left ul li {
-    padding: 5px 0;
+.mega-left > ul > li > .button-container {
+    opacity: 1;
+    max-width: inherit;
+    border-bottom: solid 1px #e0e0e0;
+}
+.mega-left > ul > li > .button-container > .button {
     display: block;
-    font-size: 14px;
-    cursor: pointer;
-    color: #003366;
+    line-height: 45px;
+    text-transform: none;
+    font-weight: var(--fw-bold);
+    color: var(--black);
 }
 
 .mega-left ul li ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
     display: block !important;
 }
+.mega-left > ul > li > ul > li > p {
+    opacity: 1;
+    max-width: inherit;
+    color: var(--charcoal);
+}
+.mega-left > ul > li > ul > li > a,
+.mega-left > ul > li > ul > li > p > a {
+    line-height: 45px;
+    text-transform: none;
+    font-weight: var(--fw-medium);
+    color: var(--charcoal);
+    padding: 0 1rem;
+    text-decoration: none;
+}
 .mega-left ul li ul li {
-    padding: 5px 0;
     display: block;
-    font-size: 14px;
-    cursor: pointer;
-    color: #003366;
 }
 .mega-left ul li ul li ul {
-    padding: 5px 0;
     display: none !important;
-    font-size: 14px;
-    cursor: pointer;
-    color: #003366;
 }
 
 /********************************************
