@@ -1,104 +1,57 @@
-/********************************************
-  HEADER WRAPPER
-*********************************************/
 .header-wrapper {
-  width: 100%;
-  position: relative;
-  z-index: 1000;
-  background: #ffffff;
-  border-bottom: 1px solid #eee;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: #ffffff;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
 }
-
-/********************************************
-  NAV BAR MAIN
-*********************************************/
-#nav {
-  max-width: 1440px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  padding: 12px 24px;
-  position: relative;
-  background: #fff;
+.nav-brand .default-content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-
-/********************************************
-  LOGO (nav-brand)
-*********************************************/
-.nav-brand {
-  margin-right: 40px;
+.nav-brand p {
+    margin: 0;
+}
+.nav-brand p {
+    margin: 0;
 }
 
 .nav-brand img {
-  height: 42px;
-  width: auto;
+    height: 2.5rem;
+    width: auto;
 }
 
-/********************************************
-  HAMBURGER (MOBILE)
-*********************************************/
-.nav-hamburger {
-  display: none;
-}
-
-.nav-hamburger button {
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.nav-hamburger-icon {
-  width: 22px;
-  height: 2px;
-  background: #000;
-  display: block;
-  position: relative;
-}
-
-.nav-hamburger-icon::before,
-.nav-hamburger-icon::after {
-  content: "";
-  width: 22px;
-  height: 2px;
-  background: #000;
-  position: absolute;
-  left: 0;
-}
-
-.nav-hamburger-icon::before {
-  top: -6px;
-}
-
-.nav-hamburger-icon::after {
-  top: 6px;
-}
-
-/********************************************
-  MAIN MENU (TOP LEVEL)
-*********************************************/
 .nav-brand ul {
-  display: flex;
-  gap: 28px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
-
 .nav-brand ul li {
-  position: relative;
+    position: relative;
 }
 
-.nav-brand ul > li > p {
-  margin: 0;
-  padding: 8px 0;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 15px;
-  color: #002d62;
+.nav-brand ul > li > p > a {
+    color: var(--charcoal);
+    font-size: var(--fs-small);
+    text-transform: uppercase;
+    font-weight: var(--fw-semi-bold);
+    line-height: 60px;
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+    text-decoration: none;
 }
-
-.nav-brand ul > li > p:hover {
-  color: #0066cc;
+.nav-brand ul > li.has-mega > p > a:after {
+    content: "";
+    width: 6px;
+    height: 11px;
+    background: url(../../icons/arrow-right-black.svg) no-repeat center;
+    background-size: 100%;
+    transform: rotate(90deg);
 }
 
 /********************************************
@@ -107,211 +60,278 @@
 .nav-brand ul > li > h4,
 .nav-brand ul > li > p:nth-child(3),
 .nav-brand ul > li > ul {
-  display: none !important; /* Hidden until panel opens */
+    display: none !important; /* Hidden until panel opens */
 }
 
 .nav-brand ul > li:hover > .mega-wrapper,
 .nav-brand ul > li:focus-within > .mega-wrapper {
-  display: grid;
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0px);
-  width: auto;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .mega-wrapper {
-  display: none;
-  opacity: 0;
-  pointer-events: none;
-  position: absolute;
-  left: 0px;
-  right: -200px;
-  top: 100%;
-  padding: 32px 40px;
-  background: #fff;
-  border-top: 3px solid #f6b100;
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
-  transform: translateY(8px);
-  transition: 0.25s ease;
-  grid-template-columns: 260px 1fr 380px;
-  min-height: 320px;
-  z-index: 900;
-  width: auto;
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+    position: fixed;
+    left: 50%;
+    top: 60px;
+    background: #fff;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
+    transform: translate(-50%, 1px);
+    transition: 0.25s ease;
+    display: flex;
+    min-height: 320px;
+    z-index: 900;
+    width: calc(100% - 180px);
 }
 
 /********************************************
   LEFT COLUMN (TITLE + DESCRIPTION)
 *********************************************/
+.mega-left,
+.mega-mid {
+    padding: 2rem 3rem;
+    width: 30%;
+    flex: 0 0 auto;
+}
+.mega-mid {
+    border-left: solid 2px #f4f4f4;
+}
+.mega-right {
+    flex: 1 1 auto;
+    background-color: var(--light-grey);
+    position: relative;
+    overflow: hidden;
+}
+.mega-right img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 .mega-left h4 {
-  font-size: 20px;
-  margin: 0 0 10px;
-  color: #003366;
+    font-size: 1.5rem;
+    font-weight: var(--fw-medium);
+    color: var(--black);
 }
 
 .mega-left p {
-  margin: 0;
-  font-size: 14px;
-  color: #555;
-  max-width: 250px;
+    margin: 0;
+    font-size: var(--fs-regular);
+    color: var(--charcoal);
+    opacity: 0.7;
+    font-weight: var(--fw-medium);
+
+    max-width: 250px;
 }
 .mega-left ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: block;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: block;
 }
 .mega-left ul li {
-  padding: 5px 0;
-  display: block;
-  font-size: 14px;
-  cursor: pointer;
-  color: #003366;
+    padding: 5px 0;
+    display: block;
+    font-size: 14px;
+    cursor: pointer;
+    color: #003366;
 }
 
 .mega-left ul li ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: block !important;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: block !important;
 }
-.mega-left ul li ul li{
-  padding: 5px 0;
-  display: block;
-  font-size: 14px;
-  cursor: pointer;
-  color: #003366;
+.mega-left ul li ul li {
+    padding: 5px 0;
+    display: block;
+    font-size: 14px;
+    cursor: pointer;
+    color: #003366;
 }
-.mega-left ul li ul li ul{
-  padding: 5px 0;
-  display: none !important;
-  font-size: 14px;
-  cursor: pointer;
-  color: #003366;
+.mega-left ul li ul li ul {
+    padding: 5px 0;
+    display: none !important;
+    font-size: 14px;
+    cursor: pointer;
+    color: #003366;
 }
 
 /********************************************
   MIDDLE COLUMN (SUB-MENU LIST)
 *********************************************/
+
 .mega-mid ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: block;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: block;
 }
 
 .mega-mid ul li {
-  padding: 5px 0;
-  display: block;
-  font-size: 14px;
-  cursor: pointer;
-  color: #003366;
+    font-weight: var(--fw-semi-bold);
 }
-
-.mega-mid ul li:hover {
-  color: #0066cc;
-  text-decoration: underline;
+.mega-mid ul li + li {
+    border-top: solid 1px #e0e0e0;
+}
+.mega-mid ul li a {
+    display: block;
+    text-decoration: none;
+    padding: 1rem 0.5rem;
+    color: var(--black);
+    background: url(../../icons/arrow-right-yellow.svg) no-repeat
+        calc(100% - 0.25rem) center;
+    background-size: 0.35rem;
+    transition-duration: 0.3s;
+}
+.mega-mid ul li a:hover {
+    background-position: calc(100% - 0.5rem) center;
+    color: var(--yellow);
 }
 
 /********************************************
   RIGHT COLUMN (IMAGE)
 *********************************************/
 .mega-right {
-  text-align: right;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .mega-right picture img {
-  width: 360px;
-  height: auto;
-  border-radius: 6px;
+    width: 360px;
+    height: auto;
+    border-radius: 6px;
 }
 
 .mega-right ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: block;
-  background: #fff;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: block;
+    background: #fff;
 }
 .mega-right ul li {
-  padding: 5px 0;
-  display: block;
-  font-size: 14px;
-  cursor: pointer;
-  color: #003366;
+    padding: 5px 0;
+    display: block;
+    font-size: 14px;
+    cursor: pointer;
+    color: #003366;
 }
 
 /********************************************
   HEADER IMAGE SYNC (existing block)
 *********************************************/
 .header-image-wrapper {
-  width: 100%;
-  margin-top: -1px;
+    width: 100%;
+    margin-top: -1px;
 }
 
 .header-image-wrapper .header-image {
-  width: 100%;
-  display: none;
+    width: 100%;
+    display: none;
 }
 
 /********************************************
   MOBILE RESPONSIVE
 *********************************************/
 @media (max-width: 900px) {
+    #nav {
+        flex-wrap: wrap;
+    }
 
-  #nav {
-    flex-wrap: wrap;
-  }
+    .nav-hamburger {
+        display: block;
+    }
 
-  .nav-hamburger {
+    .nav-brand ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    #nav[aria-expanded="true"] .nav-brand + ul {
+        display: flex;
+    }
+
+    .nav-brand ul > li {
+        width: 100%;
+        padding: 12px 0;
+    }
+
+    .mega-wrapper {
+        position: static;
+        display: block !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        transform: none !important;
+        box-shadow: none;
+        grid-template-columns: 1fr;
+    }
+
+    .mega-right {
+        display: none;
+    }
+
+    .mega-left ul li:hover > ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: block !important;
+    }
+
+    .mega-wrapper ul > li:hover > ul,
+    .mega-wrapper ul > li:focus-within > ul {
+        display: grid;
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0px);
+        width: auto;
+        display: block !important;
+    }
+}
+
+/********************************************
+  HAMBURGER (MOBILE)
+*********************************************/
+.nav-hamburger {
+    display: none;
+}
+
+.nav-hamburger button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.nav-hamburger-icon {
+    width: 22px;
+    height: 2px;
+    background: #000;
     display: block;
-  }
+    position: relative;
+}
 
-  .nav-brand ul {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-  }
+.nav-hamburger-icon::before,
+.nav-hamburger-icon::after {
+    content: "";
+    width: 22px;
+    height: 2px;
+    background: #000;
+    position: absolute;
+    left: 0;
+}
 
-  #nav[aria-expanded="true"] .nav-brand + ul {
-    display: flex;
-  }
+.nav-hamburger-icon::before {
+    top: -6px;
+}
 
-  .nav-brand ul > li {
-    width: 100%;
-    padding: 12px 0;
-  }
-
-  .mega-wrapper {
-    position: static;
-    display: block !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-    transform: none !important;
-    box-shadow: none;
-    grid-template-columns: 1fr;
-  }
-
-  .mega-right {
-    display: none;
-  }
-
-  .mega-left ul li:hover > ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: block !important;
-  }
-
-  .mega-wrapper ul > li:hover > ul,
-  .mega-wrapper ul > li:focus-within > ul {
-    display: grid;
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateY(0px);
-    width: auto;
-    display: block !important;
-  }
+.nav-hamburger-icon::after {
+    top: 6px;
 }

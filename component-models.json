@@ -112,10 +112,6 @@
   {
     "id": "heroBanner",
     "fields": [
-      { "component": "richtext", "name": "text", "label": "Banner Text" },
-      { "component": "text", "name": "button", "label": "Banner Button" },
-      { "component": "reference", "name": "image", "label": "Banner Image" },
-      { "component": "text", "name": "imageAlt", "label": "Banner Image Alt" },
       { "component": "reference", "name": "video", "label": "Banner Video" }
     ]
   },
