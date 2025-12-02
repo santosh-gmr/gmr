@@ -1,5 +1,5 @@
 export default async function decorate(block) {
-  const resp = await fetch('/graphql/execute.json/GMR/news-list', {
+  const resp = await fetch('https://author-p168597-e1803019.adobeaemcloud.com/graphql/execute.json/GMR/news-list', {
     headers: { Accept: 'application/json' },
   });
 
@@ -19,3 +19,4 @@ export default async function decorate(block) {
     </div>
   `).join('');
 }
+
