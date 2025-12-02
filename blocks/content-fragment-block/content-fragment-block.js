@@ -1,27 +1,32 @@
+const NEWS_GQL = '/content/cq:graphql/genstudio/endpoint.json';
+
+const query = `
+  {
+    newsArticlesList {
+      items {
+        title
+        description
+        publishDate
+        thumbnailImage {
+          _path
+        }
+        ctaText
+        ctaLink
+      }
+    }
+  }
+`;
+
 export default async function decorate(block) {
-  const cfPath = block.dataset.cfpath;
+  const response = await fetch(NEWS_GQL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query }),
+  });
 
-  if (!cfPath) {
-    block.innerHTML = "<p>No Content Fragment selected.</p>";
-    return;
-  }
+  const { data } = await response.json();
 
-  try {
-    const response = await fetch(`${cfPath}.model.json`);
-    if (!response.ok) throw new Error("Failed to fetch CF");
+  console.log('NEWS DATA:', data);
 
-    const data = await response.json();
-
-    // Create HTML using CF fields
-    block.innerHTML = `
-      <div class="cf-card">
-        ${data.image? `<img src="${data.image._path}" alt="${data.title}">`: ""}
-        <h2>${data.title || ""}</h2>
-        <p>${data.description || ""}</p>
-        ${data.ctaLink? `<a class="cta" href="${data.ctaLink}">${data.ctaText || "Learn more"}</a>` : ""}
-      </div>
-    `;
-  } catch (error) {
-    block.innerHTML = `<p>Error loading content.</p>`;
-  }
+  // Build your UI here using data.newsArticlesList.items
 }
