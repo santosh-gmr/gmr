@@ -10,7 +10,6 @@
       "image",
       "button",
       "title",
-      "heroBanner",
       "cards",
       "columns",
       "fragment",
@@ -72,13 +71,5 @@
   {
     "id": "aviation-expertise",
     "components": ["aviation-item"]
-  },
-  {
-    "id": "heroBanner",
-    "components": ["banner"]
-  },
-  {
-    "id": "banner",
-    "components": ["text", "image", "button"]
   }
 ]

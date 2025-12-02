@@ -108,14 +108,6 @@
       { "component": "aem-content", "name": "reference", "label": "Reference" }
     ]
   },
-
-  {
-    "id": "heroBanner",
-    "fields": [
-      { "component": "reference", "name": "video", "label": "Banner Video" }
-    ]
-  },
-
   {
     "id": "footertopbar",
     "fields": [
