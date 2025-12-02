@@ -74,7 +74,7 @@
     "components": ["aviation-item"]
   },
   {
-    "id": "Businesses",
+    "id": "heroBanner",
     "components": ["text", "image", "button"]
   }
 ]
