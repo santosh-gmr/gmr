@@ -72,5 +72,9 @@
   {
     "id": "aviation-expertise",
     "components": ["aviation-item"]
+  },
+  {
+    "id": "Businesses",
+    "components": ["text", "image", "button"]
   }
 ]
