@@ -51,6 +51,10 @@
     "components": ["banner"]
   },
   {
+    "id": "banner",
+    "components": ["text", "image", "button"]
+  },
+  {
     "id": "footertopbars",
     "components": ["footertopbar", "groupwebsitelink"]
   },
