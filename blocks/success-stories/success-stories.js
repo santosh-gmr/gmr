@@ -14,7 +14,7 @@ export default async function decorate(block) {
     }
   `;
 
-  const endpoint = '/content/cq:graphql/GMR/endpoint.json';
+  const endpoint = '/content/cq:graphql/global/endpoint.json';
 
   // 1. Try POST first (only works on AUTHOR)
   let resp = await fetch(endpoint, {
@@ -57,3 +57,4 @@ export default async function decorate(block) {
     block.appendChild(div);
   });
 }
+
