@@ -1,32 +1,55 @@
-const NEWS_GQL = '/content/cq:graphql/genstudio/endpoint.json';
+export default async function decorate(block) {
 
-const query = `
-  {
-    newsArticlesList {
-      items {
-        title
-        description
-        publishDate
-        thumbnailImage {
-          _path
+  // your GraphQL query to fetch CF list
+  const query = `
+    query {
+      cardModelList {
+        items {
+          title
+          description
+          ctaText
+          ctaLink
+          image {
+            ... on ImageRef {
+              _path
+            }
+          }
         }
-        ctaText
-        ctaLink
       }
     }
-  }
-`;
+  `;
 
-export default async function decorate(block) {
-  const response = await fetch(NEWS_GQL, {
+  // Fetch from your GraphQL endpoint
+  const response = await fetch('/content/cq:graphql/genstudio/endpoint.json', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ query }),
+    headers: { 
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ query })
   });
 
   const { data } = await response.json();
 
-  console.log('NEWS DATA:', data);
+  if (!data || !data.cardModelList) {
+    block.innerHTML = "<p>No content found.</p>";
+    return;
+  }
 
-  // Build your UI here using data.newsArticlesList.items
+  const items = data.cardModelList.items;
+
+  // Build the HTML layout
+  block.innerHTML = `
+    <div class="cf-grid">
+      ${items
+        .map(item => `
+          <div class="cf-card">
+            ${item.image ? `<img src="${item.image._path}" alt="">` : ""}
+            <h3>${item.title}</h3>
+            <p>${item.description}</p>
+            ${item.ctaLink ? `<a href="${item.ctaLink}" class="cta">${item.ctaText}</a>` : ""}
+          </div>
+        `)
+        .join("")}
+    </div>
+  `;
 }

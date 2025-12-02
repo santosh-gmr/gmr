@@ -84,6 +84,6 @@
   },
   {
     "id": "content-fragment-block",
-    "components": []
+    "components": ["content-fragment-block"]
   }
 ]

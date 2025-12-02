@@ -354,15 +354,7 @@
   },
   {
     "id": "content-fragment-block",
-    "fields": [
-      {
-        "component": "reference",
-        "name": "cfPath",
-        "valueType": "string",
-        "label": "Select Content Fragment",
-        "filter": "content"
-      }
-    ]
+    "fields": []
   },
   {
     "id": "aviation-item",
