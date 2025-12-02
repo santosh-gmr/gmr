@@ -10,8 +10,12 @@ export default async function decorate(block) {
   }
 
   const json = await resp.json();
+  const items = json?.data?.newsList?.items || [];
+
+  block.innerHTML = items.map(item => `
+    <div class="news-card">
+      <h3>${item.title}</h3>
+      <div>${item.description?.html || ''}</div>
+    </div>
+  `).join('');
 }
-
-
-
-
