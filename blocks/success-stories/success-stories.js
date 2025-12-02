@@ -10,7 +10,7 @@ export default async function decorate(block) {
   }
 
   const json = await resp.json();
-  const items = json?.data?.newsList?.items || [];
 }
+
 
 
