@@ -14,16 +14,15 @@ export default async function decorate(block) {
     }
   `;
 
-  const endpoint = '/content/cq:graphql/global/endpoint.json';
+  const endpoint = '/graphql/execute.json/GMR/news-list';
 
   // 1. Try POST first (only works on AUTHOR)
   let resp = await fetch(endpoint, {
-    method: 'POST',
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-    },
-    body: JSON.stringify({ query }),
+    }
   });
 
   // 2. If POST fails (PUBLISH/EDS), fallback to GET
@@ -57,4 +56,5 @@ export default async function decorate(block) {
     block.appendChild(div);
   });
 }
+
 
