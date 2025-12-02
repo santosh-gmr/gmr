@@ -16,6 +16,7 @@
       "footerlinks",
       "footertopbars",
       "footerbottoms",
+      "banners",
       "header",
       "nav-item",
       "header-img",
@@ -43,6 +44,10 @@
   {
     "id": "footerbottoms",
     "components": ["footerbottom"]
+  },
+  {
+    "id": "banners",
+    "components": ["banner"]
   },
   {
     "id": "footertopbars",
