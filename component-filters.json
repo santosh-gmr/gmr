@@ -76,5 +76,9 @@
   {
     "id": "heroBanner",
     "components": ["banner"]
+  },
+  {
+    "id": "banner",
+    "components": ["text", "image", "button"]
   }
 ]
