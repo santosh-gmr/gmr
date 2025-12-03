@@ -357,49 +357,6 @@
     "fields": []
   },
   {
-    "id": "info-section",
-    "fields": [
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "title",
-        "label": "Main Title"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "subtitle",
-        "label": "Subtitle"
-      },
-      {
-        "component": "textarea",
-        "valueType": "string",
-        "name": "description",
-        "label": "Description"
-      },
-      {
-        "component": "array",
-        "name": "stats",
-        "label": "Statistics Items",
-        "itemLabel": "Stat Item",
-        "fields": [
-          {
-            "component": "text",
-            "valueType": "string",
-            "name": "number",
-            "label": "Number"
-          },
-          {
-            "component": "text",
-            "valueType": "string",
-            "name": "label",
-            "label": "Label"
-          }
-        ]
-      }
-    ]
-  },
-  {
     "id": "aviation-item",
     "fields": [
       {

@@ -23,8 +23,8 @@
       "success-stories",
       "news-updates",
       "aviation-expertise",
-      "content-fragment-block",
-      "hero-info-block"
+      "content-fragment-block"
+      
     ]
   },
   {
@@ -86,9 +86,5 @@
   {
     "id": "content-fragment-block",
     "components": []
-  },
-  {
-    "id": "info-section",
-    "components": ["info-section"]
   }
 ]
