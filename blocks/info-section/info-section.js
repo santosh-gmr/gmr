@@ -1,32 +1,29 @@
 export default function decorate(block) {
-  const title = block.querySelector('h1, h2');
-  const desc = block.querySelector('p');
 
-  // Detect stats (if any)
-  const statsList = block.querySelectorAll('ul li');
-
-  const hasStats = statsList.length > 0;
-
-  let statsHTML = '';
-
-  if (hasStats) {
-    statsHTML = `
-      <div class="is-stats">
-        ${Array.from(statsList).map((item) => `
-          <div class="is-stat">
-            <div class="is-number">${item.querySelector('strong')?.innerText || ''}</div>
-            <div class="is-label">${item.querySelector('em')?.innerText || ''}</div>
-          </div>
-        `).join('')}
-      </div>
-    `;
-  }
+  const data = block.json;
 
   block.innerHTML = `
-    <div class="is-wrapper ${hasStats ? 'with-stats' : 'no-stats'}">
-       <div class="is-left">${title?.outerHTML || ''}</div>
-       <div class="is-right">${desc?.outerHTML || ''}</div>
+    <div class="info-wrapper">
+      <div class="info-left">
+        <h2 class="info-title">${data.title || ""}</h2>
+        <p class="info-subtitle">${data.subtitle || ""}</p>
+      </div>
+
+      <div class="info-right">
+        <p class="info-description">${data.description || ""}</p>
+      </div>
     </div>
-    ${statsHTML}
+
+    <div class="info-stats">
+      ${Array.isArray(data.stats)
+        ? data.stats.map(item => `
+          <div class="stat-item">
+            <h3 class="stat-number">${item.number}</h3>
+            <p class="stat-label">${item.label}</p>
+          </div>
+        `).join("")
+        : ""
+      }
+    </div>
   `;
 }

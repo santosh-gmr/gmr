@@ -87,9 +87,8 @@
     "id": "content-fragment-block",
     "components": []
   },
-
   {
-      "id": "info-section",
-      "components": ["info-section"]
-    }
+    "id": "info-section",
+    "components": ["info-section"]
+  }
 ]

@@ -360,20 +360,10 @@
     "id": "info-section",
     "fields": [
       {
-        "component": "select",
-        "valueType": "string",
-        "name": "layout",
-        "label": "Section Layout",
-        "options": [
-          { "value": "description", "label": "Description Layout" },
-          { "value": "stats", "label": "Statistics Layout" }
-        ]
-      },
-      {
         "component": "text",
         "valueType": "string",
         "name": "title",
-        "label": "Title"
+        "label": "Main Title"
       },
       {
         "component": "text",
@@ -397,13 +387,13 @@
             "component": "text",
             "valueType": "string",
             "name": "number",
-            "label": "Number (e.g., 6, 120M+)"
+            "label": "Number"
           },
           {
             "component": "text",
             "valueType": "string",
             "name": "label",
-            "label": "Label (e.g., Airports in operation)"
+            "label": "Label"
           }
         ]
       }
