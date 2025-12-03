@@ -357,56 +357,53 @@
     "fields": []
   },
   {
-    "models": [
+    "id": "info-section",
+    "fields": [
       {
-        "id": "hero-info-model",
+        "component": "select",
+        "valueType": "string",
+        "name": "layout",
+        "label": "Section Layout",
+        "options": [
+          { "value": "description", "label": "Description Layout" },
+          { "value": "stats", "label": "Statistics Layout" }
+        ]
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "title",
+        "label": "Title"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "subtitle",
+        "label": "Subtitle"
+      },
+      {
+        "component": "textarea",
+        "valueType": "string",
+        "name": "description",
+        "label": "Description"
+      },
+      {
+        "component": "array",
+        "name": "stats",
+        "label": "Statistics Items",
+        "itemLabel": "Stat Item",
         "fields": [
           {
-            "component": "select",
+            "component": "text",
             "valueType": "string",
-            "name": "layout",
-            "label": "Select Layout",
-            "options": [
-              { "label": "Statistics Layout", "value": "stats" },
-              { "label": "Description Layout", "value": "description" }
-            ]
+            "name": "number",
+            "label": "Number (e.g., 6, 120M+)"
           },
           {
             "component": "text",
             "valueType": "string",
-            "name": "title",
-            "label": "Title"
-          },
-          {
-            "component": "text",
-            "valueType": "string",
-            "name": "subtitle",
-            "label": "Subtitle"
-          },
-          {
-            "component": "richtext",
-            "valueType": "string",
-            "name": "description",
-            "label": "Description"
-          },
-          {
-            "component": "multifield",
-            "name": "stats",
-            "label": "Statistics List",
-            "fields": [
-              {
-                "component": "text",
-                "valueType": "string",
-                "name": "number",
-                "label": "Number"
-              },
-              {
-                "component": "text",
-                "valueType": "string",
-                "name": "label",
-                "label": "Label"
-              }
-            ]
+            "name": "label",
+            "label": "Label (e.g., Airports in operation)"
           }
         ]
       }

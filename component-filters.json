@@ -89,7 +89,7 @@
   },
 
   {
-    "id": "hero-info-block",
-    "components": ["hero-info-block"]
-  }
+      "id": "info-section",
+      "components": ["info-section"]
+    }
 ]
