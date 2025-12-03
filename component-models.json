@@ -357,6 +357,62 @@
     "fields": []
   },
   {
+    "models": [
+      {
+        "id": "hero-info-model",
+        "fields": [
+          {
+            "component": "select",
+            "valueType": "string",
+            "name": "layout",
+            "label": "Select Layout",
+            "options": [
+              { "label": "Statistics Layout", "value": "stats" },
+              { "label": "Description Layout", "value": "description" }
+            ]
+          },
+          {
+            "component": "text",
+            "valueType": "string",
+            "name": "title",
+            "label": "Title"
+          },
+          {
+            "component": "text",
+            "valueType": "string",
+            "name": "subtitle",
+            "label": "Subtitle"
+          },
+          {
+            "component": "richtext",
+            "valueType": "string",
+            "name": "description",
+            "label": "Description"
+          },
+          {
+            "component": "multifield",
+            "name": "stats",
+            "label": "Statistics List",
+            "fields": [
+              {
+                "component": "text",
+                "valueType": "string",
+                "name": "number",
+                "label": "Number"
+              },
+              {
+                "component": "text",
+                "valueType": "string",
+                "name": "label",
+                "label": "Label"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "aviation-item",
     "fields": [
       {

@@ -1,0 +1,58 @@
+/* Wrapper layout */
+.is-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 80px 40px;
+}
+
+/* Left heading styling */
+.is-left h1,
+.is-left h2 {
+  font-size: 52px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0;
+}
+
+/* Right description */
+.is-right {
+  font-size: 20px;
+  line-height: 1.7;
+}
+
+/* Stats Layout (Only visible when provided) */
+.with-stats + .is-stats {
+  margin-top: 40px;
+  padding-bottom: 60px;
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+}
+
+.is-stat {
+  text-align: center;
+}
+
+.is-number {
+  font-size: 48px;
+  font-weight: 700;
+  color: #00abc9;
+}
+
+.is-label {
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+/* Mobile responsive */
+@media (max-width: 900px) {
+  .is-wrapper {
+    grid-template-columns: 1fr;
+    padding: 40px 20px;
+    gap: 30px;
+  }
+}
