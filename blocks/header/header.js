@@ -161,7 +161,7 @@ export default async function decorate(block) {
     ? new URL(navMeta, window.location).pathname
     : "/en/nav";
   const isAero = window.location.pathname.startsWith("/aero-gmr/");
-  const navPath = isAero ? "/aero-gmr/en/nav" : navPathMain;
+  const navPath = isAero ? "/aero-gmr/nav" : navPathMain;
   const fragment = await loadFragment(navPath);
 
   // decorate nav DOM

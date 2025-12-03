@@ -11,8 +11,8 @@ export default async function decorate(block) {
   // const footerPath = footerMeta
   //   ? new URL(footerMeta, window.location).pathname
   //   : "/footer";
-  const isAero = window.location.pathname.startsWith('/aero/');
-  const footerPath = isAero ? '/aero/en/footer' : '/en/footer';
+  const isAero = window.location.pathname.startsWith('/aero-gmr/');
+  const footerPath = isAero ? '/aero-gmr/footer' : '/en/footer';
   const fragment = await loadFragment(footerPath);
 
   // decorate footer DOM
