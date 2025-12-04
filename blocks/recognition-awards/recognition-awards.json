@@ -1,5 +1,5 @@
 {
   "title": "Recognition Awards",
-  "description": "Awards section with title, description, images and captions.",
+  "description": "Awards section block",
   "resourceType": "gmr/components/recognition-awards"
 }
