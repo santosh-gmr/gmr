@@ -1,33 +1,67 @@
 {
-  "title": "Airport Overview",
-  "description": "Airport introduction section with title, description and statistics.",
-  "resourceType": "gmr/components/airport-overview",
-  "fields": [
+  "definitions": [
     {
-      "component": "text",
-      "name": "title",
-      "label": "Title"
-    },
+      "title": "Airport Overview",
+      "id": "airport-overview",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "Airport Overview",
+              "model": "airport-overview",
+              "filter": "airport-overview"
+            }
+          }
+        }
+      }
+    }
+  ],
+
+  "models": [
     {
-      "component": "richtext",
-      "name": "description",
-      "label": "Description"
-    },
-    {
-      "component": "multifield",
-      "name": "stats",
-      "label": "Statistics",
+      "id": "airport-overview",
       "fields": [
         {
           "component": "text",
-          "name": "value",
-          "label": "Value"
+          "valueType": "string",
+          "name": "title",
+          "label": "Title"
         },
         {
-          "component": "text",
-          "name": "label",
-          "label": "Label"
+          "component": "richtext",
+          "valueType": "string",
+          "name": "description",
+          "label": "Description"
+        },
+        {
+          "component": "multifield",
+          "name": "stats",
+          "label": "Statistics",
+          "fields": [
+            {
+              "component": "text",
+              "valueType": "string",
+              "name": "value",
+              "label": "Value"
+            },
+            {
+              "component": "text",
+              "valueType": "string",
+              "name": "label",
+              "label": "Label"
+            }
+          ]
         }
+      ]
+    }
+  ],
+
+  "filters": [
+    {
+      "id": "airport-overview",
+      "components": [
+        "airport-overview"
       ]
     }
   ]
