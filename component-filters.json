@@ -16,7 +16,7 @@
       "footerlinks",
       "footertopbars",
       "footerbottoms",
-      "banners",
+      "hero-banner",
       "header",
       "nav-item",
       "header-img",
@@ -25,7 +25,8 @@
       "aviation-expertise",
       "content-fragment-block"
     ]
-  },
+  }
+,
   {
     "id": "cards",
     "components": ["card"]
