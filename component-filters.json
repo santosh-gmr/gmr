@@ -24,7 +24,8 @@
       "news-updates",
       "aviation-expertise",
       "content-fragment-block",
-      "airport-overview"
+      "airport-overview",
+      "recognition-awards"
     ]
   },
   {
@@ -89,6 +90,10 @@
   },
   {
     "id": "airport-overview",
+    "components": []
+  },
+  {
+    "id": "recognition-awards",
     "components": []
   }
 ]
