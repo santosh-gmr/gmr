@@ -289,15 +289,34 @@ export default async function decorate(block) {
 
             const level2Li = level3Ul.closest("li");
 
-            const level2Text =
-              level2Li
-                ?.querySelector(":scope > p, :scope > a, :scope > span")
-                ?.textContent.trim() || "";
+            const el2 = level2Li.querySelector(":scope > p, :scope > a, :scope > span");
+            let level2Text = "";
 
-            const level1Text =
-              level1
-                .querySelector(":scope > p, :scope > a, :scope > span")
-                ?.textContent.trim() || "";
+            if (el2) {
+              // first check if <a> exists inside el
+              const link2 = el2.querySelector("a");
+
+              if (link2) {
+                level2Text = link2.outerHTML;
+              } else {
+                level2Text = el2.textContent.trim();
+              }
+            }
+
+
+            const el = level1.querySelector(":scope > p, :scope > a, :scope > span");
+            let level1Text = "";
+
+            if (el) {
+              // first check if <a> exists inside el
+              const link = el.querySelector("a");
+
+              if (link) {
+                level1Text = link.outerHTML;
+              } else {
+                level1Text = el.textContent.trim();
+              }
+            }
 
             const thirdMenu = document.createElement("div");
             thirdMenu.classList.add("thirdMenu");
@@ -309,14 +328,14 @@ export default async function decorate(block) {
             if (level1Text) {
               const l1 = document.createElement("div");
               l1.classList.add("thirdMenu-level1");
-              l1.textContent = level1Text;
+              l1.innerHTML = level1Text;
               headingWrapper.append(l1);
             }
 
             if (level2Text) {
               const l2 = document.createElement("div");
               l2.classList.add("thirdMenu-level2");
-              l2.textContent = level2Text;
+              l2.innerHTML = level2Text;
               headingWrapper.append(l2);
             }
 
