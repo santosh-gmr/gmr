@@ -23,8 +23,8 @@
       "success-stories",
       "news-updates",
       "aviation-expertise",
-      "content-fragment-block"
-      
+      "content-fragment-block",
+      "airport-overview"
     ]
   },
   {
@@ -85,6 +85,10 @@
   },
   {
     "id": "content-fragment-block",
+    "components": []
+  },
+  {
+    "id": "airport-overview",
     "components": []
   }
 ]
