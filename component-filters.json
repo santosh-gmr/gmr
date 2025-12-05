@@ -94,7 +94,7 @@
   },
   {
     "id": "airport-overview",
-    "components": []
+    "components": ["airport-overview-item"]
   },
   {
     "id": "recognition-awards",

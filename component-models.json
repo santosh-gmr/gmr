@@ -386,32 +386,72 @@
         "component": "text",
         "valueType": "string",
         "name": "title",
-        "label": "Title"
+        "label": "Section Title"
       },
       {
         "component": "richtext",
         "valueType": "string",
         "name": "description",
-        "label": "Description"
+        "label": "Section Description"
+      },
+
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "tabs",
+        "multi": true,
+        "label": "Airport Tabs (ordered)",
+        "description": "Add airport names (one per entry) to render the top tab navigation e.g. Delhi Airport, Hyderabad Airport, Goa Airport..."
+      },
+
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "activeTab",
+        "label": "Active Tab",
+        "description": "Optional: set the active tab name or index. Leave blank to default to first."
+      },
+
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "selectorType",
+        "label": "Airport Type Selector",
+        "options": [
+          { "name": "Domestic", "value": "domestic" },
+          { "name": "International", "value": "international" }
+        ],
+        "value": "domestic",
+        "description": "Small selector usually placed at the right of the tab row."
+      },
+
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "selectorLabel",
+        "label": "Selector Label",
+        "value": "",
+        "description": "Optional label for the selector (e.g. 'Domestic')."
+      }
+    ]
+  },
+
+  {
+    "id": "airport-overview-item",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "statNumber",
+        "label": "Statistic Number",
+        "description": "e.g. 79M+, 150+, 4"
       },
       {
-        "component": "multifield",
-        "name": "stats",
-        "label": "Statistics",
-        "fields": [
-          {
-            "component": "text",
-            "valueType": "string",
-            "name": "value",
-            "label": "Value"
-          },
-          {
-            "component": "text",
-            "valueType": "string",
-            "name": "label",
-            "label": "Label"
-          }
-        ]
+        "component": "text",
+        "valueType": "string",
+        "name": "statLabel",
+        "label": "Statistic Label",
+        "description": "e.g. Passengers handled annually"
       }
     ]
   },

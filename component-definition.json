@@ -451,6 +451,21 @@
           }
         },
         {
+          "title": "Airport Overview Item",
+          "id": "airport-overview-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "Airport Overview Item",
+                  "model": "airport-overview-item"
+                }
+              }
+            }
+          }
+        },
+        {
           "title": "Awards Carousel",
           "id": "awards-carousel",
           "plugins": {
