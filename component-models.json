@@ -583,95 +583,63 @@
       {
         "component": "text",
         "valueType": "string",
+        "label": "Heading",
         "name": "heading",
-        "label": "Main Heading"
+        "multi": false
       },
       {
         "component": "text",
         "valueType": "string",
+        "label": "Subheading",
         "name": "subheading",
-        "label": "Sub Heading"
+        "multi": false
       },
       {
         "component": "text",
         "valueType": "string",
-        "name": "totalSlides",
-        "label": "Total Slides"
-      }
-    ]
-  },
-  {
-    "id": "hero-slide",
-    "fields": [
+        "label": "Description",
+        "name": "description",
+        "multi": false
+      },
       {
-        "component": "radio-group",
+        "component": "reference",
         "valueType": "string",
-        "name": "backgroundType",
-        "label": "Background Type",
-        "options": [
+        "label": "Background Video",
+        "name": "video",
+        "multi": false
+      },
+      {
+        "component": "image",
+        "valueType": "string",
+        "label": "Fallback Background Image",
+        "name": "image",
+        "multi": false
+      },
+      {
+        "component": "group",
+        "label": "Buttons",
+        "name": "buttons",
+        "multi": true,
+        "fields": [
           {
-            "label": "Image",
-            "value": "image"
+            "component": "text",
+            "valueType": "string",
+            "label": "Button Label",
+            "name": "label"
           },
           {
-            "label": "Video",
-            "value": "video"
+            "component": "text",
+            "valueType": "string",
+            "label": "Button Link",
+            "name": "link"
+          },
+          {
+            "component": "text",
+            "valueType": "string",
+            "label": "Button Style",
+            "name": "style"
           }
         ]
-      },
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "backgroundImage",
-        "label": "Background Image"
-      },
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "backgroundVideo",
-        "label": "Background Video"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "pretitle",
-        "label": "Pretitle"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "title",
-        "label": "Title"
-      },
-      {
-        "component": "textarea",
-        "valueType": "string",
-        "name": "description",
-        "label": "Description"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "button1Label",
-        "label": "Button 1 Label"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "button1Link",
-        "label": "Button 1 Link"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "button2Label",
-        "label": "Button 2 Label"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "button2Link",
-        "label": "Button 2 Link"
       }
     ]
   },
