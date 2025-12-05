@@ -103,18 +103,17 @@
   },
   {
     "id": "hero-banner",
+    "components": []
+  },
+  {
+    "id": "hero-carousel",
     "components": [
       "hero-slide"
     ]
   },
   {
     "id": "hero-slide",
-    "components": [
-      "text",
-      "textarea",
-      "reference",
-      "radio-group"
-    ]
+    "components": []
   },
   {
     "id": "news-updates",

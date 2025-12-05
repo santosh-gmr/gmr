@@ -593,10 +593,49 @@
         "label": "Sub Heading"
       },
       {
+        "component": "radio-group",
+        "valueType": "string",
+        "name": "backgroundType",
+        "label": "Background Type",
+        "options": [
+          {
+            "label": "Image",
+            "value": "image"
+          },
+          {
+            "label": "Video",
+            "value": "video"
+          }
+        ]
+      },
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "backgroundImage",
+        "label": "Background Image"
+      },
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "backgroundVideo",
+        "label": "Background Video"
+      },
+      {
         "component": "text",
         "valueType": "string",
         "name": "totalSlides",
         "label": "Total Slides"
+      }
+    ]
+  },
+  {
+    "id": "hero-carousel",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "carouselId",
+        "label": "Carousel ID"
       }
     ]
   },
@@ -630,6 +669,12 @@
         "valueType": "string",
         "name": "backgroundVideo",
         "label": "Background Video"
+      },
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "logo",
+        "label": "Slide Logo"
       },
       {
         "component": "text",
