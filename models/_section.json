@@ -56,7 +56,9 @@
         "columns",
         "fragment",
         "businesses-section",
-        "hero-banner"
+        "hero-banner",
+        "hero-slide",
+        "hero-carousel"
       ]
     }
   ]
