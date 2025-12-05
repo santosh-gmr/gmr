@@ -357,6 +357,29 @@
     "fields": []
   },
   {
+    "id": "committed-banner",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "title",
+        "label": "Banner Title"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "description",
+        "label": "Banner Description"
+      },
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Banner Image"
+      }
+    ]
+  },
+  {
     "id": "airport-overview",
     "fields": [
       {
