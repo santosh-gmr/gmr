@@ -28,7 +28,8 @@
       "recognition-awards",
       "awards-carousel",
       "experience-banner",
-      "experience-banner"
+      "experience-banner",
+      "passenger-experience"
     ]
   },
   {
@@ -110,5 +111,9 @@
   {
     "id": "experience-banner",
     "components": []
+  },
+  {
+    "id": "passenger-experience",
+    "components": ["experience-item"]
   }
 ]
