@@ -108,7 +108,7 @@
     ]
   },
   {
-    "id": "hero-carousel-items",
+    "id": "hero-carousel",
     "components": [
       "hero-slide"
     ]
