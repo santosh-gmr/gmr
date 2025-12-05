@@ -114,6 +114,9 @@
     ]
   },
   {
+    "id": "hero-slide"
+  },
+  {
     "id": "news-updates",
     "components": [
       "news-item"
