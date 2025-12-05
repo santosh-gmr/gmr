@@ -27,6 +27,7 @@
       "airport-overview",
       "recognition-awards",
       "awards-carousel",
+      "experience-banner",
       "experience-banner"
     ]
   },
@@ -101,6 +102,10 @@
   {
     "id": "awards-carousel",
     "components": ["award-item"]
+  },
+  {
+    "id": "experience-banner",
+    "components": []
   },
   {
     "id": "experience-banner",
