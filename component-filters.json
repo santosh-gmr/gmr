@@ -104,16 +104,16 @@
   {
     "id": "hero-banner",
     "components": [
-      "heroBanner"
+      "hero-slide"
     ]
   },
   {
-    "id": "heroBanner",
+    "id": "hero-slide",
     "components": [
       "text",
-      "image",
-      "button",
-      "reference"
+      "textarea",
+      "reference",
+      "radio-group"
     ]
   },
   {
