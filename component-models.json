@@ -382,19 +382,7 @@
   {
     "id": "airport-overview",
     "fields": [
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "title",
-        "label": "Section Title"
-      },
-      {
-        "component": "richtext",
-        "valueType": "string",
-        "name": "description",
-        "label": "Section Description"
-      },
-
+    
       {
         "component": "text",
         "valueType": "string",
@@ -439,6 +427,18 @@
   {
     "id": "airport-overview-item",
     "fields": [
+        {
+        "component": "text",
+        "valueType": "string",
+        "name": "title",
+        "label": "Section Title"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "description",
+        "label": "Section Description"
+      },
       {
         "component": "text",
         "valueType": "string",
