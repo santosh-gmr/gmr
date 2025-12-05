@@ -40,7 +40,7 @@
 
   "filters": [
     {
-      "id": "hero-carousel",
+      "id": "hero-carousel-items",
       "components": ["hero-slide"]
     }
   ]
