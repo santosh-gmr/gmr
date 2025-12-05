@@ -37,34 +37,36 @@
     {
       "id": "airport-overview",
       "fields": [
-        
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "title",
+          "label": "Section Title"
+        },
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "description",
+          "label": "Section Description"
+        },
+
         {
           "component": "text",
           "valueType": "string",
           "name": "tabs",
-          "multi": true,
           "label": "Airport Tabs",
           "description": "Add the airport names to appear at the top navigation (e.g. Delhi Airport, Hyderabad Airport, Goa Airport...)."
         },
-
-        {
-          "component": "text",
-          "valueType": "string",
-          "name": "activeTab",
-          "label": "Active Tab",
-          "description": "Enter the tab name that should be highlighted by default."
-        },
-
         {
           "component": "select",
           "valueType": "string",
           "name": "selectorType",
           "label": "Airport Type Selector",
           "options": [
-            { "name": "Domestic", "value": "domestic" },
-            { "name": "International", "value": "international" }
+            { "name": "Domestic", "value": "Domestic" },
+            { "name": "International", "value": "International" }
           ],
-          "value": "domestic"
+          "value": "Domestic"
         },
 
         {
@@ -80,18 +82,7 @@
     {
       "id": "airport-overview-item",
       "fields": [
-        {
-          "component": "text",
-          "valueType": "string",
-          "name": "title",
-          "label": "Section Title"
-        },
-        {
-          "component": "richtext",
-          "valueType": "string",
-          "name": "description",
-          "label": "Section Description"
-        },
+        
         {
           "component": "text",
           "valueType": "string",

@@ -382,12 +382,23 @@
   {
     "id": "airport-overview",
     "fields": [
-    
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "title",
+        "label": "Section Title"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "description",
+        "label": "Section Description"
+      },
+
       {
         "component": "text",
         "valueType": "string",
         "name": "tabs",
-        "multi": true,
         "label": "Airport Tabs (ordered)",
         "description": "Add airport names (one per entry) to render the top tab navigation e.g. Delhi Airport, Hyderabad Airport, Goa Airport..."
       },
@@ -427,18 +438,6 @@
   {
     "id": "airport-overview-item",
     "fields": [
-        {
-        "component": "text",
-        "valueType": "string",
-        "name": "title",
-        "label": "Section Title"
-      },
-      {
-        "component": "richtext",
-        "valueType": "string",
-        "name": "description",
-        "label": "Section Description"
-      },
       {
         "component": "text",
         "valueType": "string",
