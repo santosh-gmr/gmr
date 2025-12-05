@@ -15,6 +15,21 @@
           }
         }
       }
+    },
+    {
+      "title": "Hero Slide",
+      "id": "hero-slide",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "name": "Hero Slide",
+              "model": "hero-slide"
+            }
+          }
+        }
+      }
     }
   ],
 
@@ -32,6 +47,45 @@
           "component": "text",
           "name": "totalSlides",
           "label": "Total Slides",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "hero-slide",
+      "fields": [
+        {
+          "component": "radio-group",
+          "name": "backgroundType",
+          "label": "Background Type",
+          "valueType": "string",
+          "options": [
+            { "label": "Image", "value": "image" },
+            { "label": "Video", "value": "video" }
+          ]
+        },
+        {
+          "component": "reference",
+          "name": "backgroundImage",
+          "label": "Background Image",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "name": "backgroundVideo",
+          "label": "Background Video",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "name": "title",
+          "label": "Slide Title",
+          "valueType": "string"
+        },
+        {
+          "component": "textarea",
+          "name": "description",
+          "label": "Description",
           "valueType": "string"
         }
       ]
