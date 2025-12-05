@@ -59,10 +59,5 @@
     }
   ],
 
-  "filters": [
-    {
-      "id": "hero-carousel",
-      "components": ["hero-slide"]
-    }
-  ]
+  "filters": []
 }

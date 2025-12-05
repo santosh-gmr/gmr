@@ -116,12 +116,6 @@
     ]
   },
   {
-    "id": "hero-carousel",
-    "components": [
-      "hero-slide"
-    ]
-  },
-  {
     "id": "news-updates",
     "components": [
       "news-item"
