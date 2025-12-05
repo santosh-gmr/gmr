@@ -393,6 +393,43 @@
     ]
   },
   {
+    "id": "awards-carousel",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "title",
+        "label": "Section Title"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "description",
+        "label": "Section Description"
+      },
+      {
+        "component": "multi",
+        "name": "awards",
+        "label": "Awards List",
+        "valueType": "object",
+        "fields": [
+          {
+            "component": "reference",
+            "valueType": "string",
+            "name": "image",
+            "label": "Award Image"
+          },
+          {
+            "component": "richtext",
+            "valueType": "string",
+            "name": "text",
+            "label": "Award Description"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "recognition-awards",
     "fields": [
       {

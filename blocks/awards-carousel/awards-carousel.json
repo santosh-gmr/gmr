@@ -1,0 +1,35 @@
+{
+  "block": {
+    "name": "Awards Carousel",
+    "id": "awards-carousel"
+  },
+  "fields": [
+    {
+      "type": "text",
+      "name": "title",
+      "label": "Section Title"
+    },
+    {
+      "type": "richtext",
+      "name": "description",
+      "label": "Section Description"
+    },
+    {
+      "type": "multi",
+      "name": "awards",
+      "label": "Awards List",
+      "fields": [
+        {
+          "type": "reference",
+          "name": "image",
+          "label": "Award Image"
+        },
+        {
+          "type": "richtext",
+          "name": "text",
+          "label": "Award Description"
+        }
+      ]
+    }
+  ]
+}

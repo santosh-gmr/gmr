@@ -25,7 +25,8 @@
       "aviation-expertise",
       "content-fragment-block",
       "airport-overview",
-      "recognition-awards"
+      "recognition-awards",
+      "awards-carousel"
     ]
   },
   {
@@ -95,5 +96,9 @@
   {
     "id": "recognition-awards",
     "components": []
+  },
+  {
+    "id": "awards-carousel",
+    "components": ["awards-carousel"]
   }
 ]
