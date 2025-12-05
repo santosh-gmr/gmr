@@ -6,7 +6,7 @@
       "plugins": {
         "xwalk": {
           "page": {
-            "resourceType": "core/franklin/components/block/v1/block",
+            "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "name": "Hero Slide",
               "model": "hero-slide"
@@ -23,9 +23,9 @@
       "fields": [
         {
           "component": "radio-group",
-          "valueType": "string",
           "name": "backgroundType",
           "label": "Background Type",
+          "valueType": "string",
           "options": [
             { "label": "Image", "value": "image" },
             { "label": "Video", "value": "video" }
@@ -33,72 +33,31 @@
         },
         {
           "component": "reference",
-          "valueType": "string",
           "name": "backgroundImage",
-          "label": "Background Image"
+          "label": "Background Image",
+          "valueType": "string"
         },
         {
           "component": "reference",
-          "valueType": "string",
           "name": "backgroundVideo",
-          "label": "Background Video"
-        },
-        {
-          "component": "reference",
-          "valueType": "string",
-          "name": "logo",
-          "label": "Slide Logo"
+          "label": "Background Video",
+          "valueType": "string"
         },
         {
           "component": "text",
-          "valueType": "string",
-          "name": "pretitle",
-          "label": "Pretitle"
-        },
-        {
-          "component": "text",
-          "valueType": "string",
           "name": "title",
-          "label": "Title"
+          "label": "Slide Title",
+          "valueType": "string"
         },
         {
           "component": "textarea",
-          "valueType": "string",
           "name": "description",
-          "label": "Description"
-        },
-        {
-          "component": "text",
-          "valueType": "string",
-          "name": "button1Label",
-          "label": "Button 1 Label"
-        },
-        {
-          "component": "text",
-          "valueType": "string",
-          "name": "button1Link",
-          "label": "Button 1 Link"
-        },
-        {
-          "component": "text",
-          "valueType": "string",
-          "name": "button2Label",
-          "label": "Button 2 Label"
-        },
-        {
-          "component": "text",
-          "valueType": "string",
-          "name": "button2Link",
-          "label": "Button 2 Link"
+          "label": "Description",
+          "valueType": "string"
         }
       ]
     }
   ],
 
-  "filters": [
-    {
-      "id": "hero-slide",
-      "components": []
-    }
-  ]
+  "filters": []
 }

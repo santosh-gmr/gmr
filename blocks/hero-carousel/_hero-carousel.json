@@ -24,9 +24,15 @@
       "fields": [
         {
           "component": "text",
-          "valueType": "string",
-          "name": "carouselId",
-          "label": "Carousel ID"
+          "name": "carouselTitle",
+          "label": "Carousel Title",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "name": "totalSlides",
+          "label": "Total Slides",
+          "valueType": "string"
         }
       ]
     }

@@ -104,18 +104,10 @@
     ]
   },
   {
-    "id": "hero-banner",
-    "components": []
-  },
-  {
     "id": "hero-carousel",
     "components": [
       "hero-slide"
     ]
-  },
-  {
-    "id": "hero-slide",
-    "components": []
   },
   {
     "id": "news-updates",
