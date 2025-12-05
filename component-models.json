@@ -408,7 +408,7 @@
         "label": "Section Description"
       },
       {
-        "component": "multi",
+        "component": "multifield",
         "name": "awards",
         "label": "Awards List",
         "valueType": "object",
