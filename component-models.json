@@ -398,34 +398,31 @@
       {
         "component": "text",
         "valueType": "string",
-        "name": "title",
+        "name": "sectionTitle",
         "label": "Section Title"
       },
       {
         "component": "richtext",
         "valueType": "string",
-        "name": "description",
+        "name": "sectionDescription",
         "label": "Section Description"
+      }
+    ]
+  },
+  {
+    "id": "award-item",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Award Image"
       },
       {
-        "component": "multifield",
-        "name": "awards",
-        "label": "Awards List",
-        "valueType": "object",
-        "fields": [
-          {
-            "component": "reference",
-            "valueType": "string",
-            "name": "image",
-            "label": "Award Image"
-          },
-          {
-            "component": "richtext",
-            "valueType": "string",
-            "name": "text",
-            "label": "Award Description"
-          }
-        ]
+        "component": "richtext",
+        "valueType": "string",
+        "name": "description",
+        "label": "Award Description"
       }
     ]
   },

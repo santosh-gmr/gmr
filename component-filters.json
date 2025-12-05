@@ -99,6 +99,6 @@
   },
   {
     "id": "awards-carousel",
-    "components": ["awards-carousel"]
+    "components": ["award-item"]
   }
 ]

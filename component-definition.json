@@ -467,6 +467,21 @@
           }
         },
         {
+          "title": "Award Item",
+          "id": "award-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "Award Item",
+                  "model": "award-item"
+                }
+              }
+            }
+          }
+        },
+        {
           "title": "Recognition Awards",
           "id": "recognition-awards",
           "plugins": {
