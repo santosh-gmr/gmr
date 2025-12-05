@@ -104,6 +104,12 @@
     ]
   },
   {
+    "id": "hero-banner",
+    "components": [
+      "hero-carousel"
+    ]
+  },
+  {
     "id": "hero-carousel",
     "components": [
       "hero-slide"
