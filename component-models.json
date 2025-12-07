@@ -657,46 +657,49 @@
     ]
   },
   {
-    "id": "hero-slide",
+    "id": "hero-banner-items",
     "fields": [
       {
-        "component": "radio-group",
-        "name": "backgroundType",
-        "label": "Background Type",
-        "valueType": "string",
-        "options": [
-          {
-            "label": "Image",
-            "value": "image"
-          },
-          {
-            "label": "Video",
-            "value": "video"
-          }
-        ]
+        "component": "text",
+        "name": "title",
+        "label": "Title",
+        "valueType": "string"
       },
       {
-        "component": "reference",
-        "name": "backgroundImage",
-        "label": "Background Image",
+        "component": "richtext",
+        "name": "description",
+        "label": "Description",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "name": "backgroundVideo",
-        "label": "Background Video",
+        "name": "background-image",
+        "label": "Background Image",
+        "valueType": "string",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "name": "know-more-label",
+        "label": "Know More Label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "name": "know-more-link",
+        "label": "Know More Link URL",
         "valueType": "string"
       },
       {
         "component": "text",
-        "name": "title",
-        "label": "Slide Title",
+        "name": "watch-video-label",
+        "label": "Watch Video Label",
         "valueType": "string"
       },
       {
-        "component": "textarea",
-        "name": "description",
-        "label": "Description",
+        "component": "aem-content",
+        "name": "watch-video-link",
+        "label": "Watch Video Link URL",
         "valueType": "string"
       }
     ]

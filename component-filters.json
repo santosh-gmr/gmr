@@ -114,7 +114,10 @@
     ]
   },
   {
-    "id": "hero-slide"
+    "id": "hero-banner",
+    "components": [
+      "hero-banner-items"
+    ]
   },
   {
     "id": "news-updates",
