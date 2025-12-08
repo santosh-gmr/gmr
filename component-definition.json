@@ -176,7 +176,7 @@
           }
         },
         {
-          "title": "Businesses Section",
+          "title": "BusinessesSection",
           "id": "businesses-section",
           "plugins": {
             "xwalk": {
