@@ -1,244 +1,209 @@
 /**
- * Hero Banner Carousel - Universal Editor Compatible (robust link/label parsing)
- * @param {HTMLElement} block - The herobanner block element
+ * Robust Hero Banner decorator
+ * - includes slides that only contain anchors
+ * - uses anchor text for button labels (fallback friendly label if no text)
  */
 export default function decorate(block) {
-  // --- Authoring Prevention ---
+  // prevent double-init
   if (block.querySelector('.hero-carousel-wrapper')) return;
-
-  // Do not run in authoring placeholder mode
   if (block.querySelector('.aem-block-placeholder')) return;
 
-  // --- Extract & FILTER Slides ---
-  let slideElements = [...block.children].filter((slide) => {
-    const text = slide.innerText.trim();
-    const hasImage = slide.querySelector("img");
-    return text.length > 0 || hasImage;
+  // Collect slides: direct child divs (legacy); tolerant of empty nodes
+  const rawSlides = Array.from(block.querySelectorAll(':scope > div'));
+
+  // Keep slides that have at least one visible thing: text, image, or anchors
+  const slideElements = rawSlides.filter((slide) => {
+    const text = slide.textContent?.trim() || "";
+    const hasImage = !!slide.querySelector("img");
+    const hasAnchor = slide.querySelectorAll("a").length > 0;
+    return text.length > 0 || hasImage || hasAnchor;
   });
 
   if (slideElements.length === 0) return;
 
-  // --- Create structure ---
-  const carouselWrapper = document.createElement("div");
-  carouselWrapper.className = "hero-carousel-wrapper";
+  // create carousel elements
+  const wrapper = document.createElement('div');
+  wrapper.className = 'hero-carousel-wrapper';
 
-  const track = document.createElement("div");
-  track.className = "hero-carousel-track";
+  const track = document.createElement('div');
+  track.className = 'hero-carousel-track';
 
   slideElements.forEach((slide, index) => {
-    slide.className = "hero-slide";
-    slide.setAttribute("role", "group");
-    slide.setAttribute("aria-roledescription", "slide");
-    slide.setAttribute("aria-label", `${index + 1} of ${slideElements.length}`);
+    slide.className = 'hero-slide';
+    slide.setAttribute('role', 'group');
+    slide.setAttribute('aria-roledescription', 'slide');
+    slide.setAttribute('aria-label', `${index + 1} of ${slideElements.length}`);
 
-    // Collect direct children divs (legacy structure) but be tolerant
-    const parts = slide.querySelectorAll(":scope > div");
-    const title = parts[0]?.textContent?.trim() || "";
-    const description = parts[1]?.textContent?.trim() || "";
-    const imgElement = parts[2]?.querySelector("img");
-    const bgImg = imgElement?.src || "";
+    // read expected parts but be tolerant
+    const parts = slide.querySelectorAll(':scope > div');
+    const title = parts[0]?.textContent?.trim() || '';
+    const description = parts[1]?.textContent?.trim() || '';
+    const imgEl = (parts[2] && parts[2].querySelector('img')) || slide.querySelector('img');
+    const bgImg = imgEl?.src || '';
 
-    // Robust parsing for labels and links:
-    //  - Look for anchors anywhere inside the slide (preserve author order)
-    //  - Fall back to nearby text nodes if anchors are absent
-    const anchors = Array.from(slide.querySelectorAll("a"));
-    let knowLabel = "Know More";
-    let knowLink = "#";
-    let watchLabel = "Watch Video";
-    let watchLink = "#";
+    // anchors handling - preserve author order
+    const anchors = Array.from(slide.querySelectorAll('a'));
+
+    // helper: friendly label if anchor has no text
+    const friendlyLabelFromHref = (href) => {
+      if (!href) return '';
+      try {
+        const u = new URL(href, location.origin);
+        // prefer pathname/final part or hostname
+        const last = u.pathname.split('/').filter(Boolean).pop();
+        return last ? decodeURIComponent(last.replace(/[-_]/g, ' ')) : u.hostname;
+      } catch (e) {
+        // fallback: strip protocol for short display
+        return href.replace(/^https?:\/\//, '').replace(/\/$/, '');
+      }
+    };
+
+    let knowLabel = 'Know More';
+    let knowLink = '#';
+    let watchLabel = 'Watch Video';
+    let watchLink = '#';
 
     if (anchors.length >= 2) {
-      // Two or more anchors: assume first is know, second is watch
-      knowLink = anchors[0].href || "#";
-      knowLabel = (anchors[0].textContent || knowLabel).trim() || knowLabel;
-      watchLink = anchors[1].href || "#";
-      watchLabel = (anchors[1].textContent || watchLabel).trim() || watchLabel;
+      const a1 = anchors[0];
+      const a2 = anchors[1];
+
+      knowLink = a1.href || '#';
+      knowLabel = (a1.textContent || '').trim() || friendlyLabelFromHref(knowLink) || knowLabel;
+
+      watchLink = a2.href || '#';
+      watchLabel = (a2.textContent || '').trim() || friendlyLabelFromHref(watchLink) || watchLabel;
     } else if (anchors.length === 1) {
       const a = anchors[0];
-      const txt = (a.textContent || "").toLowerCase();
-      // If anchor text looks like watch/watch video, map to watch; else know
-      if (txt.includes("watch")) {
-        watchLink = a.href || "#";
-        watchLabel = (a.textContent || watchLabel).trim() || watchLabel;
-      } else {
-        knowLink = a.href || "#";
-        knowLabel = (a.textContent || knowLabel).trim() || knowLabel;
-      }
-      // Try to extract the other label from parts (if present)
-      // authors sometimes place labels in sibling divs without anchors
-      const maybeKnow = parts[3]?.textContent?.trim();
-      const maybeWatch = parts[5]?.textContent?.trim();
-      if (!knowLabel || knowLabel === "") {
+      const txt = (a.textContent || '').trim().toLowerCase();
+      const href = a.href || '#';
+
+      if (txt.includes('watch')) {
+        watchLink = href;
+        watchLabel = (a.textContent || '').trim() || friendlyLabelFromHref(href) || watchLabel;
+        // try to find know label in nearby text nodes or parts
+        const maybeKnow = parts[3]?.textContent?.trim() || '';
         if (maybeKnow) knowLabel = maybeKnow;
-      }
-      if (!watchLabel || watchLabel === "") {
+      } else {
+        knowLink = href;
+        knowLabel = (a.textContent || '').trim() || friendlyLabelFromHref(href) || knowLabel;
+        const maybeWatch = parts[5]?.textContent?.trim() || '';
         if (maybeWatch) watchLabel = maybeWatch;
       }
     } else {
-      // No anchors: attempt to read labels from parts positions (legacy)
+      // no anchors: try legacy parts mapping
       const maybeKnow = parts[3]?.textContent?.trim();
-      const maybeKnowHref = parts[4]?.querySelector("a")?.href;
+      const maybeKnowHref = parts[4]?.querySelector('a')?.href;
       const maybeWatch = parts[5]?.textContent?.trim();
-      const maybeWatchHref = parts[6]?.querySelector("a")?.href;
+      const maybeWatchHref = parts[6]?.querySelector('a')?.href;
 
       if (maybeKnow) knowLabel = maybeKnow;
       if (maybeKnowHref) knowLink = maybeKnowHref;
       if (maybeWatch) watchLabel = maybeWatch;
       if (maybeWatchHref) watchLink = maybeWatchHref;
-      // Leave # fallback if nothing found
     }
 
-    // Ensure primary (Know More) is rendered first so styling/order stays consistent
-    slide.style.backgroundImage = `url('${bgImg}')`;
+    // ensure we use text content for labels (important): do not insert raw href text
+    const safeKnowLabel = escapeHtml(knowLabel);
+    const safeWatchLabel = escapeHtml(watchLabel);
+
+    // render slide preserving Know More first
+    slide.style.backgroundImage = bgImg ? `url('${bgImg}')` : '';
     slide.innerHTML = `
       <div class="hero-slide-content">
-        <h2 class="hero-title">${title}</h2>
-        <p class="hero-description">${description}</p>
+        ${title ? `<h2 class="hero-title">${escapeHtml(title)}</h2>` : ''}
+        ${description ? `<p class="hero-description">${escapeHtml(description)}</p>` : ''}
         <div class="hero-cta-group">
-          <a href="${knowLink}" class="hero-btn primary">${knowLabel}</a>
-          <a href="${watchLink}" class="hero-btn secondary">${watchLabel}</a>
+          <a href="${escapeAttr(knowLink)}" class="hero-btn primary" data-link-type="know">${safeKnowLabel}</a>
+          <a href="${escapeAttr(watchLink)}" class="hero-btn secondary" data-link-type="watch">${safeWatchLabel}</a>
         </div>
       </div>
     `;
-
     track.appendChild(slide);
   });
 
-  carouselWrapper.appendChild(track);
+  wrapper.appendChild(track);
 
-  // --- Controls ---
-  const controls = document.createElement("div");
-  controls.className = "hero-controls";
-  controls.setAttribute("role", "group");
-  controls.setAttribute("aria-label", "Carousel controls");
-
+  // controls (same as before)
+  const controls = document.createElement('div');
+  controls.className = 'hero-controls';
+  controls.setAttribute('role', 'group');
+  controls.setAttribute('aria-label', 'Carousel controls');
   controls.innerHTML = `
     <button class="hero-prev" aria-label="Previous slide" type="button">←</button>
-    <div class="hero-pagination" aria-live="polite" aria-atomic="true">
-      01 / ${String(slideElements.length).padStart(2, "0")}
-    </div>
+    <div class="hero-pagination" aria-live="polite" aria-atomic="true">01 / ${String(slideElements.length).padStart(2, '0')}</div>
     <button class="hero-next" aria-label="Next slide" type="button">→</button>
   `;
-  carouselWrapper.appendChild(controls);
+  wrapper.appendChild(controls);
 
-  block.innerHTML = "";
-  block.appendChild(carouselWrapper);
+  // replace block contents
+  block.innerHTML = '';
+  block.appendChild(wrapper);
 
-  // --- Carousel Logic ---
+  // carousel behavior (same basic implementation)
   let currentSlide = 0;
   let autoplayInterval = null;
 
   function updateCarousel() {
     track.style.transform = `translateX(-${currentSlide * 100}%)`;
-    const pagination = controls.querySelector(".hero-pagination");
+    const pagination = controls.querySelector('.hero-pagination');
     if (pagination) {
-      pagination.textContent =
-        `${String(currentSlide + 1).padStart(2, "0")} / ${String(
-          slideElements.length
-        ).padStart(2, "0")}`;
+      pagination.textContent = `${String(currentSlide + 1).padStart(2, '0')} / ${String(slideElements.length).padStart(2, '0')}`;
     }
-
-    track.querySelectorAll(".hero-slide").forEach((slide, index) => {
-      slide.setAttribute("aria-hidden", String(index !== currentSlide));
+    track.querySelectorAll('.hero-slide').forEach((s, i) => {
+      s.setAttribute('aria-hidden', String(i !== currentSlide));
     });
   }
 
   function prevSlide() {
-    currentSlide =
-      currentSlide === 0 ? slideElements.length - 1 : currentSlide - 1;
+    currentSlide = currentSlide === 0 ? slideElements.length - 1 : currentSlide - 1;
     updateCarousel();
   }
 
   function nextSlide() {
-    currentSlide =
-      currentSlide === slideElements.length - 1 ? 0 : currentSlide + 1;
+    currentSlide = currentSlide === slideElements.length - 1 ? 0 : currentSlide + 1;
     updateCarousel();
   }
 
-  function stopAutoplay() {
-    if (autoplayInterval) {
-      clearInterval(autoplayInterval);
-      autoplayInterval = null;
-    }
-  }
+  function stopAutoplay(){ if (autoplayInterval) { clearInterval(autoplayInterval); autoplayInterval = null; } }
+  function startAutoplay(){ stopAutoplay(); autoplayInterval = setInterval(nextSlide, 5000); }
 
-  function startAutoplay() {
-    stopAutoplay();
-    autoplayInterval = setInterval(nextSlide, 5000);
-  }
+  controls.querySelector('.hero-prev')?.addEventListener('click', () => { prevSlide(); stopAutoplay(); });
+  controls.querySelector('.hero-next')?.addEventListener('click', () => { nextSlide(); stopAutoplay(); });
 
-  const prevButton = controls.querySelector(".hero-prev");
-  const nextButton = controls.querySelector(".hero-next");
-
-  prevButton?.addEventListener("click", () => {
-    prevSlide();
-    stopAutoplay();
+  wrapper.addEventListener('mouseenter', stopAutoplay);
+  wrapper.addEventListener('mouseleave', startAutoplay);
+  wrapper.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') { prevSlide(); stopAutoplay(); }
+    if (e.key === 'ArrowRight') { nextSlide(); stopAutoplay(); }
   });
 
-  nextButton?.addEventListener("click", () => {
-    nextSlide();
-    stopAutoplay();
-  });
-
-  carouselWrapper.addEventListener("mouseenter", stopAutoplay);
-  carouselWrapper.addEventListener("mouseleave", startAutoplay);
-
-  // --- Keyboard Navigation ---
-  carouselWrapper.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowLeft") {
-      prevSlide();
-      stopAutoplay();
-    } else if (e.key === "ArrowRight") {
-      nextSlide();
-      stopAutoplay();
-    }
-  });
-
-  // --- Touch Swipe ---
+  // touch support
   let touchStartX = 0;
-  let touchEndX = 0;
+  wrapper.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+  wrapper.addEventListener('touchend', (e) => {
+    const touchEndX = e.changedTouches[0].screenX;
+    const diff = touchStartX - touchEndX;
+    if (Math.abs(diff) > 50) { diff > 0 ? nextSlide() : prevSlide(); stopAutoplay(); }
+  }, { passive: true });
 
-  carouselWrapper.addEventListener(
-    "touchstart",
-    (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-    },
-    { passive: true }
-  );
-
-  carouselWrapper.addEventListener(
-    "touchend",
-    (e) => {
-      touchEndX = e.changedTouches[0].screenX;
-      const diff = touchStartX - touchEndX;
-
-      if (Math.abs(diff) > 50) {
-        diff > 0 ? nextSlide() : prevSlide();
-        stopAutoplay();
-      }
-    },
-    { passive: true }
-  );
-
-  // Initialize
   updateCarousel();
   startAutoplay();
 
-  // Cleanup observer
+  // cleanup observer (optional)
   if (block.parentElement) {
     const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        mutation.removedNodes.forEach((node) => {
-          if (node === block) {
-            stopAutoplay();
-            observer.disconnect();
-          }
-        });
-      });
+      mutations.forEach((m) => m.removedNodes.forEach((n) => { if (n === block) { stopAutoplay(); observer.disconnect(); } }));
     });
-    observer.observe(block.parentElement, {
-      childList: true,
-      subtree: true,
-    });
+    observer.observe(block.parentElement, { childList: true, subtree: true });
+  }
+
+  // --- helpers ---
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>"']/g, (m) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+  }
+  function escapeAttr(s) {
+    if (!s) return '#';
+    return s.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 }
