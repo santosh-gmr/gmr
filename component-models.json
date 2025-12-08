@@ -684,6 +684,18 @@
     ]
   },
   {
+    "id": "hero-banner",
+    "fields": [
+      {
+        "component": "text",
+        "name": "block-name",
+        "label": "Block Name",
+        "valueType": "string",
+        "comment": "Optional field to keep the model valid. You can ignore this."
+      }
+    ]
+  },
+  {
     "id": "hero-banner-items",
     "fields": [
       {
