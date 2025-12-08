@@ -1,27 +1,23 @@
 /**
- * Hero Banner Carousel - Universal Editor Compatible
+ * Hero Banner Carousel - Fixed & Improved Version (Dec 2025)
+ * Correctly maps all 8 columns including Background Video
  * @param {HTMLElement} block - The herobanner block element
  */
 export default function decorate(block) {
-  // --- Authoring Prevention ---
+  // --- Prevent double execution in Universal Editor ---
   if (block.querySelector('.hero-carousel-wrapper')) return;
-
-  // Do not run in authoring placeholder mode
   if (block.querySelector('.aem-block-placeholder')) return;
 
-  // --- Extract & FILTER Slides (IMPORTANT FIX) ---
-  let slideElements = [...block.children].filter((slide) => {
-    const text = slide.innerText.trim();
+  // --- Filter out empty/authoring rows ---
+  const slideElements = [...block.children].filter((slide) => {
+    const text = slide.textContent.trim();
     const hasImage = slide.querySelector("img");
-
-    // Keep slide only if it has content
     return text.length > 0 || hasImage;
   });
 
-  // If somehow nothing left, stop safely
   if (slideElements.length === 0) return;
 
-  // --- Create structure ---
+  // --- Create carousel structure ---
   const carouselWrapper = document.createElement("div");
   carouselWrapper.className = "hero-carousel-wrapper";
 
@@ -34,105 +30,110 @@ export default function decorate(block) {
     slide.setAttribute("aria-roledescription", "slide");
     slide.setAttribute("aria-label", `${index + 1} of ${slideElements.length}`);
 
-    const parts = slide.querySelectorAll(":scope > div");
-    const title = parts[0]?.textContent?.trim() || "";
-    const description = parts[1]?.textContent?.trim() || "";
-    const imgElement = parts[2]?.querySelector("img");
-    const bgImg = imgElement?.src || "";
-    const knowLabel = parts[3]?.textContent?.trim() || "Know More";
-    const knowLink = parts[4]?.querySelector("a")?.href || "#";
-    const watchLabel = parts[5]?.textContent?.trim() || "Watch Video";
-    const watchLink = parts[6]?.querySelector("a")?.href || "#";
+    // Get all direct div children (each represents a column)
+    const cols = slide.querySelectorAll(":scope > div");
 
-    slide.style.backgroundImage = `url('${bgImg}')`;
+    // Column mapping according to your _hero-banner.json
+    const title           = cols[0]?.textContent?.trim() || "";
+    const description     = cols[1]?.textContent?.trim() || "";
 
+    // Background Image (column 3)
+    const bgImage         = cols[2]?.querySelector("img")?.src || "";
+
+    // Background Video (column 4) - optional, we'll support it later if needed
+    const bgVideo         = cols[3]?.querySelector("video source")?.src
+      || cols[3]?.querySelector("a")?.href || "";
+
+    // CTAs - Correct indices
+    const knowMoreLabel   = cols[4]?.textContent?.trim() || "Know More";
+    const knowMoreLink    = cols[5]?.querySelector("a")?.href || "#";
+
+    const watchVideoLabel = cols[6]?.textContent?.trim() || "Watch Video";
+    const watchVideoLink  = cols[7]?.querySelector("a")?.href || "#";
+
+    // Set background (image first, video fallback can be added later)
+    if (bgImage) {
+      slide.style.backgroundImage = `url('${bgImage}')`;
+    }
+
+    // Build clean content
     slide.innerHTML = `
       <div class="hero-slide-content">
         <h2 class="hero-title">${title}</h2>
-        <p class="hero-description">${description}</p>
+        <div class="hero-description">${description}</div>
         <div class="hero-cta-group">
-          <a href="${knowLink}" class="hero-btn primary">${knowLabel}</a>
-          <a href="${watchLink}" class="hero-btn secondary">${watchLabel}</a>
+          <a href="${knowMoreLink}" class="hero-btn primary" aria-label="${knowMoreLabel}">${knowMoreLabel}</a>
+          <a href="${watchVideoLink}" class="hero-btn secondary" aria-label="${watchVideoLabel}">${watchVideoLabel}</a>
         </div>
       </div>
     `;
+
+    // Optional: If you want to support background video in the future, store the URL
+    if (bgVideo) {
+      slide.dataset.bgVideo = bgVideo;
+    }
 
     track.appendChild(slide);
   });
 
   carouselWrapper.appendChild(track);
 
-  // --- Controls ---
+  // --- Controls (Prev / Pagination / Next) ---
   const controls = document.createElement("div");
   controls.className = "hero-controls";
-  controls.setAttribute("role", "group");
-  controls.setAttribute("aria-label", "Carousel controls");
-
   controls.innerHTML = `
     <button class="hero-prev" aria-label="Previous slide" type="button">←</button>
-    <div class="hero-pagination" aria-live="polite" aria-atomic="true">
-      01 / ${String(slideElements.length).padStart(2, "0")}
-    </div>
+    <div class="hero-pagination" aria-live="polite">01 / ${String(slideElements.length).padStart(2, "0")}</div>
     <button class="hero-next" aria-label="Next slide" type="button">→</button>
   `;
   carouselWrapper.appendChild(controls);
 
-  // --- FIX: Clear block to avoid duplicates ---
-  block.innerHTML = "";
+  // --- Clear and append new structure ---
+  block.textContent = ""; // Safe clear
   block.appendChild(carouselWrapper);
 
   // --- Carousel Logic ---
   let currentSlide = 0;
   let autoplayInterval = null;
 
-  function updateCarousel() {
+  const updateCarousel = () => {
     track.style.transform = `translateX(-${currentSlide * 100}%)`;
     const pagination = controls.querySelector(".hero-pagination");
     if (pagination) {
-      pagination.textContent =
-        `${String(currentSlide + 1).padStart(2, "0")} / ${String(
-          slideElements.length
-        ).padStart(2, "0")}`;
+      pagination.textContent = `${String(currentSlide + 1).padStart(2, "0")} / ${String(slideElements.length).padStart(2, "0")}`;
     }
-
-    track.querySelectorAll(".hero-slide").forEach((slide, index) => {
-      slide.setAttribute("aria-hidden", String(index !== currentSlide));
+    track.querySelectorAll(".hero-slide").forEach((s, i) => {
+      s.setAttribute("aria-hidden", i !== currentSlide);
     });
-  }
+  };
 
-  function prevSlide() {
-    currentSlide =
-      currentSlide === 0 ? slideElements.length - 1 : currentSlide - 1;
+  const prevSlide = () => {
+    currentSlide = currentSlide === 0 ? slideElements.length - 1 : currentSlide - 1;
     updateCarousel();
-  }
+  };
 
-  function nextSlide() {
-    currentSlide =
-      currentSlide === slideElements.length - 1 ? 0 : currentSlide + 1;
+  const nextSlide = () => {
+    currentSlide = currentSlide === slideElements.length - 1 ? 0 : currentSlide + 1;
     updateCarousel();
-  }
+  };
 
-  function stopAutoplay() {
-    if (autoplayInterval) {
-      clearInterval(autoplayInterval);
-      autoplayInterval = null;
-    }
-  }
+  const stopAutoplay = () => {
+    if (autoplayInterval) clearInterval(autoplayInterval);
+    autoplayInterval = null;
+  };
 
-  function startAutoplay() {
+  const startAutoplay = () => {
     stopAutoplay();
     autoplayInterval = setInterval(nextSlide, 5000);
-  }
+  };
 
-  const prevButton = controls.querySelector(".hero-prev");
-  const nextButton = controls.querySelector(".hero-next");
-
-  prevButton?.addEventListener("click", () => {
+  // Event Listeners
+  controls.querySelector(".hero-prev").addEventListener("click", () => {
     prevSlide();
     stopAutoplay();
   });
 
-  nextButton?.addEventListener("click", () => {
+  controls.querySelector(".hero-next").addEventListener("click", () => {
     nextSlide();
     stopAutoplay();
   });
@@ -140,62 +141,42 @@ export default function decorate(block) {
   carouselWrapper.addEventListener("mouseenter", stopAutoplay);
   carouselWrapper.addEventListener("mouseleave", startAutoplay);
 
-  // --- Keyboard Navigation ---
+  // Keyboard support
+  carouselWrapper.tabIndex = 0; // Make focusable
   carouselWrapper.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowLeft") {
-      prevSlide();
-      stopAutoplay();
-    } else if (e.key === "ArrowRight") {
-      nextSlide();
-      stopAutoplay();
-    }
+    if (e.key === "ArrowLeft") prevSlide();
+    if (e.key === "ArrowRight") nextSlide();
+    if (e.key === " ") e.preventDefault(), nextSlide();
+    stopAutoplay();
   });
 
-  // --- Touch Swipe ---
+  // Touch swipe support
   let touchStartX = 0;
-  let touchEndX = 0;
+  carouselWrapper.addEventListener("touchstart", (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
 
-  carouselWrapper.addEventListener(
-    "touchstart",
-    (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-    },
-    { passive: true }
-  );
-
-  carouselWrapper.addEventListener(
-    "touchend",
-    (e) => {
-      touchEndX = e.changedTouches[0].screenX;
-      const diff = touchStartX - touchEndX;
-
-      if (Math.abs(diff) > 50) {
-        diff > 0 ? nextSlide() : prevSlide();
-        stopAutoplay();
-      }
-    },
-    { passive: true }
-  );
+  carouselWrapper.addEventListener("touchend", (e) => {
+    const touchEndX = e.changedTouches[0].screenX;
+    const diff = touchStartX - touchEndX;
+    if (Math.abs(diff) > 50) {
+      diff > 0 ? nextSlide() : prevSlide();
+      stopAutoplay();
+    }
+  }, { passive: true });
 
   // Initialize
   updateCarousel();
   startAutoplay();
 
-  // Cleanup
+  // Cleanup when block is removed (e.g., in editor)
   if (block.parentElement) {
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        mutation.removedNodes.forEach((node) => {
-          if (node === block) {
-            stopAutoplay();
-            observer.disconnect();
-          }
-        });
+    new MutationObserver((mutations) => {
+      mutations.forEach((m) => {
+        if ([...m.removedNodes].includes(block)) {
+          stopAutoplay();
+        }
       });
-    });
-    observer.observe(block.parentElement, {
-      childList: true,
-      subtree: true,
-    });
+    }).observe(block.parentElement, { childList: true });
   }
 }
