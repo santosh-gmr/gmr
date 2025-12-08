@@ -1,5 +1,5 @@
 /**
- * Robust Hero Banner decorator — improved anchor label extraction
+ * Hero Banner with robust anchor label extraction (checks nearby sibling text)
  */
 export default function decorate(block) {
   if (block.querySelector('.hero-carousel-wrapper')) return;
@@ -32,9 +32,68 @@ export default function decorate(block) {
     }
   }
 
-  function getAnchorLabel(a) {
+  // Walk previous/next siblings and parents in the slide to find human text near the anchor
+  function findNearbyLabel(a, slide) {
+    // 1) Check previous/next element siblings of the anchor
+    let el = a;
+    for (let i = 0; i < 6; i++) { // limit steps to avoid excessive walking
+      el = el.previousElementSibling;
+      if (!el) break;
+      if (el.matches && !el.matches('a')) {
+        const t = (el.textContent || '').trim();
+        if (t) return t;
+      }
+    }
+    el = a;
+    for (let i = 0; i < 6; i++) {
+      el = el.nextElementSibling;
+      if (!el) break;
+      if (el.matches && !el.matches('a')) {
+        const t = (el.textContent || '').trim();
+        if (t) return t;
+      }
+    }
+
+    // 2) Check the anchor's parent and nearby siblings of that parent
+    let p = a.parentElement;
+    let depth = 0;
+    while (p && p !== slide && depth < 4) {
+      // check previous siblings of parent
+      let s = p.previousElementSibling;
+      for (let i = 0; i < 6 && s; i++, s = s.previousElementSibling) {
+        if (!s.matches('a')) {
+          const t = (s.textContent || '').trim();
+          if (t) return t;
+        }
+      }
+      // check next siblings of parent
+      s = p.nextElementSibling;
+      for (let i = 0; i < 6 && s; i++, s = s.nextElementSibling) {
+        if (!s.matches('a')) {
+          const t = (s.textContent || '').trim();
+          if (t) return t;
+        }
+      }
+      p = p.parentElement;
+      depth++;
+    }
+
+    // 3) Try common selectors in the slide for small text blocks (title/label regions)
+    const candidateSelectors = ['.hero-cta-label','.cta-text','.cta-label','[data-cta]','[data-label]','div','span','p'];
+    for (const sel of candidateSelectors) {
+      const found = slide.querySelector(sel);
+      if (found) {
+        const t = (found.textContent || '').trim();
+        if (t) return t;
+      }
+    }
+
+    return '';
+  }
+
+  function getAnchorLabel(a, slide) {
     if (!a) return '';
-    // 1) Visible text
+    // 1) Visible text inside anchor
     const text = (a.textContent || '').trim();
     if (text) return text;
     // 2) aria-label
@@ -43,14 +102,30 @@ export default function decorate(block) {
     // 3) title attribute
     const title = a.title || '';
     if (title.trim()) return title.trim();
-    // 4) data-label / data-cta
-    const dataLabel = a.dataset?.label || a.dataset?.cta || '';
-    if (dataLabel.trim()) return dataLabel.trim();
-    // 5) image alt inside anchor (covers image-only anchors)
+    // 4) data- attributes (data-label, data-cta)
+    if (a.dataset) {
+      const dl = a.dataset.label || a.dataset.cta || a.dataset.ctalabel;
+      if (dl && dl.trim()) return dl.trim();
+    }
+    // 5) aria-labelledby -> referenced element text
+    const labelled = a.getAttribute && a.getAttribute('aria-labelledby');
+    if (labelled) {
+      const ref = document.getElementById(labelled);
+      if (ref) {
+        const rt = (ref.textContent || '').trim();
+        if (rt) return rt;
+      }
+    }
+    // 6) image alt inside anchor (image-only anchor)
     const img = a.querySelector && a.querySelector('img');
     const alt = img?.alt || '';
     if (alt.trim()) return alt.trim();
-    // 6) friendly fallback from href (not the full href)
+
+    // 7) Nearby sibling/parent slide text (this is the new important step)
+    const nearby = findNearbyLabel(a, slide);
+    if (nearby) return nearby;
+
+    // 8) Fallback: friendly label from href (short)
     return friendlyLabelFromHref(a.href || '');
   }
 
@@ -65,6 +140,7 @@ export default function decorate(block) {
     return String(s).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 
+  // Build slides
   slideElements.forEach((slide, index) => {
     slide.className = 'hero-slide';
     slide.setAttribute('role', 'group');
@@ -77,32 +153,33 @@ export default function decorate(block) {
     const possibleImg = (parts[2] && parts[2].querySelector('img')) || slide.querySelector('img');
     const bgImg = possibleImg?.src || '';
 
+    // Gather anchors preserving author order
     const anchors = Array.from(slide.querySelectorAll('a'));
 
+    // Default labels and links
     let knowLabel = 'Know More';
     let knowLink = '#';
     let watchLabel = 'Watch Video';
     let watchLink = '#';
 
     if (anchors.length >= 2) {
-      const a1 = anchors[0];
-      const a2 = anchors[1];
+      const a1 = anchors[0], a2 = anchors[1];
       knowLink = a1.href || '#';
       watchLink = a2.href || '#';
-      knowLabel = getAnchorLabel(a1) || knowLabel;
-      watchLabel = getAnchorLabel(a2) || watchLabel;
+      knowLabel = getAnchorLabel(a1, slide) || knowLabel;
+      watchLabel = getAnchorLabel(a2, slide) || watchLabel;
     } else if (anchors.length === 1) {
       const a = anchors[0];
       const txtLower = (a.textContent || '').trim().toLowerCase();
       const href = a.href || '#';
       if (txtLower.includes('watch')) {
         watchLink = href;
-        watchLabel = getAnchorLabel(a) || watchLabel;
+        watchLabel = getAnchorLabel(a, slide) || watchLabel;
         const maybeKnow = parts[3]?.textContent?.trim();
         if (maybeKnow) knowLabel = maybeKnow;
       } else {
         knowLink = href;
-        knowLabel = getAnchorLabel(a) || knowLabel;
+        knowLabel = getAnchorLabel(a, slide) || knowLabel;
         const maybeWatch = parts[5]?.textContent?.trim();
         if (maybeWatch) watchLabel = maybeWatch;
       }
@@ -134,7 +211,7 @@ export default function decorate(block) {
 
   carouselWrapper.appendChild(track);
 
-  // controls (same as previous)
+  // Controls (unchanged)
   const controls = document.createElement('div');
   controls.className = 'hero-controls';
   controls.setAttribute('role', 'group');
@@ -146,12 +223,14 @@ export default function decorate(block) {
   `;
   carouselWrapper.appendChild(controls);
 
+  // Replace block contents
   block.innerHTML = '';
   block.appendChild(carouselWrapper);
 
-  // carousel behavior (unchanged)
+  // Carousel behavior
   let currentSlide = 0;
   let autoplayInterval = null;
+
   function updateCarousel() {
     track.style.transform = `translateX(-${currentSlide * 100}%)`;
     const pagination = controls.querySelector('.hero-pagination');
@@ -183,6 +262,7 @@ export default function decorate(block) {
   updateCarousel();
   startAutoplay();
 
+  // cleanup observer
   if (block.parentElement) {
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((m) => m.removedNodes.forEach((n) => { if (n === block) { stopAutoplay(); observer.disconnect(); } } ));
