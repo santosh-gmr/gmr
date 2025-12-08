@@ -17,7 +17,8 @@
       "columns",
       "fragment",
       "businesses-section",
-      "hero-banner"
+      "hero-banner",
+      "businesstest"
     ]
   },
   {
@@ -45,9 +46,9 @@
     ]
   },
   {
-    "id": "businesses-section",
+    "id": "businesstest",
     "components": [
-      "business-item"
+      "businesstest-item"
     ]
   },
   {
