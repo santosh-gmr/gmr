@@ -684,6 +684,18 @@
     ]
   },
   {
+    "id": "hero-banner",
+    "fields": [
+      {
+        "component": "text",
+        "name": "blockName",
+        "label": "Block Name",
+        "valueType": "string",
+        "comment": "Internal field to make the parent a valid model"
+      }
+    ]
+  },
+  {
     "id": "hero-banner-items",
     "fields": [
       {
