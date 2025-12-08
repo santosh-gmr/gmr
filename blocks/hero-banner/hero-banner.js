@@ -1,7 +1,5 @@
 /**
- * Hero Banner Carousel - Fixed & Improved Version (Dec 2025)
- * Correctly maps all 8 columns including Background Video
- * @param {HTMLElement} block - The herobanner block element
+ * Hero Banner Carousel - Fixed & Improved Version (reviewed)
  */
 export default function decorate(block) {
   // --- Prevent double execution in Universal Editor ---
@@ -10,12 +8,32 @@ export default function decorate(block) {
 
   // --- Filter out empty/authoring rows ---
   const slideElements = [...block.children].filter((slide) => {
-    const text = slide.textContent.trim();
-    const hasImage = slide.querySelector("img");
-    return text.length > 0 || hasImage;
+    const text = (slide.textContent || '').trim();
+    const hasImage = !!slide.querySelector("img");
+    const hasAnchor = slide.querySelectorAll("a").length > 0; // keep anchor-only slides
+    return text.length > 0 || hasImage || hasAnchor;
   });
 
   if (slideElements.length === 0) return;
+
+  // --- helpers ---
+  function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str).replace(/[&<>"']/g, (m) =>
+      ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])
+    );
+  }
+
+  function friendlyLabelFromHref(href) {
+    if (!href) return '';
+    try {
+      const u = new URL(href, location.origin);
+      const last = u.pathname.split('/').filter(Boolean).pop();
+      return last ? decodeURIComponent(last.replace(/[-_]/g, ' ')) : u.hostname;
+    } catch (e) {
+      return href.replace(/^https?:\/\//, '').replace(/\/$/, '');
+    }
+  }
 
   // --- Create carousel structure ---
   const carouselWrapper = document.createElement("div");
@@ -34,44 +52,58 @@ export default function decorate(block) {
     const cols = slide.querySelectorAll(":scope > div");
 
     // Column mapping according to your _hero-banner.json
-    const title           = cols[0]?.textContent?.trim() || "";
-    const description     = cols[1]?.textContent?.trim() || "";
+    const title = cols[0]?.textContent?.trim() || "";
+    const description = cols[1]?.textContent?.trim() || "";
 
     // Background Image (column 3)
-    const bgImage         = cols[2]?.querySelector("img")?.src || "";
+    const bgImage = cols[2]?.querySelector("img")?.src || "";
 
-    // Background Video (column 4) - optional, we'll support it later if needed
-    const bgVideo         = cols[3]?.querySelector("video source")?.src
+    // Background Video (column 4) - optional
+    const bgVideo = cols[3]?.querySelector("video source")?.src
       || cols[3]?.querySelector("a")?.href || "";
 
-    // CTAs - Correct indices
-    const knowMoreLabel   = cols[4]?.textContent?.trim() || "Know More";
-    const knowMoreLink    = cols[5]?.querySelector("a")?.href || "#";
+    // CTAs - Correct indices (preserve your mapping)
+    const knowMoreLabelRaw = cols[4]?.textContent?.trim() || "";
+    const knowMoreLink = cols[5]?.querySelector("a")?.href || "#";
 
-    const watchVideoLabel = cols[6]?.textContent?.trim() || "Watch Video";
-    const watchVideoLink  = cols[7]?.querySelector("a")?.href || "#";
+    const watchVideoLabelRaw = cols[6]?.textContent?.trim() || "";
+    const watchVideoLink = cols[7]?.querySelector("a")?.href || "#";
 
-    // Set background (image first, video fallback can be added later)
+    // If label missing but anchor has text, prefer anchor text; otherwise friendly href-derived
+    const knowAnchor = cols[5]?.querySelector("a") || slide.querySelector("a");
+    const watchAnchor = cols[7]?.querySelector("a") || null;
+
+    const knowLabel = knowMoreLabelRaw
+      || (knowAnchor ? (knowAnchor.textContent || '').trim() : '')
+      || friendlyLabelFromHref(knowMoreLink)
+      || "Know More";
+
+    const watchLabel = watchVideoLabelRaw
+      || (watchAnchor ? (watchAnchor.textContent || '').trim() : '')
+      || friendlyLabelFromHref(watchVideoLink)
+      || "Watch Video";
+
+    // Set background (image first)
     if (bgImage) {
       slide.style.backgroundImage = `url('${bgImage}')`;
+    } else {
+      slide.style.backgroundImage = "";
     }
 
-    // Build clean content
+    // Build safe content using escaped values
     slide.innerHTML = `
       <div class="hero-slide-content">
-        <h2 class="hero-title">${title}</h2>
-        <div class="hero-description">${description}</div>
+        <h2 class="hero-title">${escapeHtml(title)}</h2>
+        <div class="hero-description">${escapeHtml(description)}</div>
         <div class="hero-cta-group">
-          <a href="${knowMoreLink}" class="hero-btn primary" aria-label="${knowMoreLabel}">${knowMoreLabel}</a>
-          <a href="${watchVideoLink}" class="hero-btn secondary" aria-label="${watchVideoLabel}">${watchVideoLabel}</a>
+          <a href="${escapeHtml(knowMoreLink)}" class="hero-btn primary" aria-label="${escapeHtml(knowLabel)}">${escapeHtml(knowLabel)}</a>
+          <a href="${escapeHtml(watchVideoLink)}" class="hero-btn secondary" aria-label="${escapeHtml(watchLabel)}">${escapeHtml(watchLabel)}</a>
         </div>
       </div>
     `;
 
-    // Optional: If you want to support background video in the future, store the URL
-    if (bgVideo) {
-      slide.dataset.bgVideo = bgVideo;
-    }
+    // Optional: store background video url
+    if (bgVideo) slide.dataset.bgVideo = bgVideo;
 
     track.appendChild(slide);
   });
@@ -103,7 +135,7 @@ export default function decorate(block) {
       pagination.textContent = `${String(currentSlide + 1).padStart(2, "0")} / ${String(slideElements.length).padStart(2, "0")}`;
     }
     track.querySelectorAll(".hero-slide").forEach((s, i) => {
-      s.setAttribute("aria-hidden", i !== currentSlide);
+      s.setAttribute("aria-hidden", i !== currentSlide ? "true" : "false");
     });
   };
 
@@ -127,26 +159,24 @@ export default function decorate(block) {
     autoplayInterval = setInterval(nextSlide, 5000);
   };
 
-  // Event Listeners
-  controls.querySelector(".hero-prev").addEventListener("click", () => {
-    prevSlide();
-    stopAutoplay();
-  });
-
-  controls.querySelector(".hero-next").addEventListener("click", () => {
-    nextSlide();
-    stopAutoplay();
-  });
+  // Guarded event binding (in case markup changes)
+  const prevBtn = controls.querySelector(".hero-prev");
+  const nextBtn = controls.querySelector(".hero-next");
+  if (prevBtn) prevBtn.addEventListener("click", () => { prevSlide(); stopAutoplay(); });
+  if (nextBtn) nextBtn.addEventListener("click", () => { nextSlide(); stopAutoplay(); });
 
   carouselWrapper.addEventListener("mouseenter", stopAutoplay);
   carouselWrapper.addEventListener("mouseleave", startAutoplay);
 
-  // Keyboard support
+  // Pause autoplay on focus for accessibility
   carouselWrapper.tabIndex = 0; // Make focusable
+  carouselWrapper.addEventListener("focusin", stopAutoplay);
+  carouselWrapper.addEventListener("focusout", startAutoplay);
+
   carouselWrapper.addEventListener("keydown", (e) => {
     if (e.key === "ArrowLeft") prevSlide();
     if (e.key === "ArrowRight") nextSlide();
-    if (e.key === " ") e.preventDefault(), nextSlide();
+    if (e.key === " ") { e.preventDefault(); nextSlide(); }
     stopAutoplay();
   });
 
