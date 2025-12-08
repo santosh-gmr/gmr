@@ -59,28 +59,55 @@ export default function decorate(block) {
   const imageContainer = document.createElement('div');
   imageContainer.className = 'business-image-container';
   
+  // Store all images for easy access
+  const allImages = [];
+  
   // Process each business item
   items.forEach((item, index) => {
     // Extract data from each item
-    const pictureElement = item.querySelector('[data-aue-prop="image"]');
+    const pictureElement = item.querySelector('[data-aue-prop="image"] picture');
     let imageSrc = '';
+    let imageAlt = '';
     
-    // Try different ways to get the image source
+    // Debug: Log the picture element
+    console.log('Picture element:', pictureElement);
+    
     if (pictureElement) {
-      // Check for img tag first
+      // First try to get img tag
       const imgElement = pictureElement.querySelector('img');
-      if (imgElement && imgElement.src) {
-        imageSrc = imgElement.src;
-      } else {
-        // Check for source tag
-        const sourceElement = pictureElement.querySelector('source');
-        if (sourceElement && sourceElement.srcset) {
-          imageSrc = sourceElement.srcset.split(' ')[0]; // Get first src from srcset
+      console.log('Img element found:', imgElement);
+      
+      if (imgElement) {
+        // Try src first, then data-src, then srcset
+        imageSrc = imgElement.src || imgElement.getAttribute('data-src') || '';
+        
+        // If still no src, try to parse srcset
+        if (!imageSrc && imgElement.srcset) {
+          const srcsetParts = imgElement.srcset.split(',');
+          if (srcsetParts.length > 0) {
+            // Get the first src from srcset (usually the smallest or default)
+            imageSrc = srcsetParts[0].trim().split(' ')[0];
+          }
         }
+        
+        imageAlt = imgElement.alt || '';
+      }
+      
+      // If still no image, try source elements
+      if (!imageSrc) {
+        const sourceElements = pictureElement.querySelectorAll('source');
+        sourceElements.forEach(source => {
+          if (source.srcset && !imageSrc) {
+            const srcsetParts = source.srcset.split(',');
+            if (srcsetParts.length > 0) {
+              imageSrc = srcsetParts[0].trim().split(' ')[0];
+            }
+          }
+        });
       }
     }
     
-    const imageAlt = pictureElement?.querySelector('img')?.alt || '';
+    console.log(`Extracted image ${index}:`, imageSrc);
     
     const title = item.querySelector('[data-aue-prop="title"]')?.textContent?.trim() || '';
     const description = item.querySelector('[data-aue-prop="description"]')?.innerHTML || '';
@@ -103,8 +130,28 @@ export default function decorate(block) {
       img.style.height = '100%';
       img.style.objectFit = 'cover';
       
+      // Add error handling
+      img.onerror = function() {
+        console.error(`Failed to load image: ${imageSrc}`);
+        // Try to use a fallback if available
+        if (pictureElement) {
+          const fallbackImg = pictureElement.querySelector('img');
+          if (fallbackImg && fallbackImg !== this) {
+            this.src = fallbackImg.src || '';
+          }
+        }
+      };
+      
       desktopImage.appendChild(img);
       imageContainer.appendChild(desktopImage);
+      
+      // Store for later use
+      allImages.push({
+        desktop: desktopImage,
+        src: imageSrc,
+        alt: imageAlt,
+        index: index
+      });
     }
 
     // Create Bootstrap accordion item
@@ -152,6 +199,12 @@ export default function decorate(block) {
       mobileImg.style.maxHeight = '300px';
       mobileImg.style.objectFit = 'cover';
       mobileImg.style.borderRadius = '8px';
+      
+      // Add error handling
+      mobileImg.onerror = function() {
+        console.error(`Failed to load mobile image: ${imageSrc}`);
+      };
+      
       mobileImage.appendChild(mobileImg);
     }
 
@@ -195,9 +248,15 @@ export default function decorate(block) {
   block.innerHTML = '';
   block.appendChild(wrapper);
 
+  // Log extracted images for debugging
+  console.log('All extracted images:', allImages);
+
   // Initialize accordion functionality
   initAccordionFunctionality(accordionContainer, imageContainer);
   setupResponsiveBehavior(imageContainer);
+
+  // Preload images for better UX
+  preloadImages(allImages);
 
   // Public API
   block.BusinessAccordion = {
@@ -217,6 +276,22 @@ export default function decorate(block) {
       return -1;
     }
   };
+}
+
+/**
+ * Preload images for better user experience
+ */
+function preloadImages(images) {
+  images.forEach(imgData => {
+    const img = new Image();
+    img.src = imgData.src;
+    img.onload = () => {
+      console.log(`Preloaded image: ${imgData.src}`);
+    };
+    img.onerror = () => {
+      console.error(`Failed to preload image: ${imgData.src}`);
+    };
+  });
 }
 
 /**
@@ -252,9 +327,16 @@ function initAccordionFunctionality(accordion, imageContainer) {
           }
         });
 
-        // Update desktop images
+        // Update desktop images with fade effect
         desktopImages.forEach((img, i) => {
-          img.classList.toggle('active', i === index);
+          const shouldBeActive = i === index;
+          if (shouldBeActive) {
+            img.classList.add('active');
+            img.style.opacity = '1';
+          } else {
+            img.classList.remove('active');
+            img.style.opacity = '0';
+          }
         });
 
         // Update mobile images visibility
