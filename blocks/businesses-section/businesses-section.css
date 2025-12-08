@@ -1,76 +1,11 @@
 /* business-accordion.css */
-/* Bootstrap Accordion Styles */
-.accordion {
-  width: 100%;
+/* Original content is hidden but preserved for AEM */
+.aem-original-content {
+  display: none !important;
 }
 
-.accordion-item {
-  background-color: transparent;
-  border: none;
-  border-bottom: 1px solid #dee2e6;
-}
-
-.accordion-button {
-  background-color: transparent;
-  border: none;
-  padding: 1.5rem 0;
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #212529;
-  text-align: left;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  transition: color 0.15s ease-in-out;
-}
-
-.accordion-button:hover {
-  color: #0056b3;
-}
-
-.accordion-button:not(.collapsed) {
-  color: #0056b3;
-  background-color: transparent;
-  box-shadow: none;
-}
-
-.accordion-button:focus {
-  border-color: #86b7fe;
-  outline: 0;
-  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-}
-
-.accordion-button::after {
-  display: none; /* Hide Bootstrap's default icon */
-}
-
-.accordion-button .accordion-icon {
-  font-size: 1.5rem;
-  font-weight: 400;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s ease-in-out;
-}
-
-.accordion-button:not(.collapsed) .accordion-icon {
-  transform: rotate(180deg);
-}
-
-.accordion-collapse {
-  transition: height 0.35s ease;
-}
-
-.accordion-body {
-  padding: 0 0 1.5rem 0;
-}
-
-/* Custom Businesses Accordion Styles */
-.business-accordion-wrapper {
+/* Enhanced accordion styles */
+.business-accordion-enhanced {
   max-width: 1200px;
   margin: 0 auto;
   padding: 4rem 1rem;
@@ -93,7 +28,7 @@
   font-size: 1.5rem;
   font-weight: 400;
   color: #666;
-  margin-top: 0.25rem;
+  margin-top: 0.5rem;
 }
 
 .intro-text {
@@ -104,27 +39,19 @@
   line-height: 1.6;
 }
 
-.business-accordion-container {
+/* Layout */
+.business-accordion-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
   align-items: start;
 }
 
-/* Business Image Preview */
-.business-image-preview {
+/* Image Column */
+.business-image-column {
   position: sticky;
   top: 2rem;
   height: 500px;
-}
-
-.business-image-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .desktop-business-image {
@@ -134,17 +61,22 @@
   width: 100%;
   height: 100%;
   opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-  z-index: 1;
+  transition: opacity 0.5s ease;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .desktop-business-image.active {
   opacity: 1;
-  visibility: visible;
   z-index: 2;
 }
 
+.desktop-business-image:not(.active) {
+  z-index: 1;
+}
+
+.desktop-business-image picture,
 .desktop-business-image img {
   width: 100%;
   height: 100%;
@@ -152,13 +84,97 @@
   display: block;
 }
 
-/* Business Content Styles */
-.business-title {
+/* Accordion Column */
+.business-accordion-column {
+  width: 100%;
+}
+
+/* Bootstrap Accordion Overrides */
+.accordion {
+  width: 100%;
+}
+
+.accordion-item {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.accordion-header {
+  margin: 0;
+  padding: 0;
+}
+
+.accordion-button {
+  background-color: transparent !important;
+  border: none !important;
+  padding: 1.5rem 0 !important;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #212529 !important;
+  text-align: left;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: color 0.15s ease-in-out;
+  position: relative;
+}
+
+.accordion-button:hover {
+  color: #0056b3 !important;
+}
+
+.accordion-button:not(.collapsed) {
+  color: #0056b3 !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.accordion-button:focus {
+  outline: 2px solid #007bff !important;
+  outline-offset: 2px;
+  border-radius: 4px;
+  box-shadow: none !important;
+}
+
+/* Hide Bootstrap's default icon */
+.accordion-button::after {
+  display: none !important;
+}
+
+.accordion-title {
   flex: 1;
   text-align: left;
   padding-right: 1rem;
 }
 
+.accordion-icon {
+  font-size: 1.5rem;
+  font-weight: 400;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+
+.accordion-button:not(.collapsed) .accordion-icon {
+  transform: rotate(180deg);
+}
+
+.accordion-collapse {
+  transition: height 0.35s ease;
+}
+
+.accordion-body {
+  padding: 0 0 1.5rem 0;
+}
+
+/* Content Styles */
 .business-description {
   font-size: 1rem;
   line-height: 1.7;
@@ -178,19 +194,18 @@
   margin-bottom: 1.5rem;
 }
 
-.business-cta .btn {
+.business-cta .btn-primary {
   padding: 0.75rem 1.875rem;
+  background: #007bff;
+  border-color: #007bff;
+  color: white;
   font-weight: 600;
   text-decoration: none;
   border-radius: 6px;
   transition: all 0.3s ease;
   display: inline-block;
-}
-
-.business-cta .btn-primary {
-  background: #007bff;
-  border-color: #007bff;
-  color: white;
+  border: none;
+  cursor: pointer;
 }
 
 .business-cta .btn-primary:hover {
@@ -200,7 +215,7 @@
   box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
 }
 
-/* Mobile Business Images */
+/* Mobile Images */
 .mobile-business-image {
   display: none;
   margin-top: 1.5rem;
@@ -209,6 +224,7 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
+.mobile-business-image picture,
 .mobile-business-image img {
   width: 100%;
   height: auto;
@@ -219,12 +235,12 @@
 
 /* Responsive Design */
 @media (max-width: 991px) {
-  .business-accordion-container {
+  .business-accordion-layout {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
   
-  .business-image-preview {
+  .business-image-column {
     display: none;
   }
   
@@ -241,13 +257,13 @@
   }
   
   .accordion-button {
-    padding: 1.25rem 0;
+    padding: 1.25rem 0 !important;
     font-size: 1.125rem;
   }
 }
 
 @media (max-width: 768px) {
-  .business-accordion-wrapper {
+  .business-accordion-enhanced {
     padding: 3rem 1rem;
   }
   
@@ -255,11 +271,16 @@
     margin-bottom: 2rem;
   }
   
+  .mobile-business-image {
+    margin-top: 1rem;
+  }
+  
+  .mobile-business-image picture,
   .mobile-business-image img {
     max-height: 250px;
   }
   
-  .business-cta .btn {
+  .business-cta .btn-primary {
     width: 100%;
     text-align: center;
     display: block;
@@ -272,7 +293,7 @@
   }
   
   .accordion-button {
-    padding: 1rem 0;
+    padding: 1rem 0 !important;
     font-size: 1rem;
   }
   
@@ -280,58 +301,29 @@
     font-size: 0.9375rem;
   }
   
+  .mobile-business-image picture,
   .mobile-business-image img {
     max-height: 200px;
   }
 }
 
-/* Bootstrap Collapse Animations */
-.collapsing {
-  position: relative;
-  height: 0;
-  overflow: hidden;
-  transition: height 0.35s ease;
+/* Animation for smooth transitions */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Accessibility Improvements */
-.accordion-button:focus-visible {
-  outline: 2px solid #007bff;
-  outline-offset: 2px;
+.accordion-collapse.show .accordion-body {
+  animation: fadeIn 0.3s ease;
 }
 
-/* Image loading states */
-.desktop-business-image img.loading,
-.mobile-business-image img.loading {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200% 100%;
-  animation: loading 1.5s infinite;
-}
-
-@keyframes loading {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-/* Print Styles */
-@media print {
-  .business-accordion-container {
-    grid-template-columns: 1fr;
-  }
-  
-  .business-image-preview {
-    display: none;
-  }
-  
-  .mobile-business-image {
-    display: block !important;
-  }
-  
-  .accordion-button::after {
-    display: none !important;
-  }
-  
-  .accordion-collapse {
-    display: block !important;
-    height: auto !important;
-  }
+/* Fix for Bootstrap interference */
+.accordion-button.collapsed .accordion-icon {
+  transform: none;
 }
