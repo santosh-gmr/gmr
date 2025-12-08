@@ -17,10 +17,12 @@ export default function decorate(block) {
   const track = document.createElement('div');
   track.className = 'hero-carousel-track';
 
-  // Move existing slide elements from the block into the track
+  // Get all the slide elements that are direct children of the block
   const slideElements = [...block.children];
+
+  // Process and move each slide
   slideElements.forEach((slide, index) => {
-    // The slide is already a div, we just need to enhance it.
+    // This div is the slide, enhance it
     slide.className = 'hero-slide';
     slide.setAttribute('role', 'group');
     slide.setAttribute('aria-roledescription', 'slide');
@@ -41,6 +43,7 @@ export default function decorate(block) {
     slide.style.backgroundImage = `url('${bgImg}')`;
 
     // Re-create the inner content to ensure a consistent structure
+    // This is safe because we are modifying the slide, not the block itself.
     slide.innerHTML = `
       <div class="hero-slide-content">
         <h2 class="hero-title">${title}</h2>
@@ -51,13 +54,15 @@ export default function decorate(block) {
         </div>
       </div>
     `;
+
+    // Move the enhanced slide into the track
     track.appendChild(slide);
   });
 
-  // Add the track to the main wrapper
+  // Add the track (with all the slides) to the main wrapper
   carouselWrapper.appendChild(track);
 
-  // Create controls
+  // Create controls and add them to the wrapper
   const controls = document.createElement('div');
   controls.className = 'hero-controls';
   controls.setAttribute('role', 'group');
@@ -71,9 +76,10 @@ export default function decorate(block) {
   `;
   carouselWrapper.appendChild(controls);
 
-  // IMPORTANT: Clear the original block and append the new, enhanced structure
-  block.innerHTML = '';
+  // Append the fully constructed carousel to the block.
+  // The block is now the parent for the carousel.
   block.appendChild(carouselWrapper);
+
 
   // --- Carousel Functionality ---
   let currentSlide = 0;
