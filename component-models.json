@@ -383,6 +383,65 @@
     ]
   },
   {
+    "id": "businesses-section",
+    "fields": [
+      {
+        "component": "text-input",
+        "valueType": "string",
+        "name": "sectionTitle",
+        "label": "Section Title",
+        "comment": "e.g., OUR BUSINESSES"
+      },
+      {
+        "component": "text-input",
+        "valueType": "string",
+        "name": "sectionSubtitle",
+        "label": "Section Subtitle",
+        "comment": "e.g., Pillars Of Value Creation"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "introText",
+        "label": "Intro Text",
+        "comment": "Global description text"
+      }
+    ]
+  },
+  {
+    "id": "business-item",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Business Image",
+        "comment": "Image displayed when this accordion item is active"
+      },
+      {
+        "component": "text-input",
+        "valueType": "string",
+        "name": "title",
+        "label": "Business Title",
+        "comment": "e.g., Airports & Aero Services"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "description",
+        "label": "Business Description",
+        "comment": "Description content"
+      },
+      {
+        "component": "text-input",
+        "valueType": "string",
+        "name": "readMoreLink",
+        "label": "Read More Link",
+        "comment": "URL for the Read More button"
+      }
+    ]
+  },
+  {
     "id": "card",
     "fields": [
       {

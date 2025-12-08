@@ -45,6 +45,12 @@
     ]
   },
   {
+    "id": "businesses-section",
+    "components": [
+      "business-item"
+    ]
+  },
+  {
     "id": "cards",
     "components": [
       "card"
