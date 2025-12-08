@@ -171,32 +171,63 @@
         "component": "text",
         "valueType": "string",
         "name": "title",
-        "label": "Title"
+        "label": "Section Title"
       },
       {
         "component": "richtext",
         "valueType": "string",
         "name": "description",
-        "label": "Description"
+        "label": "Section Description"
       },
       {
-        "component": "multifield",
-        "name": "stats",
-        "label": "Statistics",
-        "fields": [
+        "component": "text",
+        "valueType": "string",
+        "name": "tabs",
+        "label": "Airport Tabs",
+        "description": "Add the airport names to appear at the top navigation (e.g. Delhi Airport, Hyderabad Airport, Goa Airport...)."
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "selectorType",
+        "label": "Airport Type Selector",
+        "options": [
           {
-            "component": "text",
-            "valueType": "string",
-            "name": "value",
-            "label": "Value"
+            "name": "Domestic",
+            "value": "Domestic"
           },
           {
-            "component": "text",
-            "valueType": "string",
-            "name": "label",
-            "label": "Label"
+            "name": "International",
+            "value": "International"
           }
-        ]
+        ],
+        "value": "Domestic"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "selectorLabel",
+        "label": "Selector Label",
+        "description": "Optional text label for the selector dropdown."
+      }
+    ]
+  },
+  {
+    "id": "airport-overview-item",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "statNumber",
+        "label": "Statistic Number",
+        "description": "Example: 79M+, 150+, 4"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "statLabel",
+        "label": "Statistic Label",
+        "description": "Example: Passengers handled annually"
       }
     ]
   },
@@ -249,6 +280,40 @@
         "valueType": "string",
         "name": "ctaLink",
         "label": "CTA Link"
+      }
+    ]
+  },
+  {
+    "id": "awards-carousel",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "sectionTitle",
+        "label": "Section Title"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "sectionDescription",
+        "label": "Section Description"
+      }
+    ]
+  },
+  {
+    "id": "award-item",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Award Image"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "description",
+        "label": "Award Description"
       }
     ]
   },
@@ -387,6 +452,64 @@
         "name": "rows",
         "value": "",
         "label": "Rows"
+      }
+    ]
+  },
+  {
+    "id": "committed-banner",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Top Image"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "title",
+        "label": "Main Title"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "description",
+        "label": "Description"
+      }
+    ]
+  },
+  {
+    "id": "experience-banner",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "title",
+        "label": "Main Title"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "description",
+        "label": "Description"
+      },
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Right Side Image"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "ctaText",
+        "label": "CTA Text"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "ctaLink",
+        "label": "CTA Link"
       }
     ]
   },
@@ -561,18 +684,49 @@
     ]
   },
   {
-    "id": "hero-banner",
+    "id": "hero-banner-items",
     "fields": [
       {
         "component": "text",
-        "name": "heading",
-        "label": "Main Heading",
+        "name": "title",
+        "label": "Title",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "name": "description",
+        "label": "Description",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "name": "background-image",
+        "label": "Background Image",
+        "valueType": "string",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "name": "know-more-label",
+        "label": "Know More Label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "name": "know-more-link",
+        "label": "Know More Link URL",
         "valueType": "string"
       },
       {
         "component": "text",
-        "name": "subheading",
-        "label": "Sub Heading",
+        "name": "watch-video-label",
+        "label": "Watch Video Label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "name": "watch-video-link",
+        "label": "Watch Video Link URL",
         "valueType": "string"
       }
     ]
@@ -764,205 +918,6 @@
     ]
   },
   {
-    "id": "success-stories",
-    "fields": [
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "sectionTitle",
-        "label": "Section Title"
-      },
-      {
-        "component": "richtext",
-        "valueType": "string",
-        "name": "sectionDescription",
-        "label": "Section Description"
-      }
-    ]
-  },
-  {
-    "id": "content-fragment-block",
-    "fields": []
-  },
-  {
-    "id": "committed-banner",
-    "fields": [
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "title",
-        "label": "Banner Title"
-      },
-      {
-        "component": "richtext",
-        "valueType": "string",
-        "name": "description",
-        "label": "Banner Description"
-      },
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "image",
-        "label": "Banner Image"
-      }
-    ]
-  },
-  {
-    "id": "airport-overview",
-    "fields": [
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "title",
-        "label": "Section Title"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "description",
-        "label": "Section Description"
-      },
-
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "tabs",
-        "label": "Airport Tabs (ordered)",
-        "description": "Add airport names (one per entry) to render the top tab navigation e.g. Delhi Airport, Hyderabad Airport, Goa Airport..."
-      },
-
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "activeTab",
-        "label": "Active Tab",
-        "description": "Optional: set the active tab name or index. Leave blank to default to first."
-      },
-
-      {
-        "component": "select",
-        "valueType": "string",
-        "name": "selectorType",
-        "label": "Airport Type Selector",
-        "options": [
-          { "name": "Domestic", "value": "domestic" },
-          { "name": "International", "value": "international" }
-        ],
-        "value": "domestic",
-        "description": "Small selector usually placed at the right of the tab row."
-      },
-
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "selectorLabel",
-        "label": "Selector Label",
-        "value": "",
-        "description": "Optional label for the selector (e.g. 'Domestic')."
-      }
-    ]
-  },
-
-  {
-    "id": "airport-overview-item",
-    "fields": [
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "statNumber",
-        "label": "Statistic Number",
-        "description": "e.g. 79M+, 150+, 4"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "statLabel",
-        "label": "Statistic Label",
-        "description": "e.g. Passengers handled annually"
-      }
-    ]
-  },
-  {
-    "id": "awards-carousel",
-    "fields": [
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "sectionTitle",
-        "label": "Section Title"
-      },
-      {
-        "component": "richtext",
-        "valueType": "string",
-        "name": "sectionDescription",
-        "label": "Section Description"
-      }
-    ]
-  },
-  {
-    "id": "award-item",
-    "fields": [
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "image",
-        "label": "Award Image"
-      },
-      {
-        "component": "richtext",
-        "valueType": "string",
-        "name": "description",
-        "label": "Award Description"
-      }
-    ]
-  },
-  {
-    "id": "recognition-awards",
-    "fields": [
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "sectionCTALink",
-        "label": "Section CTA Link"
-      }
-    ]
-  },
-  {
-    "id": "experience-banner",
-    "fields": [
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "title",
-        "label": "Main Title"
-      },
-      {
-        "component": "richtext",
-        "valueType": "string",
-        "name": "description",
-        "label": "Description"
-      },
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "image",
-        "label": "Right Side Image"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "ctaText",
-        "label": "CTA Text"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "ctaLink",
-        "label": "CTA Link"
-      }
-    ]
-  },
-  {
     "id": "passenger-experience",
     "fields": [
       {
@@ -979,7 +934,6 @@
       }
     ]
   },
-
   {
     "id": "experience-item",
     "fields": [
@@ -1004,42 +958,36 @@
     ]
   },
   {
-    "id": "experience-banner",
+    "id": "success-stories",
     "fields": [
       {
         "component": "text",
         "valueType": "string",
-        "name": "title",
-        "label": "Main Title"
+        "name": "sectionTitle",
+        "label": "Section Title"
       },
       {
         "component": "richtext",
         "valueType": "string",
-        "name": "description",
-        "label": "Description"
-      },
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "image",
-        "label": "Right Side Image"
+        "name": "sectionDescription",
+        "label": "Section Description"
       },
       {
         "component": "text",
         "valueType": "string",
-        "name": "ctaText",
-        "label": "CTA Text"
+        "name": "sectionCTA",
+        "label": "Section CTA Text"
       },
       {
         "component": "text",
         "valueType": "string",
-        "name": "ctaLink",
-        "label": "CTA Link"
+        "name": "sectionCTALink",
+        "label": "Section CTA Link"
       }
     ]
   },
   {
-    "id": "aviation-item",
+    "id": "story-item",
     "fields": [
       {
         "component": "reference",

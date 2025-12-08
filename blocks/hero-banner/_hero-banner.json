@@ -1,47 +1,92 @@
 {
   "definitions": [
     {
-      "title": "Hero Banner",
+      "title": "HeroBanner",
       "id": "hero-banner",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block",
             "template": {
-              "name": "Hero Banner",
-              "model": "hero-banner",
+              "name": "HeroBanner",
               "filter": "hero-banner"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "HeroBannerItems",
+      "id": "hero-banner-items",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "name": "HeroBannerItems",
+              "model": "hero-banner-items"
             }
           }
         }
       }
     }
   ],
-
   "models": [
     {
-      "id": "hero-banner",
+      "id": "hero-banner-items",
       "fields": [
         {
           "component": "text",
-          "name": "heading",
-          "label": "Main Heading",
+          "name": "title",
+          "label": "Title",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "name": "description",
+          "label": "Description",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "name": "background-image",
+          "label": "Background Image",
+          "valueType": "string",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "name": "know-more-label",
+          "label": "Know More Label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "name": "know-more-link",
+          "label": "Know More Link URL",
           "valueType": "string"
         },
         {
           "component": "text",
-          "name": "subheading",
-          "label": "Sub Heading",
+          "name": "watch-video-label",
+          "label": "Watch Video Label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "name": "watch-video-link",
+          "label": "Watch Video Link URL",
           "valueType": "string"
         }
       ]
     }
   ],
-
   "filters": [
     {
       "id": "hero-banner",
-      "components": ["hero-carousel"]
+      "components": [
+        "hero-banner-items"
+      ]
     }
   ]
 }
