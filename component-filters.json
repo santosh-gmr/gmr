@@ -46,12 +46,6 @@
     ]
   },
   {
-    "id": "businesstest",
-    "components": [
-      "businesstest-item"
-    ]
-  },
-  {
     "id": "cards",
     "components": [
       "card"
@@ -120,18 +114,6 @@
     "id": "nav-item",
     "components": [
       "nav-child"
-    ]
-  },
-  {
-    "id": "hero-banner",
-    "components": [
-      "hero-banner-items"
-    ]
-  },
-  {
-    "id": "hero-carousel",
-    "components": [
-      "hero-slide"
     ]
   },
   {

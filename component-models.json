@@ -383,65 +383,6 @@
     ]
   },
   {
-    "id": "businesstest",
-    "fields": [
-      {
-        "component": "text-input",
-        "valueType": "string",
-        "name": "sectionTitle",
-        "label": "Section Title",
-        "comment": "e.g., OUR BUSINESSES"
-      },
-      {
-        "component": "text-input",
-        "valueType": "string",
-        "name": "sectionSubtitle",
-        "label": "Section Subtitle",
-        "comment": "e.g., Pillars Of Value Creation"
-      },
-      {
-        "component": "richtext",
-        "valueType": "string",
-        "name": "introText",
-        "label": "Intro Text",
-        "comment": "Global description text"
-      }
-    ]
-  },
-  {
-    "id": "businesstest-item",
-    "fields": [
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "image",
-        "label": "Business Image",
-        "comment": "Image displayed when this accordion item is active"
-      },
-      {
-        "component": "text-input",
-        "valueType": "string",
-        "name": "title",
-        "label": "Business Title",
-        "comment": "e.g., Airports & Aero Services"
-      },
-      {
-        "component": "richtext",
-        "valueType": "string",
-        "name": "description",
-        "label": "Business Description",
-        "comment": "Description content"
-      },
-      {
-        "component": "text-input",
-        "valueType": "string",
-        "name": "readMoreLink",
-        "label": "Read More Link",
-        "comment": "URL for the Read More button"
-      }
-    ]
-  },
-  {
     "id": "card",
     "fields": [
       {
@@ -762,7 +703,16 @@
         "name": "background-image",
         "label": "Background Image",
         "valueType": "string",
-        "multi": false
+        "multi": false,
+        "comment": "REQUIRED. Shows while video is loading or on mobile."
+      },
+      {
+        "component": "reference",
+        "name": "background-video",
+        "label": "Background Video (MP4)",
+        "valueType": "string",
+        "multi": false,
+        "comment": "Optional. If added, this plays in loop behind the text."
       },
       {
         "component": "text",
@@ -780,123 +730,15 @@
         "component": "text",
         "name": "watch-video-label",
         "label": "Watch Video Label",
-        "valueType": "string"
+        "valueType": "string",
+        "comment": "Label for the popup video button"
       },
       {
         "component": "aem-content",
         "name": "watch-video-link",
         "label": "Watch Video Link URL",
-        "valueType": "string"
-      }
-    ]
-  },
-  {
-    "id": "hero-carousel",
-    "fields": [
-      {
-        "component": "text",
-        "name": "carouselTitle",
-        "label": "Carousel Title",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "name": "totalSlides",
-        "label": "Total Slides",
-        "valueType": "string"
-      }
-    ]
-  },
-  {
-    "id": "hero-slide",
-    "fields": [
-      {
-        "component": "radio-group",
-        "name": "backgroundType",
-        "label": "Background Type",
         "valueType": "string",
-        "options": [
-          {
-            "label": "Image",
-            "value": "image"
-          },
-          {
-            "label": "Video",
-            "value": "video"
-          }
-        ]
-      },
-      {
-        "component": "reference",
-        "name": "backgroundImage",
-        "label": "Background Image",
-        "valueType": "string"
-      },
-      {
-        "component": "reference",
-        "name": "backgroundVideo",
-        "label": "Background Video",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "name": "title",
-        "label": "Slide Title",
-        "valueType": "string"
-      },
-      {
-        "component": "textarea",
-        "name": "description",
-        "label": "Description",
-        "valueType": "string"
-      }
-    ]
-  },
-  {
-    "id": "hero-banner-items",
-    "fields": [
-      {
-        "component": "text",
-        "name": "title",
-        "label": "Title",
-        "valueType": "string"
-      },
-      {
-        "component": "richtext",
-        "name": "description",
-        "label": "Description",
-        "valueType": "string"
-      },
-      {
-        "component": "reference",
-        "name": "background-image",
-        "label": "Background Image",
-        "valueType": "string",
-        "multi": false
-      },
-      {
-        "component": "text",
-        "name": "know-more-label",
-        "label": "Know More Label",
-        "valueType": "string"
-      },
-      {
-        "component": "aem-content",
-        "name": "know-more-link",
-        "label": "Know More Link URL",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "name": "watch-video-label",
-        "label": "Watch Video Label",
-        "valueType": "string"
-      },
-      {
-        "component": "aem-content",
-        "name": "watch-video-link",
-        "label": "Watch Video Link URL",
-        "valueType": "string"
+        "comment": "Link for the popup video (e.g. YouTube)"
       }
     ]
   },

@@ -52,7 +52,16 @@
           "name": "background-image",
           "label": "Background Image",
           "valueType": "string",
-          "multi": false
+          "multi": false,
+          "comment": "REQUIRED. Shows while video is loading or on mobile."
+        },
+        {
+          "component": "reference",
+          "name": "background-video",
+          "label": "Background Video (MP4)",
+          "valueType": "string",
+          "multi": false,
+          "comment": "Optional. If added, this plays in loop behind the text."
         },
         {
           "component": "text",
@@ -70,13 +79,15 @@
           "component": "text",
           "name": "watch-video-label",
           "label": "Watch Video Label",
-          "valueType": "string"
+          "valueType": "string",
+          "comment": "Label for the popup video button"
         },
         {
           "component": "aem-content",
           "name": "watch-video-link",
           "label": "Watch Video Link URL",
-          "valueType": "string"
+          "valueType": "string",
+          "comment": "Link for the popup video (e.g. YouTube)"
         }
       ]
     }
