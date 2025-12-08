@@ -140,13 +140,13 @@ export default function decorate(block) {
     
     // Add plus icon (hidden by default if active)
     const plusIcon = document.createElement('span');
-    plusIcon.className = `plus-icon ${index === 0 ? 'hidden' : ''}`;
+    plusIcon.className = `plus-icon ${index === 0 ? 'd-none' : ''}`;
     plusIcon.innerHTML = plusIconSVG;
     iconWrapper.appendChild(plusIcon);
     
     // Add minus icon (visible only if active)
     const minusIcon = document.createElement('span');
-    minusIcon.className = `minus-icon ${index === 0 ? '' : 'hidden'}`;
+    minusIcon.className = `minus-icon ${index === 0 ? '' : 'd-none'}`;
     minusIcon.innerHTML = minusIconSVG;
     iconWrapper.appendChild(minusIcon);
     
@@ -278,11 +278,11 @@ function initAccordionFunctionality(accordion, imageContainer) {
     
     if (plusIcon && minusIcon) {
       if (isActive) {
-        plusIcon.classList.add('hidden');
-        minusIcon.classList.remove('hidden');
+        plusIcon.classList.add('d-none');
+        minusIcon.classList.remove('d-none');
       } else {
-        plusIcon.classList.remove('hidden');
-        minusIcon.classList.add('hidden');
+        plusIcon.classList.remove('d-none');
+        minusIcon.classList.add('d-none');
       }
     }
   }
