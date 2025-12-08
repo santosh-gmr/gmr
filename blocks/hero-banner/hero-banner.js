@@ -1,5 +1,5 @@
 /**
- * Hero Banner Carousel - Universal Editor Compatible
+ * Hero Banner Carousel - Universal Editor Compatible (robust link/label parsing)
  * @param {HTMLElement} block - The herobanner block element
  */
 export default function decorate(block) {
@@ -9,16 +9,13 @@ export default function decorate(block) {
   // Do not run in authoring placeholder mode
   if (block.querySelector('.aem-block-placeholder')) return;
 
-  // --- Extract & FILTER Slides (IMPORTANT FIX) ---
+  // --- Extract & FILTER Slides ---
   let slideElements = [...block.children].filter((slide) => {
     const text = slide.innerText.trim();
     const hasImage = slide.querySelector("img");
-
-    // Keep slide only if it has content
     return text.length > 0 || hasImage;
   });
 
-  // If somehow nothing left, stop safely
   if (slideElements.length === 0) return;
 
   // --- Create structure ---
@@ -34,18 +31,65 @@ export default function decorate(block) {
     slide.setAttribute("aria-roledescription", "slide");
     slide.setAttribute("aria-label", `${index + 1} of ${slideElements.length}`);
 
+    // Collect direct children divs (legacy structure) but be tolerant
     const parts = slide.querySelectorAll(":scope > div");
     const title = parts[0]?.textContent?.trim() || "";
     const description = parts[1]?.textContent?.trim() || "";
     const imgElement = parts[2]?.querySelector("img");
     const bgImg = imgElement?.src || "";
-    const knowLabel = parts[3]?.textContent?.trim() || "Know More";
-    const knowLink = parts[4]?.querySelector("a")?.href || "#";
-    const watchLabel = parts[5]?.textContent?.trim() || "Watch Video";
-    const watchLink = parts[6]?.querySelector("a")?.href || "#";
 
+    // Robust parsing for labels and links:
+    //  - Look for anchors anywhere inside the slide (preserve author order)
+    //  - Fall back to nearby text nodes if anchors are absent
+    const anchors = Array.from(slide.querySelectorAll("a"));
+    let knowLabel = "Know More";
+    let knowLink = "#";
+    let watchLabel = "Watch Video";
+    let watchLink = "#";
+
+    if (anchors.length >= 2) {
+      // Two or more anchors: assume first is know, second is watch
+      knowLink = anchors[0].href || "#";
+      knowLabel = (anchors[0].textContent || knowLabel).trim() || knowLabel;
+      watchLink = anchors[1].href || "#";
+      watchLabel = (anchors[1].textContent || watchLabel).trim() || watchLabel;
+    } else if (anchors.length === 1) {
+      const a = anchors[0];
+      const txt = (a.textContent || "").toLowerCase();
+      // If anchor text looks like watch/watch video, map to watch; else know
+      if (txt.includes("watch")) {
+        watchLink = a.href || "#";
+        watchLabel = (a.textContent || watchLabel).trim() || watchLabel;
+      } else {
+        knowLink = a.href || "#";
+        knowLabel = (a.textContent || knowLabel).trim() || knowLabel;
+      }
+      // Try to extract the other label from parts (if present)
+      // authors sometimes place labels in sibling divs without anchors
+      const maybeKnow = parts[3]?.textContent?.trim();
+      const maybeWatch = parts[5]?.textContent?.trim();
+      if (!knowLabel || knowLabel === "") {
+        if (maybeKnow) knowLabel = maybeKnow;
+      }
+      if (!watchLabel || watchLabel === "") {
+        if (maybeWatch) watchLabel = maybeWatch;
+      }
+    } else {
+      // No anchors: attempt to read labels from parts positions (legacy)
+      const maybeKnow = parts[3]?.textContent?.trim();
+      const maybeKnowHref = parts[4]?.querySelector("a")?.href;
+      const maybeWatch = parts[5]?.textContent?.trim();
+      const maybeWatchHref = parts[6]?.querySelector("a")?.href;
+
+      if (maybeKnow) knowLabel = maybeKnow;
+      if (maybeKnowHref) knowLink = maybeKnowHref;
+      if (maybeWatch) watchLabel = maybeWatch;
+      if (maybeWatchHref) watchLink = maybeWatchHref;
+      // Leave # fallback if nothing found
+    }
+
+    // Ensure primary (Know More) is rendered first so styling/order stays consistent
     slide.style.backgroundImage = `url('${bgImg}')`;
-
     slide.innerHTML = `
       <div class="hero-slide-content">
         <h2 class="hero-title">${title}</h2>
@@ -77,7 +121,6 @@ export default function decorate(block) {
   `;
   carouselWrapper.appendChild(controls);
 
-  // --- FIX: Clear block to avoid duplicates ---
   block.innerHTML = "";
   block.appendChild(carouselWrapper);
 
@@ -181,7 +224,7 @@ export default function decorate(block) {
   updateCarousel();
   startAutoplay();
 
-  // Cleanup
+  // Cleanup observer
   if (block.parentElement) {
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
