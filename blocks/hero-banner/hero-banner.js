@@ -1,98 +1,49 @@
 /**
- * Hero Banner Carousel - Universal Editor Compatible (Auto-detecting version)
- * @param {HTMLElement} block
+ * Hero Banner Carousel - Universal Editor Compatible
+ * @param {HTMLElement} block - The herobanner block element
  */
 export default function decorate(block) {
-
-  // Prevent duplicate initialization
+  // --- Authoring Prevention ---
   if (block.querySelector('.hero-carousel-wrapper')) return;
 
   // Do not run in authoring placeholder mode
   if (block.querySelector('.aem-block-placeholder')) return;
 
-  // Helper: find field by data-name (best way)
-  function getField(slide, name) {
-    return slide.querySelector(`[data-name="${name}"]`);
-  }
-
-  // Helper: fallback text extractor
-  function extractText(element) {
-    return element?.textContent?.trim() || "";
-  }
-
-  // Helper: extract link inside any structure
-  function extractLink(element) {
-    return element?.querySelector("a")?.href || "#";
-  }
-
-  // --- Extract slides & ignore empty ones ---
-  let rawSlides = [...block.children].filter(slide => {
+  // --- Extract & FILTER Slides (IMPORTANT FIX) ---
+  let slideElements = [...block.children].filter((slide) => {
     const text = slide.innerText.trim();
-    const hasImg = slide.querySelector("img");
-    return text.length > 0 || hasImg;
+    const hasImage = slide.querySelector("img");
+
+    // Keep slide only if it has content
+    return text.length > 0 || hasImage;
   });
 
-  if (rawSlides.length === 0) return;
+  // If somehow nothing left, stop safely
+  if (slideElements.length === 0) return;
 
-  // Create wrapper
-  const wrapper = document.createElement("div");
-  wrapper.className = "hero-carousel-wrapper";
+  // --- Create structure ---
+  const carouselWrapper = document.createElement("div");
+  carouselWrapper.className = "hero-carousel-wrapper";
 
   const track = document.createElement("div");
   track.className = "hero-carousel-track";
 
-  rawSlides.forEach((slide, index) => {
-
-    // --- AUTO-DETECT ALL FIELDS ---
-
-    // Title
-    let titleEl =
-      getField(slide, "title") ||
-      slide.querySelector(".title, h2, h3, div:nth-child(1)");
-    let title = extractText(titleEl);
-
-    // Description
-    let descEl =
-      getField(slide, "description") ||
-      slide.querySelector(".description, p, div:nth-child(2)");
-    let description = extractText(descEl);
-
-    // Background Image
-    let imgEl =
-      getField(slide, "background-image")?.querySelector("img") ||
-      slide.querySelector("img, picture img");
-    let bgImg = imgEl?.src || "";
-
-    // Know More Label
-    let knowLabelEl =
-      getField(slide, "know-more-label") ||
-      slide.querySelector('[data-field="know-more-label"]') ||
-      slide.querySelector("div, span, p:nth-child(4)");
-    let knowLabel = extractText(knowLabelEl) || "Know More";
-
-    // Know More Link
-    let knowLinkEl =
-      getField(slide, "know-more-link") ||
-      slide.querySelector('[data-field="know-more-link"]') ||
-      slide.querySelector("a:nth-of-type(1)");
-    let knowLink = extractLink(knowLinkEl);
-
-    // Watch Video Label
-    let watchLabelEl =
-      getField(slide, "watch-video-label") ||
-      slide.querySelector('[data-field="watch-video-label"]') ||
-      slide.querySelector("div, span, p:nth-child(6)");
-    let watchLabel = extractText(watchLabelEl) || "Watch Video";
-
-    // Watch Video Link
-    let watchLinkEl =
-      getField(slide, "watch-video-link") ||
-      slide.querySelector('[data-field="watch-video-link"]') ||
-      slide.querySelector("a:nth-of-type(2)");
-    let watchLink = extractLink(watchLinkEl);
-
-    // --- Render slide ---
+  slideElements.forEach((slide, index) => {
     slide.className = "hero-slide";
+    slide.setAttribute("role", "group");
+    slide.setAttribute("aria-roledescription", "slide");
+    slide.setAttribute("aria-label", `${index + 1} of ${slideElements.length}`);
+
+    const parts = slide.querySelectorAll(":scope > div");
+    const title = parts[0]?.textContent?.trim() || "";
+    const description = parts[1]?.textContent?.trim() || "";
+    const imgElement = parts[2]?.querySelector("img");
+    const bgImg = imgElement?.src || "";
+    const knowLabel = parts[3]?.textContent?.trim() || "Know More";
+    const knowLink = parts[4]?.querySelector("a")?.href || "#";
+    const watchLabel = parts[5]?.textContent?.trim() || "Watch Video";
+    const watchLink = parts[6]?.querySelector("a")?.href || "#";
+
     slide.style.backgroundImage = `url('${bgImg}')`;
 
     slide.innerHTML = `
@@ -109,43 +60,142 @@ export default function decorate(block) {
     track.appendChild(slide);
   });
 
-  wrapper.appendChild(track);
+  carouselWrapper.appendChild(track);
 
-  // Controls
+  // --- Controls ---
   const controls = document.createElement("div");
   controls.className = "hero-controls";
+  controls.setAttribute("role", "group");
+  controls.setAttribute("aria-label", "Carousel controls");
 
   controls.innerHTML = `
-    <button class="hero-prev">←</button>
-    <div class="hero-pagination">01 / ${String(rawSlides.length).padStart(2, "0")}</div>
-    <button class="hero-next">→</button>
+    <button class="hero-prev" aria-label="Previous slide" type="button">←</button>
+    <div class="hero-pagination" aria-live="polite" aria-atomic="true">
+      01 / ${String(slideElements.length).padStart(2, "0")}
+    </div>
+    <button class="hero-next" aria-label="Next slide" type="button">→</button>
   `;
+  carouselWrapper.appendChild(controls);
 
-  wrapper.appendChild(controls);
-
-  // Replace original block contents
+  // --- FIX: Clear block to avoid duplicates ---
   block.innerHTML = "";
-  block.appendChild(wrapper);
+  block.appendChild(carouselWrapper);
 
-  // Carousel logic
-  let current = 0;
-  const total = rawSlides.length;
+  // --- Carousel Logic ---
+  let currentSlide = 0;
+  let autoplayInterval = null;
 
-  function update() {
-    track.style.transform = `translateX(-${current * 100}%)`;
-    controls.querySelector(".hero-pagination").textContent =
-      `${String(current + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
+  function updateCarousel() {
+    track.style.transform = `translateX(-${currentSlide * 100}%)`;
+    const pagination = controls.querySelector(".hero-pagination");
+    if (pagination) {
+      pagination.textContent =
+        `${String(currentSlide + 1).padStart(2, "0")} / ${String(
+          slideElements.length
+        ).padStart(2, "0")}`;
+    }
+
+    track.querySelectorAll(".hero-slide").forEach((slide, index) => {
+      slide.setAttribute("aria-hidden", String(index !== currentSlide));
+    });
   }
 
-  controls.querySelector(".hero-prev").onclick = () => {
-    current = current === 0 ? total - 1 : current - 1;
-    update();
-  };
+  function prevSlide() {
+    currentSlide =
+      currentSlide === 0 ? slideElements.length - 1 : currentSlide - 1;
+    updateCarousel();
+  }
 
-  controls.querySelector(".hero-next").onclick = () => {
-    current = current === total - 1 ? 0 : current + 1;
-    update();
-  };
+  function nextSlide() {
+    currentSlide =
+      currentSlide === slideElements.length - 1 ? 0 : currentSlide + 1;
+    updateCarousel();
+  }
 
-  update();
+  function stopAutoplay() {
+    if (autoplayInterval) {
+      clearInterval(autoplayInterval);
+      autoplayInterval = null;
+    }
+  }
+
+  function startAutoplay() {
+    stopAutoplay();
+    autoplayInterval = setInterval(nextSlide, 5000);
+  }
+
+  const prevButton = controls.querySelector(".hero-prev");
+  const nextButton = controls.querySelector(".hero-next");
+
+  prevButton?.addEventListener("click", () => {
+    prevSlide();
+    stopAutoplay();
+  });
+
+  nextButton?.addEventListener("click", () => {
+    nextSlide();
+    stopAutoplay();
+  });
+
+  carouselWrapper.addEventListener("mouseenter", stopAutoplay);
+  carouselWrapper.addEventListener("mouseleave", startAutoplay);
+
+  // --- Keyboard Navigation ---
+  carouselWrapper.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") {
+      prevSlide();
+      stopAutoplay();
+    } else if (e.key === "ArrowRight") {
+      nextSlide();
+      stopAutoplay();
+    }
+  });
+
+  // --- Touch Swipe ---
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  carouselWrapper.addEventListener(
+    "touchstart",
+    (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    },
+    { passive: true }
+  );
+
+  carouselWrapper.addEventListener(
+    "touchend",
+    (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchStartX - touchEndX;
+
+      if (Math.abs(diff) > 50) {
+        diff > 0 ? nextSlide() : prevSlide();
+        stopAutoplay();
+      }
+    },
+    { passive: true }
+  );
+
+  // Initialize
+  updateCarousel();
+  startAutoplay();
+
+  // Cleanup
+  if (block.parentElement) {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.removedNodes.forEach((node) => {
+          if (node === block) {
+            stopAutoplay();
+            observer.disconnect();
+          }
+        });
+      });
+    });
+    observer.observe(block.parentElement, {
+      childList: true,
+      subtree: true,
+    });
+  }
 }
