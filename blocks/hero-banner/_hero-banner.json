@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "title": "HeroBanner",
+      "title": "hero-banner",
       "id": "hero-banner",
       "plugins": {
         "xwalk": {
@@ -16,7 +16,7 @@
       }
     },
     {
-      "title": "HeroBannerItems",
+      "title": "hero-banner-items",
       "id": "hero-banner-items",
       "plugins": {
         "xwalk": {
