@@ -45,7 +45,8 @@
     align-items: start;
 }
 
-.business-image-container {
+/* Desktop Image Container */
+.business-image-container.desktop-images {
     position: sticky;
     top: 100px;
     height: 500px;
@@ -54,7 +55,7 @@
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
-.business-image {
+.business-image-container.desktop-images .business-image {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -63,10 +64,15 @@
     transition: opacity 0.5s ease;
 }
 
-.business-image.active {
+.business-image-container.desktop-images .business-image.active {
     opacity: 1;
 }
 
+.business-image-container.desktop-images .business-image:not(.active):hover {
+    opacity: 0.5;
+}
+
+/* Accordion Styles */
 .business-accordion {
     width: 100%;
 }
@@ -110,6 +116,7 @@
 
 .accordion-button .business-title {
     flex: 1;
+    text-align: left;
 }
 
 .accordion-button .accordion-icon {
@@ -142,6 +149,10 @@
     margin-bottom: 20px;
 }
 
+.business-cta {
+    margin-bottom: 20px;
+}
+
 .business-cta .button {
     display: inline-block;
     padding: 12px 30px;
@@ -161,22 +172,52 @@
     box-shadow: 0 5px 15px rgba(0,123,255,0.3);
 }
 
+/* Mobile Image Container */
+.mobile-image-container {
+    display: none;
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.mobile-business-image {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: cover;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.mobile-business-image.active {
+    display: block;
+    opacity: 1;
+}
+
 /* Responsive Design */
-@media (max-width: 992px) {
+@media (max-width: 991px) {
     .business-accordion-layout {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 30px;
     }
     
-    .business-image-container {
-        height: 400px;
-        order: 2;
-        position: relative;
-        top: 0;
+    .business-image-container.desktop-images {
+        display: none !important;
     }
     
-    .business-accordion {
-        order: 1;
+    .mobile-image-container {
+        display: block;
+    }
+    
+    .mobile-business-image {
+        display: none;
+    }
+    
+    .accordion-item.active .mobile-business-image {
+        display: block;
+        animation: fadeInUp 0.5s ease;
     }
     
     .business-accordion-container header h2 {
@@ -185,6 +226,11 @@
     
     .business-accordion-container header h2 span {
         font-size: 1.25rem;
+    }
+    
+    .accordion-button {
+        padding: 20px 0;
+        font-size: 1.125rem;
     }
 }
 
@@ -197,25 +243,36 @@
         padding: 0 15px;
     }
     
-    .business-image-container {
-        height: 300px;
-    }
-    
-    .accordion-button {
-        padding: 20px 0;
-        font-size: 1.125rem;
-    }
-    
     .business-accordion-container header {
         margin-bottom: 30px;
     }
+    
+    .mobile-business-image {
+        max-height: 250px;
+    }
+    
+    .business-cta .button {
+        width: 100%;
+        text-align: center;
+    }
 }
 
-/* Animation */
+/* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
         transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
@@ -236,4 +293,17 @@
 
 .accordion-button[aria-expanded="true"] {
     color: #007bff;
+}
+
+/* Image loading states */
+.business-image.loading,
+.mobile-business-image.loading {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
 }
