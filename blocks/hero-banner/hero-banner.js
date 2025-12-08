@@ -1,179 +1,204 @@
+
+
+
 /**
- * Hero Banner Carousel – Fully Universal Editor Compatible
- * Fixes CTA mapping + preserves authoring rows
- * Works perfectly with your _hero-banner.json (8 columns)
+ * Hero Banner Carousel - Universal Editor Compatible
+ * @param {HTMLElement} block - The herobanner block element
  */
+export default function decorate(block) {
+  // --- Authoring Prevention ---
+  if (block.querySelector('.hero-carousel-wrapper')) return;
 
-export default async function decorate(block) {
-  // Prevent double decoration
-  if (block.closest('.hero-carousel-wrapper') || block.querySelector('.hero-carousel-wrapper')) return;
+  // Do not run in authoring placeholder mode
+  if (block.querySelector('.aem-block-placeholder')) return;
 
-  const carouselWrapper = document.createElement('div');
-  carouselWrapper.className = 'hero-carousel-wrapper';
+  // --- Extract & FILTER Slides (IMPORTANT FIX) ---
+  let slideElements = [...block.children].filter((slide) => {
+    const text = slide.innerText.trim();
+    const hasImage = slide.querySelector("img");
 
-  const track = document.createElement('div');
-  track.className = 'hero-carousel-track';
+    // Keep slide only if it has content
+    return text.length > 0 || hasImage;
+  });
+
+  // If somehow nothing left, stop safely
+  if (slideElements.length === 0) return;
+
+  // --- Create structure ---
+  const carouselWrapper = document.createElement("div");
+  carouselWrapper.className = "hero-carousel-wrapper";
+
+  const track = document.createElement("div");
+  track.className = "hero-carousel-track";
+
+  slideElements.forEach((slide, index) => {
+    slide.className = "hero-slide";
+    slide.setAttribute("role", "group");
+    slide.setAttribute("aria-roledescription", "slide");
+    slide.setAttribute("aria-label", `${index + 1} of ${slideElements.length}`);
+
+    const parts = slide.querySelectorAll(":scope > div");
+    const title = parts[0]?.textContent?.trim() || "";
+    const description = parts[1]?.textContent?.trim() || "";
+    const imgElement = parts[2]?.querySelector("img");
+    const bgImg = imgElement?.src || "";
+    const knowLabel = parts[3]?.textContent?.trim() || "Know More";
+    const knowLink = parts[4]?.querySelector("a")?.href || "#";
+    const watchLabel = parts[5]?.textContent?.trim() || "Watch Video";
+    const watchLink = parts[6]?.querySelector("a")?.href || "#";
+
+    slide.style.backgroundImage = `url('${bgImg}')`;
+
+    slide.innerHTML = `
+      <div class="hero-slide-content">
+        <h2 class="hero-title">${title}</h2>
+        <p class="hero-description">${description}</p>
+        <div class="hero-cta-group">
+          <a href="${knowLink}" class="hero-btn primary">${knowLabel}</a>
+          <a href="${watchLink}" class="hero-btn secondary">${watchLabel}</a>
+        </div>
+      </div>
+    `;
+
+    track.appendChild(slide);
+  });
+
   carouselWrapper.appendChild(track);
 
-  // Controls
-  const controls = document.createElement('div');
-  controls.className = 'hero-controls';
+  // --- Controls ---
+  const controls = document.createElement("div");
+  controls.className = "hero-controls";
+  controls.setAttribute("role", "group");
+  controls.setAttribute("aria-label", "Carousel controls");
+
   controls.innerHTML = `
-    <button class="hero-prev" aria-label="Previous slide" type="button">Previous</button>
-    <div class="hero-pagination" aria-live="polite">01 / 01</div>
-    <button class="hero-next" aria-label="Next slide" type="button">Next</button>
+    <button class="hero-prev" aria-label="Previous slide" type="button">←</button>
+    <div class="hero-pagination" aria-live="polite" aria-atomic="true">
+      01 / ${String(slideElements.length).padStart(2, "0")}
+    </div>
+    <button class="hero-next" aria-label="Next slide" type="button">→</button>
   `;
   carouselWrapper.appendChild(controls);
 
-  // Insert carousel but keep original rows for authoring
+  // --- FIX: Clear block to avoid duplicates ---
+  block.innerHTML = "";
   block.appendChild(carouselWrapper);
 
+  // --- Carousel Logic ---
   let currentSlide = 0;
   let autoplayInterval = null;
 
-  const buildSlides = () => {
-    track.innerHTML = ''; // Only clear rendered slides
-
-    // Get all direct child rows that are NOT the carousel itself
-    const rows = Array.from(block.children).filter(
-      child => !child.classList?.contains('hero-carousel-wrapper')
-    );
-
-    if (rows.length === 0) return;
-
-    rows.forEach((row, index) => {
-      const cols = row.querySelectorAll(':scope > div');
-
-      const title           = cols[0]?.textContent?.trim() || '';
-      const description     = cols[1]?.textContent?.trim() || '';
-      const bgImage         = cols[2]?.querySelector('img')?.src || '';
-      // cols[3] = Background Video (ignored for now)
-      const knowMoreLabel   = cols[4]?.textContent?.trim() || 'Know More';
-      const knowMoreLink    = cols[5]?.querySelector('a')?.href || '#';
-      const watchVideoLabel = cols[6]?.textContent?.trim() || 'Watch Video';
-      const watchVideoLink  = cols[7]?.querySelector('a')?.href || '#';
-
-      const slide = document.createElement('div');
-      slide.className = 'hero-slide';
-      slide.setAttribute('role', 'group');
-      slide.setAttribute('aria-roledescription', 'slide');
-      slide.setAttribute('aria-label', `${index + 1} of ${rows.length}`);
-
-      if (bgImage) {
-        slide.style.backgroundImage = `url('${bgImage}')`;
-      }
-
-      slide.innerHTML = `
-        <div class="hero-slide-content">
-          <h2 class="hero-title">${title}</h2>
-          <div class="hero-description">${description}</div>
-          <div class="hero-cta-group">
-            <a href="${knowMoreLink}" class="hero-btn primary">${knowMoreLabel}</a>
-            <a href="${watchVideoLink}" class="hero-btn secondary">${watchVideoLabel}</a>
-          </div>
-        </div>
-      `;
-
-      track.appendChild(slide);
-    });
-
-    // Reset to first slide on rebuild
-    currentSlide = 0;
-    updateCarousel();
-  };
-
-  const updateCarousel = () => {
+  function updateCarousel() {
     track.style.transform = `translateX(-${currentSlide * 100}%)`;
-
-    const total = track.children.length;
-    const pagination = controls.querySelector('.hero-pagination');
-    if (pagination && total > 0) {
-      pagination.textContent = `${String(currentSlide + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
+    const pagination = controls.querySelector(".hero-pagination");
+    if (pagination) {
+      pagination.textContent =
+        `${String(currentSlide + 1).padStart(2, "0")} / ${String(
+          slideElements.length
+        ).padStart(2, "0")}`;
     }
 
-    track.querySelectorAll('.hero-slide').forEach((s, i) => {
-      s.setAttribute('aria-hidden', i !== currentSlide);
+    track.querySelectorAll(".hero-slide").forEach((slide, index) => {
+      slide.setAttribute("aria-hidden", String(index !== currentSlide));
     });
-  };
+  }
 
-  const nextSlide = () => {
-    const total = track.children.length;
-    if (total <= 1) return;
-    currentSlide = (currentSlide + 1) % total;
+  function prevSlide() {
+    currentSlide =
+      currentSlide === 0 ? slideElements.length - 1 : currentSlide - 1;
     updateCarousel();
-  };
+  }
 
-  const prevSlide = () => {
-    const total = track.children.length;
-    if (total <= 1) return;
-    currentSlide = (currentSlide - 1 + total) % total;
+  function nextSlide() {
+    currentSlide =
+      currentSlide === slideElements.length - 1 ? 0 : currentSlide + 1;
     updateCarousel();
-  };
+  }
 
-  const startAutoplay = () => {
-    clearInterval(autoplayInterval);
-    if (track.children.length > 1) {
-      autoplayInterval = setInterval(nextSlide, 5000);
+  function stopAutoplay() {
+    if (autoplayInterval) {
+      clearInterval(autoplayInterval);
+      autoplayInterval = null;
     }
-  };
+  }
 
-  const stopAutoplay = () => clearInterval(autoplayInterval);
+  function startAutoplay() {
+    stopAutoplay();
+    autoplayInterval = setInterval(nextSlide, 5000);
+  }
 
-  // Event Listeners
-  controls.querySelector('.hero-prev').addEventListener('click', () => {
+  const prevButton = controls.querySelector(".hero-prev");
+  const nextButton = controls.querySelector(".hero-next");
+
+  prevButton?.addEventListener("click", () => {
     prevSlide();
     stopAutoplay();
   });
 
-  controls.querySelector('.hero-next').addEventListener('click', () => {
+  nextButton?.addEventListener("click", () => {
     nextSlide();
     stopAutoplay();
   });
 
-  carouselWrapper.addEventListener('mouseenter', stopAutoplay);
-  carouselWrapper.addEventListener('mouseleave', startAutoplay);
+  carouselWrapper.addEventListener("mouseenter", stopAutoplay);
+  carouselWrapper.addEventListener("mouseleave", startAutoplay);
 
-  // Touch swipe
-  let touchStartX = 0;
-  carouselWrapper.addEventListener('touchstart', e => {
-    touchStartX = e.touches[0].screenX;
-  }, { passive: true });
-
-  carouselWrapper.addEventListener('touchend', e => {
-    const diff = touchStartX - e.changedTouches[0].screenX;
-    if (Math.abs(diff) > 50) {
-      diff > 0 ? nextSlide() : prevSlide();
+  // --- Keyboard Navigation ---
+  carouselWrapper.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") {
+      prevSlide();
+      stopAutoplay();
+    } else if (e.key === "ArrowRight") {
+      nextSlide();
       stopAutoplay();
     }
-  }, { passive: true });
-
-  // Keyboard
-  carouselWrapper.tabIndex = 0;
-  carouselWrapper.addEventListener('keydown', e => {
-    if (e.key === 'ArrowLeft') { prevSlide(); stopAutoplay(); }
-    if (e.key === 'ArrowRight') { nextSlide(); stopAutoplay(); }
   });
 
-  // Initial build
-  buildSlides();
-  if (track.children.length > 1) startAutoplay();
+  // --- Touch Swipe ---
+  let touchStartX = 0;
+  let touchEndX = 0;
 
-  // Live updates when author adds/removes/reorders slides
-  const observer = new MutationObserver(() => {
-    buildSlides();
-    if (track.children.length > 1) startAutoplay();
-  });
+  carouselWrapper.addEventListener(
+    "touchstart",
+    (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    },
+    { passive: true }
+  );
 
-  observer.observe(block, {
-    childList: true,
-    subtree: true,
-    attributes: true,
-    characterData: true
-  });
+  carouselWrapper.addEventListener(
+    "touchend",
+    (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchStartX - touchEndX;
+
+      if (Math.abs(diff) > 50) {
+        diff > 0 ? nextSlide() : prevSlide();
+        stopAutoplay();
+      }
+    },
+    { passive: true }
+  );
+
+  // Initialize
+  updateCarousel();
+  startAutoplay();
 
   // Cleanup
-  block.addEventListener('removed', () => {
-    stopAutoplay();
-    observer.disconnect();
-  }, { once: true });
+  if (block.parentElement) {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.removedNodes.forEach((node) => {
+          if (node === block) {
+            stopAutoplay();
+            observer.disconnect();
+          }
+        });
+      });
+    });
+    observer.observe(block.parentElement, {
+      childList: true,
+      subtree: true,
+    });
+  }
 }
