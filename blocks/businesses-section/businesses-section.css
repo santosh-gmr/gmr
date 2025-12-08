@@ -1,23 +1,94 @@
-/* businesses-accordion.css */
-.businesses-accordion-wrapper {
+/* business-accordion.css */
+/* Bootstrap Accordion Styles */
+.accordion {
+  width: 100%;
+}
+
+.accordion-item {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.accordion-button {
+  background-color: transparent;
+  border: none;
+  padding: 1.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #212529;
+  text-align: left;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: color 0.15s ease-in-out;
+}
+
+.accordion-button:hover {
+  color: #0056b3;
+}
+
+.accordion-button:not(.collapsed) {
+  color: #0056b3;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.accordion-button:focus {
+  border-color: #86b7fe;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.accordion-button::after {
+  display: none; /* Hide Bootstrap's default icon */
+}
+
+.accordion-button .accordion-icon {
+  font-size: 1.5rem;
+  font-weight: 400;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.accordion-button:not(.collapsed) .accordion-icon {
+  transform: rotate(180deg);
+}
+
+.accordion-collapse {
+  transition: height 0.35s ease;
+}
+
+.accordion-body {
+  padding: 0 0 1.5rem 0;
+}
+
+/* Custom Businesses Accordion Styles */
+.business-accordion-wrapper {
   max-width: 1200px;
   margin: 0 auto;
   padding: 4rem 1rem;
 }
 
-.businesses-header {
+.business-accordion-header {
   text-align: center;
   margin-bottom: 3rem;
 }
 
-.businesses-header h2 {
+.business-accordion-header h2 {
   font-size: 2.5rem;
   font-weight: 700;
   color: #333;
   margin-bottom: 0.5rem;
 }
 
-.businesses-header h2 span {
+.business-accordion-header h2 span {
   display: block;
   font-size: 1.5rem;
   font-weight: 400;
@@ -33,118 +104,50 @@
   line-height: 1.6;
 }
 
-.businesses-accordion-container {
+.business-accordion-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
   align-items: start;
 }
 
-/* Desktop Image Preview */
-.businesses-image-preview {
+/* Business Image Preview */
+.business-image-preview {
   position: sticky;
   top: 2rem;
   height: 500px;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
-.desktop-image {
+.business-image-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.desktop-business-image {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   opacity: 0;
-  transition: opacity 0.5s ease;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
-.desktop-image.active {
+.desktop-business-image.active {
   opacity: 1;
+  visibility: visible;
 }
 
-.desktop-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Accordion Styles */
-.businesses-accordion {
-  width: 100%;
-}
-
-.accordion-item {
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.accordion-header {
-  margin: 0;
-}
-
-.accordion-button {
-  width: 100%;
-  padding: 1.5rem 0;
-  background: none;
-  border: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  font-family: inherit;
-  color: #333;
-  font-size: 1.25rem;
-  font-weight: 600;
-  transition: color 0.3s ease;
-  text-align: left;
-}
-
-.accordion-button:hover {
-  color: #007bff;
-}
-
-.accordion-button:focus {
-  outline: 2px solid #007bff;
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-.accordion-button[aria-expanded="true"] {
-  color: #007bff;
-}
-
-.accordion-title {
+/* Business Content Styles */
+.business-title {
   flex: 1;
-}
-
-.accordion-icon {
-  font-size: 1.5rem;
-  font-weight: 400;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.3s ease;
-}
-
-.accordion-button[aria-expanded="true"] .accordion-icon {
-  transform: rotate(180deg);
-}
-
-.accordion-panel {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-}
-
-.accordion-panel.active {
-  max-height: 1000px; /* Adjust based on content */
-}
-
-.accordion-content {
-  padding-bottom: 1.5rem;
+  text-align: left;
+  padding-right: 1rem;
 }
 
 .business-description {
@@ -166,35 +169,36 @@
   margin-bottom: 1.5rem;
 }
 
-.business-cta .button {
-  display: inline-block;
+.business-cta .btn {
   padding: 0.75rem 1.875rem;
-  background: #007bff;
-  color: white;
+  font-weight: 600;
   text-decoration: none;
   border-radius: 6px;
-  font-weight: 600;
   transition: all 0.3s ease;
-  border: none;
-  cursor: pointer;
 }
 
-.business-cta .button:hover {
+.business-cta .btn-primary {
+  background: #007bff;
+  border-color: #007bff;
+}
+
+.business-cta .btn-primary:hover {
   background: #0056b3;
+  border-color: #0056b3;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
 }
 
-/* Mobile Images */
-.mobile-image {
+/* Mobile Business Images */
+.mobile-business-image {
   display: none;
   margin-top: 1.5rem;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.mobile-image img {
+.mobile-business-image img {
   width: 100%;
   height: auto;
   max-height: 300px;
@@ -202,72 +206,26 @@
   display: block;
 }
 
-/* Controls */
-.accordion-controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 2rem;
-  padding: 1rem;
-  border-top: 1px solid #e0e0e0;
-}
-
-.accordion-prev,
-.accordion-next {
-  background: #f8f9fa;
-  border: 1px solid #dee2e6;
-  border-radius: 50%;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.accordion-prev:hover,
-.accordion-next:hover {
-  background: #e9ecef;
-  border-color: #007bff;
-}
-
-.accordion-prev svg,
-.accordion-next svg {
-  width: 24px;
-  height: 24px;
-  color: #333;
-}
-
-.accordion-counter {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #333;
-  min-width: 60px;
-  text-align: center;
-}
-
 /* Responsive Design */
 @media (max-width: 991px) {
-  .businesses-accordion-container {
+  .business-accordion-container {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
   
-  .businesses-image-preview {
+  .business-image-preview {
     display: none;
   }
   
-  .mobile-image {
+  .mobile-business-image {
     display: block;
   }
   
-  .businesses-header h2 {
+  .business-accordion-header h2 {
     font-size: 2rem;
   }
   
-  .businesses-header h2 span {
+  .business-accordion-header h2 span {
     font-size: 1.25rem;
   }
   
@@ -278,30 +236,26 @@
 }
 
 @media (max-width: 768px) {
-  .businesses-accordion-wrapper {
+  .business-accordion-wrapper {
     padding: 3rem 1rem;
   }
   
-  .businesses-header {
+  .business-accordion-header {
     margin-bottom: 2rem;
   }
   
-  .mobile-image img {
+  .mobile-business-image img {
     max-height: 250px;
   }
   
-  .business-cta .button {
+  .business-cta .btn {
     width: 100%;
     text-align: center;
-  }
-  
-  .accordion-controls {
-    margin-top: 1.5rem;
   }
 }
 
 @media (max-width: 480px) {
-  .businesses-header h2 {
+  .business-accordion-header h2 {
     font-size: 1.75rem;
   }
   
@@ -314,33 +268,45 @@
     font-size: 0.9375rem;
   }
   
-  .mobile-image img {
+  .mobile-business-image img {
     max-height: 200px;
   }
 }
 
-/* Accessibility */
+/* Bootstrap Collapse Animations */
+.collapsing {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  transition: height 0.35s ease;
+}
+
+/* Accessibility Improvements */
 .accordion-button:focus-visible {
   outline: 2px solid #007bff;
   outline-offset: 2px;
 }
 
-.accordion-panel[aria-hidden="true"] {
-  display: none;
-}
-
-/* Animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
+/* Print Styles */
+@media print {
+  .business-accordion-container {
+    grid-template-columns: 1fr;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  
+  .business-image-preview {
+    display: none;
   }
-}
-
-.accordion-panel.active .accordion-content {
-  animation: fadeIn 0.3s ease;
+  
+  .mobile-business-image {
+    display: block !important;
+  }
+  
+  .accordion-button::after {
+    display: none !important;
+  }
+  
+  .accordion-collapse {
+    display: block !important;
+    height: auto !important;
+  }
 }
