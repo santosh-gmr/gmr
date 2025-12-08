@@ -93,9 +93,9 @@
   display: inline-block;
   font-size: 1.5rem;
   font-weight: 400;
-  color: var(--turquoise);
+  color: var(--turquoise); font-family: var(--font-secondary); position: relative;
 }
-
+.business-accordion-header h2 span:before { content: '/'; }
 .intro-text {
   font-size: 1.125rem;
   color: var(--charcoal);
