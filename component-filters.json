@@ -1,9 +1,7 @@
 [
   {
     "id": "main",
-    "components": [
-      "section"
-    ]
+    "components": ["section"]
   },
   {
     "id": "section",
@@ -12,132 +10,110 @@
       "image",
       "button",
       "title",
-      "hero",
       "cards",
       "columns",
       "fragment",
-      "businesses-section",
-      "hero-banner",
-      "businesstest"
-    ]
-  },
-  {
-    "id": "airport-overview",
-    "components": [
-      "airport-overview-item"
-    ]
-  },
-  {
-    "id": "aviation-expertise",
-    "components": [
-      "aviation-item"
-    ]
-  },
-  {
-    "id": "awards-carousel",
-    "components": [
-      "award-item"
-    ]
-  },
-  {
-    "id": "businesses-section",
-    "components": [
-      "business-item"
+      "footerlinks",
+      "footertopbars",
+      "footerbottoms",
+      "banners",
+      "header",
+      "nav-item",
+      "header-img",
+      "success-stories",
+      "news-updates",
+      "aviation-expertise",
+      "content-fragment-block",
+      "airport-overview",
+      "recognition-awards",
+      "awards-carousel",
+      "experience-banner",
+      "committed-banner",
+      "passenger-experience"
     ]
   },
   {
     "id": "cards",
-    "components": [
-      "card"
-    ]
-  },
-  {
-    "id": "carousel",
-    "components": [
-      "slide"
-    ]
+    "components": ["card"]
   },
   {
     "id": "columns",
-    "components": [
-      "column"
-    ]
+    "components": ["column"]
   },
   {
     "id": "column",
-    "components": [
-      "text",
-      "image",
-      "button",
-      "title"
-    ]
+    "components": ["text", "image", "button", "title"]
   },
   {
-    "id": "committed-banner",
+    "id": "footerlinks",
+    "components": ["footerlink"]
+  },
+  {
+    "id": "footerbottoms",
+    "components": ["footerbottom"]
+  },
+  {
+    "id": "banners",
+    "components": ["banner"]
+  },
+  {
+    "id": "banner",
+    "components": ["text", "image", "button"]
+  },
+  {
+    "id": "footertopbars",
+    "components": ["footertopbar", "groupwebsitelink"]
+  },
+  {
+    "id": "header",
+    "components": ["nav-item"]
+  },
+  {
+    "id": "nav-item",
+    "components": ["nav-child"]
+  },
+  {
+    "id": "header-img",
+    "components": ["menu-img"]
+  },
+  {
+    "id": "success-stories",
+    "components": ["story-item"]
+  },
+  {
+    "id": "news-updates",
+    "components": ["news-item"]
+  },
+  {
+    "id": "aviation-expertise",
+    "components": ["aviation-item"]
+  },
+  {
+    "id": "content-fragment-block",
     "components": []
+  },
+  {
+    "id": "airport-overview",
+    "components": ["airport-overview-item"]
+  },
+  {
+    "id": "recognition-awards",
+    "components": []
+  },
+  {
+    "id": "awards-carousel",
+    "components": ["award-item"]
   },
   {
     "id": "experience-banner",
     "components": []
   },
   {
-    "id": "footerbottoms",
-    "components": [
-      "footerbottom"
-    ]
-  },
-  {
-    "id": "footerlinks",
-    "components": [
-      "footerlinks"
-    ]
-  },
-  {
-    "id": "footertopbars",
-    "components": [
-      "footertopbar"
-    ]
-  },
-  {
-    "id": "header-img",
-    "components": [
-      "menu-img"
-    ]
-  },
-  {
-    "id": "header",
-    "components": [
-      "nav-item"
-    ]
-  },
-  {
-    "id": "nav-item",
-    "components": [
-      "nav-child"
-    ]
-  },
-  {
-    "id": "hero-banner",
-    "components": [
-      "hero-banner-items"
-    ]
-  },
-  {
-    "id": "news-updates",
-    "components": [
-      "news-item"
-    ]
+    "id": "committed-banner",
+    "components": []
   },
   {
     "id": "passenger-experience",
-    "components": [
-      "experience-item"
-    ]
-  },
-  {
-    "id": "success-stories",
-    "components": [
-      "story-item"
-    ]
+    "components": ["experience-item"]
   }
 ]
