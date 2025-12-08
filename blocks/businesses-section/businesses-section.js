@@ -72,112 +72,36 @@ export default function decorate(block) {
   
   // Process each business item
   items.forEach((item, index) => {
-    // Extract image from the original structure
-    const pictureElement = item.querySelector('[data-aue-prop="image"] picture');
-    const imgElement = pictureElement?.querySelector('img');
-    const imageSrc = imgElement?.src || '';
-    const imageAlt = imgElement?.alt || '';
-    
-    // Extract other content
-    const titleEl = item.querySelector('[data-aue-prop="title"]');
-    const descriptionEl = item.querySelector('[data-aue-prop="description"]');
-    const ctaLabelEl = item.querySelector('[data-aue-prop="ctaLabel"]');
-    const ctaLinkEl = item.querySelector('.button-container a, a[href]');
-    
-    // Create desktop image clone
-    if (imgElement && imageSrc) {
-      const desktopImage = document.createElement('div');
-      desktopImage.className = `desktop-business-image ${index === 0 ? 'active' : ''}`;
-      desktopImage.setAttribute('data-index', index);
-      
-      const imgClone = imgElement.cloneNode(true);
-      desktopImage.appendChild(imgClone);
-      imageContainer.appendChild(desktopImage);
-    }
-    
-    // Create accordion item structure WITHOUT replacing original content
-    const accordionItem = document.createElement('div');
-    accordionItem.className = 'accordion-item';
-    
-    // Create accordion header
-    const accordionHeader = document.createElement('h2');
-    accordionHeader.className = 'accordion-header';
-    accordionHeader.id = `heading${index}`;
-    
-    const button = document.createElement('button');
-    button.className = `accordion-button ${index === 0 ? '' : 'collapsed'}`;
-    button.type = 'button';
-    button.setAttribute('data-bs-toggle', 'collapse');
-    button.setAttribute('data-bs-target', `#collapse${index}`);
-    button.setAttribute('aria-expanded', index === 0 ? 'true' : 'false');
-    button.setAttribute('aria-controls', `collapse${index}`);
-    
-    // Add title to button
-    if (titleEl) {
-      const titleSpan = document.createElement('span');
-      titleSpan.className = 'business-title';
-      titleSpan.textContent = titleEl.textContent?.trim() || '';
-      button.appendChild(titleSpan);
-    }
-    
-    // Add icon
-    const iconSpan = document.createElement('span');
-    iconSpan.className = 'accordion-icon';
-    iconSpan.setAttribute('aria-hidden', 'true');
-    iconSpan.textContent = index === 0 ? '−' : '+';
-    button.appendChild(iconSpan);
-    
-    accordionHeader.appendChild(button);
-    accordionItem.appendChild(accordionHeader);
-    
-    // Create accordion collapse
-    const accordionCollapse = document.createElement('div');
-    accordionCollapse.id = `collapse${index}`;
-    accordionCollapse.className = `accordion-collapse collapse ${index === 0 ? 'show' : ''}`;
-    accordionCollapse.setAttribute('aria-labelledby', `heading${index}`);
-    accordionCollapse.setAttribute('data-bs-parent', '#businessAccordion');
-    
-    const accordionBody = document.createElement('div');
-    accordionBody.className = 'accordion-body';
-    
-    // Add description
-    if (descriptionEl) {
-      const descDiv = document.createElement('div');
-      descDiv.className = 'business-description';
-      descDiv.innerHTML = descriptionEl.innerHTML;
-      accordionBody.appendChild(descDiv);
-    }
-    
-    // Add CTA
-    if (ctaLabelEl && ctaLinkEl) {
-      const ctaDiv = document.createElement('div');
-      ctaDiv.className = 'business-cta';
-      
-      const ctaLink = document.createElement('a');
-      ctaLink.href = ctaLinkEl.href;
-      ctaLink.className = 'btn btn-primary';
-      ctaLink.title = ctaLinkEl.title || ctaLabelEl.textContent?.trim() || '';
-      ctaLink.textContent = ctaLabelEl.textContent?.trim() || '';
-      
-      ctaDiv.appendChild(ctaLink);
-      accordionBody.appendChild(ctaDiv);
-    }
-    
-    // Add mobile image
-    if (imgElement && imageSrc) {
-      const mobileImage = document.createElement('div');
-      mobileImage.className = 'mobile-business-image';
-      mobileImage.setAttribute('data-index', index);
-      
-      const mobileImg = imgElement.cloneNode(true);
-      mobileImage.appendChild(mobileImg);
-      accordionBody.appendChild(mobileImage);
-    }
-    
-    accordionCollapse.appendChild(accordionBody);
-    accordionItem.appendChild(accordionCollapse);
-    accordionWrapper.appendChild(accordionItem);
-  });
+  
+  // --- FIXED IMAGE EXTRACTION ---
+  const imgElement = item.querySelector('img[data-aue-prop="image"]');
+  const imageSrc = imgElement?.getAttribute("src") || "";
+  const imageAlt = imgElement?.getAttribute("alt") || "";
+
+  // Desktop Image
+  if (imgElement && imageSrc) {
+    const desktopImage = document.createElement("div");
+    desktopImage.className = `desktop-business-image ${index === 0 ? "active" : ""}`;
+    desktopImage.setAttribute("data-index", index);
+
+    const clone = imgElement.cloneNode(true);
+    desktopImage.appendChild(clone);
+    imageContainer.appendChild(desktopImage);
+  }
+
+  // Mobile image
+  if (imgElement && imageSrc) {
+    const mobileImage = document.createElement("div");
+    mobileImage.className = "mobile-business-image";
+    mobileImage.setAttribute("data-index", index);
+
+    const clone2 = imgElement.cloneNode(true);
+    mobileImage.appendChild(clone2);
+    accordionBody.appendChild(mobileImage);
+  }
+
+});
+
   
   // Add image container to preview
   imagePreview.appendChild(imageContainer);
