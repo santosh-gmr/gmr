@@ -3,32 +3,32 @@
  * @param {HTMLElement} block - The herobanner block element
  */
 export default function decorate(block) {
+  // --- Authoring Prevention ---
+  // Check if the carousel has already been initialized
+  if (block.querySelector('.hero-carousel-wrapper')) {
+    return;
+  }
   // The Universal Editor inserts a placeholder with this class.
   // If it exists, we are in authoring mode with an empty block. Do not decorate.
   if (block.querySelector('.aem-block-placeholder')) {
     return;
   }
 
-  // Create the main carousel wrapper
+  // --- Structure Creation ---
   const carouselWrapper = document.createElement('div');
   carouselWrapper.className = 'hero-carousel-wrapper';
 
-  // Create the track to hold the slides
   const track = document.createElement('div');
   track.className = 'hero-carousel-track';
 
-  // Get all the slide elements that are direct children of the block
   const slideElements = [...block.children];
 
-  // Process and move each slide
   slideElements.forEach((slide, index) => {
-    // This div is the slide, enhance it
     slide.className = 'hero-slide';
     slide.setAttribute('role', 'group');
     slide.setAttribute('aria-roledescription', 'slide');
     slide.setAttribute('aria-label', `${index + 1} of ${slideElements.length}`);
 
-    // Extract content from the slide's inner divs
     const parts = slide.querySelectorAll(':scope > div');
     const title = parts[0]?.textContent?.trim() || '';
     const description = parts[1]?.textContent?.trim() || '';
@@ -39,11 +39,8 @@ export default function decorate(block) {
     const watchLabel = parts[5]?.textContent?.trim() || 'Watch Video';
     const watchLink = parts[6]?.querySelector('a')?.href || '#';
 
-    // Set the background image on the slide itself
     slide.style.backgroundImage = `url('${bgImg}')`;
 
-    // Re-create the inner content to ensure a consistent structure
-    // This is safe because we are modifying the slide, not the block itself.
     slide.innerHTML = `
       <div class="hero-slide-content">
         <h2 class="hero-title">${title}</h2>
@@ -54,15 +51,11 @@ export default function decorate(block) {
         </div>
       </div>
     `;
-
-    // Move the enhanced slide into the track
     track.appendChild(slide);
   });
 
-  // Add the track (with all the slides) to the main wrapper
   carouselWrapper.appendChild(track);
 
-  // Create controls and add them to the wrapper
   const controls = document.createElement('div');
   controls.className = 'hero-controls';
   controls.setAttribute('role', 'group');
@@ -76,10 +69,9 @@ export default function decorate(block) {
   `;
   carouselWrapper.appendChild(controls);
 
-  // Append the fully constructed carousel to the block.
-  // The block is now the parent for the carousel.
+  // This is the key change: we are not clearing the block,
+  // but appending the new structure to it.
   block.appendChild(carouselWrapper);
-
 
   // --- Carousel Functionality ---
   let currentSlide = 0;
