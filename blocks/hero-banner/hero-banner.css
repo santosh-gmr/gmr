@@ -1,12 +1,22 @@
-/* Hero Banner Carousel Styles */
+/* Hero Banner Carousel Styles
+   - Improved responsive behavior
+   - Avoids 100vh pitfalls on mobile
+   - Uses clamp() for typography
+   - Adds safe-area & video styling
+*/
 
+/* Container: avoid strict 100vh (mobile address bar issue) */
 .herobanner-container {
     width: 100%;
-    height: 100vh;
+    /* safer than 100vh — respects iOS safe areas */
+    min-height: calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    height: auto;
     overflow: hidden;
     position: relative;
+    background: #000;
 }
 
+/* Wrapper / track */
 .hero-carousel-wrapper {
     position: relative;
     width: 100%;
@@ -19,9 +29,12 @@
     transition: transform 0.6s ease-in-out;
     width: 100%;
     height: 100%;
+    will-change: transform;
 }
 
+/* Each slide: lock flex sizing to exactly 1 viewport width */
 .hero-slide {
+    flex: 0 0 100%; /* ensure exactly one slide per viewport */
     min-width: 100%;
     height: 100%;
     background-size: cover;
@@ -30,16 +43,20 @@
     position: relative;
     display: flex;
     align-items: center;
+    justify-content: flex-start;
+    overflow: hidden;
 }
 
+/* Overlay gradient for text contrast */
 .hero-slide::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
+    background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.15) 100%);
     z-index: 1;
 }
 
+/* Slide content sits above overlay */
 .hero-slide-content {
     position: relative;
     z-index: 2;
@@ -49,17 +66,18 @@
     padding: 20px;
 }
 
+/* Responsive typography using clamp */
 .hero-title {
-    font-size: 56px;
-    line-height: 1.1;
+    font-size: clamp(28px, 5vw, 56px);
+    line-height: 1.05;
     margin-bottom: 20px;
     font-weight: 700;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
 }
 
 .hero-description {
-    font-size: 24px;
-    margin-bottom: 32px;
+    font-size: clamp(14px, 2.5vw, 24px);
+    margin-bottom: 28px;
     color: #ececec;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
     line-height: 1.4;
@@ -67,58 +85,68 @@
 
 .hero-cta-group {
     display: flex;
-    gap: 20px;
+    gap: 16px;
     flex-wrap: wrap;
 }
 
+/* Buttons */
 .hero-btn {
-    padding: 16px 36px;
+    padding: 12px 28px;
     border-radius: 8px;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     border: 2px solid transparent;
     cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-block;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 48px; /* good tap target */
+    min-height: 48px;
 }
 
+/* Primary / Secondary */
 .hero-btn.primary {
     background-color: #F4B23E;
     color: #000;
     border-color: #F4B23E;
 }
 
-.hero-btn.primary:hover {
+.hero-btn.primary:hover,
+.hero-btn.primary:focus {
     background-color: #e5a332;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(244, 178, 62, 0.4);
+    box-shadow: 0 6px 18px rgba(244, 178, 62, 0.25);
 }
 
 .hero-btn.secondary {
-    background-color: transparent;
+    background-color: rgba(255,255,255,0.06);
     color: #fff;
-    border-color: #fff;
+    border-color: rgba(255,255,255,0.12);
 }
 
-.hero-btn.secondary:hover {
-    background-color: rgba(255,255,255,0.1);
+.hero-btn.secondary:hover,
+.hero-btn.secondary:focus {
+    background-color: rgba(255,255,255,0.12);
     transform: translateY(-2px);
 }
 
+/* Controls area */
 .hero-controls {
     position: absolute;
     bottom: 50px;
     left: 5%;
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 18px;
     z-index: 10;
 }
 
+/* Buttons inside controls */
 .hero-controls button {
-    background: rgba(255,255,255,0.2);
-    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(8px);
     border: 2px solid rgba(255,255,255,0.5);
     color: #fff;
     width: 50px;
@@ -126,86 +154,73 @@
     border-radius: 50%;
     font-size: 20px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: transform 0.15s ease, background 0.15s ease;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.hero-controls button:hover {
-    background: rgba(255,255,255,0.3);
+.hero-controls button:hover,
+.hero-controls button:focus {
+    background: rgba(255,255,255,0.28);
     border-color: #fff;
-    transform: scale(1.1);
+    transform: scale(1.06);
 }
 
 .hero-controls button:active {
-    transform: scale(0.95);
+    transform: scale(0.98);
 }
 
+/* Pagination small counter */
 .hero-pagination {
-    font-size: 22px;
+    font-size: 20px;
     color: white;
     font-weight: 700;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-    min-width: 80px;
+    min-width: 72px;
     text-align: center;
 }
 
-/* Responsive Design */
+/* Focus ring for accessibility */
+.hero-controls button:focus,
+.hero-btn:focus {
+    outline: 3px solid rgba(244,178,62,0.35);
+    outline-offset: 3px;
+}
+
+/* Background video element styling (injected by JS if present) */
+.hero-bg-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Responsive Design breakpoints */
 @media (max-width: 768px) {
-    .hero-title {
-        font-size: 36px;
-    }
-
-    .hero-description {
-        font-size: 18px;
-        margin-bottom: 24px;
-    }
-
-    .hero-btn {
-        padding: 12px 24px;
-        font-size: 16px;
-    }
-
-    .hero-slide-content {
-        margin-left: 0;
-        padding: 20px;
-        max-width: 90%;
-    }
-
-    .hero-controls {
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    .hero-controls button {
-        width: 45px;
-        height: 45px;
-        font-size: 18px;
-    }
-
-    .hero-pagination {
-        font-size: 18px;
-    }
+    .hero-title { font-size: clamp(22px, 6.5vw, 36px); }
+    .hero-description { font-size: 16px; margin-bottom: 20px; }
+    .hero-btn { padding: 10px 20px; font-size: 15px; }
+    .hero-slide-content { margin-left: 0; padding: 18px; max-width: 92%; }
+    .hero-controls { bottom: 28px; left: 50%; transform: translateX(-50%); }
+    .hero-controls button { width: 46px; height: 46px; font-size: 18px; }
+    .hero-pagination { font-size: 16px; min-width: 64px; }
 }
 
 @media (max-width: 480px) {
-    .hero-title {
-        font-size: 28px;
-    }
+    .hero-title { font-size: 28px; }
+    .hero-description { font-size: 15px; }
+    .hero-cta-group { flex-direction: column; gap: 12px; }
+    .hero-btn { width: 100%; text-align: center; padding: 12px 18px; }
+    .hero-controls { bottom: 18px; gap: 12px; }
+}
 
-    .hero-description {
-        font-size: 16px;
-    }
-
-    .hero-cta-group {
-        flex-direction: column;
-        gap: 12px;
-    }
-
-    .hero-btn {
-        width: 100%;
-        text-align: center;
-    }
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .hero-carousel-track { transition: none; }
+    .hero-controls button { transition: none; }
+    .hero-btn { transition: none; }
 }
