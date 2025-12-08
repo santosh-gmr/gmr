@@ -97,15 +97,15 @@ export default function decorate(block) {
     
     // Create accordion item structure WITHOUT replacing original content
     const accordionItem = document.createElement('div');
-    accordionItem.className = 'accordion-item';
+    accordionItem.className = `accordion-item ${index === 0 ? 'active' : ''}`;
     
     // Create accordion header
     const accordionHeader = document.createElement('h2');
-    accordionHeader.className = 'accordion-header';
+    accordionHeader.className = `accordion-header ${index === 0 ? 'active' : ''}`;
     accordionHeader.id = `heading${index}`;
     
     const button = document.createElement('button');
-    button.className = `accordion-button ${index === 0 ? '' : 'collapsed'}`;
+    button.className = `accordion-button ${index === 0 ? 'active' : ''}`;
     button.type = 'button';
     button.setAttribute('data-bs-toggle', 'collapse');
     button.setAttribute('data-bs-target', `#collapse${index}`);
@@ -120,12 +120,12 @@ export default function decorate(block) {
       button.appendChild(titleSpan);
     }
     
-    // Add icon
-    const iconSpan = document.createElement('span');
-    iconSpan.className = 'accordion-icon';
-    iconSpan.setAttribute('aria-hidden', 'true');
-    iconSpan.textContent = index === 0 ? '−' : '+';
-    button.appendChild(iconSpan);
+    // REMOVED: No longer adding plus/minus icon
+    // const iconSpan = document.createElement('span');
+    // iconSpan.className = 'accordion-icon';
+    // iconSpan.setAttribute('aria-hidden', 'true');
+    // iconSpan.textContent = index === 0 ? '−' : '+';
+    // button.appendChild(iconSpan);
     
     accordionHeader.appendChild(button);
     accordionItem.appendChild(accordionHeader);
@@ -228,6 +228,8 @@ function initAccordionFunctionality(accordion, imageContainer) {
   const buttons = accordion.querySelectorAll('.accordion-button');
   const desktopImages = imageContainer.querySelectorAll('.desktop-business-image');
   const mobileImages = accordion.querySelectorAll('.mobile-business-image');
+  const accordionItems = accordion.querySelectorAll('.accordion-item');
+  const accordionHeaders = accordion.querySelectorAll('.accordion-header');
   
   // Update image display
   function updateImages(index) {
@@ -243,25 +245,42 @@ function initAccordionFunctionality(accordion, imageContainer) {
     }
   }
   
+  // Update active states for accordion items and headers
+  function updateActiveStates(index) {
+    // Update accordion items
+    accordionItems.forEach((item, i) => {
+      item.classList.toggle('active', i === index);
+    });
+    
+    // Update accordion headers
+    accordionHeaders.forEach((header, i) => {
+      header.classList.toggle('active', i === index);
+    });
+    
+    // Update buttons
+    buttons.forEach((btn, i) => {
+      const shouldBeActive = i === index;
+      btn.classList.toggle('active', shouldBeActive);
+      btn.setAttribute('aria-expanded', shouldBeActive);
+      
+      // REMOVED: No longer updating plus/minus icon
+      // const icon = btn.querySelector('.accordion-icon');
+      // if (icon) {
+      //   icon.textContent = shouldBeActive ? '−' : '+';
+      // }
+    });
+  }
+  
   // Add click handlers
   buttons.forEach((button, index) => {
     button.addEventListener('click', function(e) {
       e.preventDefault();
       
-      const isActive = !this.classList.contains('collapsed');
+      const isActive = this.classList.contains('active');
       
       if (!isActive) {
-        // Update button states
-        buttons.forEach((btn, i) => {
-          const shouldBeActive = i === index;
-          btn.classList.toggle('collapsed', !shouldBeActive);
-          btn.setAttribute('aria-expanded', shouldBeActive);
-          
-          const icon = btn.querySelector('.accordion-icon');
-          if (icon) {
-            icon.textContent = shouldBeActive ? '−' : '+';
-          }
-        });
+        // Update all active states
+        updateActiveStates(index);
         
         // Update images
         updateImages(index);
@@ -293,6 +312,7 @@ function initAccordionFunctionality(accordion, imageContainer) {
   });
   
   // Initialize with first item active
+  updateActiveStates(0);
   updateImages(0);
 }
 
@@ -310,10 +330,10 @@ function setupResponsiveBehavior(imageContainer) {
     
     // Update mobile images
     if (isMobile) {
-      const activeIndex = document.querySelector('.accordion-button[aria-expanded="true"]');
+      const activeButton = document.querySelector('.accordion-button.active');
       const buttons = document.querySelectorAll('.accordion-button');
-      const activeBtnIndex = activeIndex ? 
-        Array.from(buttons).indexOf(activeIndex) : 0;
+      const activeBtnIndex = activeButton ? 
+        Array.from(buttons).indexOf(activeButton) : 0;
       
       mobileImages.forEach((img, index) => {
         img.style.display = index === activeBtnIndex ? 'block' : 'none';

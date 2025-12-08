@@ -43,7 +43,8 @@
 }
 
 .accordion-button::after {
-  display: none; /* Hide Bootstrap's default icon */
+  display: none;
+  /* Hide Bootstrap's default icon */
 }
 
 .accordion-button .accordion-icon {
@@ -71,35 +72,47 @@
 
 /* Custom Businesses Accordion Styles */
 .business-accordion-wrapper {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 90px 120px;
-    background: #ffffff;
-    border-radius: 10px;
-    margin-top: -90px;
-    position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 90px 120px;
+  background: #ffffff;
+  border-radius: 10px;
+  margin-top: -90px;
+  position: relative;
 }
 
-.business-accordion-header { margin-bottom: 3rem; }
+.business-accordion-header {
+  margin-bottom: 3rem;
+}
 
 .business-accordion-header h2 {
-  font-size: 2rem;
+  font-size: 45px;
   font-weight: 400;
   color: var(--blue);
   margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .business-accordion-header h2 span {
   display: inline-block;
-  font-size: 1.5rem;
-  font-weight: 400;
-  color: var(--turquoise); font-family: var(--font-secondary); position: relative;
+  font-size: 32px;
+  font-weight: 300; font-style: italic;
+  color: var(--turquoise);
+  font-family: var(--font-secondary);
+  position: relative;
 }
-.business-accordion-header h2 span:before { content: '/'; }
+
+.business-accordion-header h2 span:before {
+  content: '/';
+  color: var(--blue);
+}
+
 .intro-text {
-  font-size: 1.125rem;
+  font-size: 24px;
   color: var(--charcoal);
-  max-width: 800px;
+  max-width: 900px;
   margin: 0;
   line-height: 1.6;
 }
@@ -223,23 +236,23 @@
     grid-template-columns: 1fr;
     gap: 2rem;
   }
-  
+
   .business-image-preview {
     display: none;
   }
-  
+
   .mobile-business-image {
     display: block;
   }
-  
+
   .business-accordion-header h2 {
     font-size: 2rem;
   }
-  
+
   .business-accordion-header h2 span {
     font-size: 1.25rem;
   }
-  
+
   .accordion-button {
     padding: 1.25rem 0;
     font-size: 1.125rem;
@@ -250,15 +263,15 @@
   .business-accordion-wrapper {
     padding: 3rem 1rem;
   }
-  
+
   .business-accordion-header {
     margin-bottom: 2rem;
   }
-  
+
   .mobile-business-image img {
     max-height: 250px;
   }
-  
+
   .business-cta .btn {
     width: 100%;
     text-align: center;
@@ -270,16 +283,16 @@
   .business-accordion-header h2 {
     font-size: 1.75rem;
   }
-  
+
   .accordion-button {
     padding: 1rem 0;
     font-size: 1rem;
   }
-  
+
   .business-description {
     font-size: 0.9375rem;
   }
-  
+
   .mobile-business-image img {
     max-height: 200px;
   }
@@ -308,8 +321,13 @@
 }
 
 @keyframes loading {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 /* Print Styles */
@@ -317,19 +335,19 @@
   .business-accordion-container {
     grid-template-columns: 1fr;
   }
-  
+
   .business-image-preview {
     display: none;
   }
-  
+
   .mobile-business-image {
     display: block !important;
   }
-  
+
   .accordion-button::after {
     display: none !important;
   }
-  
+
   .accordion-collapse {
     display: block !important;
     height: auto !important;
