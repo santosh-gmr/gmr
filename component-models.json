@@ -259,49 +259,22 @@
         "component": "text-input",
         "valueType": "string",
         "name": "sectionTitle",
-        "label": "Section Title"
+        "label": "Section Title",
+        "comment": "The main heading (e.g., OUR BUSINESSES)"
       },
       {
         "component": "text-input",
         "valueType": "string",
         "name": "sectionSubtitle",
-        "label": "Section Subtitle"
+        "label": "Section Subtitle",
+        "comment": "The secondary heading (e.g., Pillars Of Value Creation)"
       },
       {
         "component": "richtext",
         "valueType": "string",
         "name": "introText",
-        "label": "Intro Text"
-      },
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "heroImage",
-        "label": "Hero Image"
-      },
-      {
-        "component": "text-input",
-        "valueType": "string",
-        "name": "heroTitle",
-        "label": "Hero Title"
-      },
-      {
-        "component": "richtext",
-        "valueType": "string",
-        "name": "heroDescription",
-        "label": "Hero Description"
-      },
-      {
-        "component": "text-input",
-        "valueType": "string",
-        "name": "heroCtaLabel",
-        "label": "Hero CTA Label"
-      },
-      {
-        "component": "text-input",
-        "valueType": "string",
-        "name": "heroCtaLink",
-        "label": "Hero CTA Link"
+        "label": "Intro Text",
+        "comment": "Global description text appearing above the accordion"
       }
     ]
   },
@@ -309,22 +282,32 @@
     "id": "business-item",
     "fields": [
       {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Business Image",
+        "comment": "The large image displayed on the left when this item is active"
+      },
+      {
         "component": "text-input",
         "valueType": "string",
         "name": "title",
-        "label": "Business Title"
+        "label": "Business Title",
+        "comment": "e.g., Airports & Aero Services"
       },
       {
         "component": "richtext",
         "valueType": "string",
         "name": "description",
-        "label": "Business Description"
+        "label": "Business Description",
+        "comment": "The content shown when the accordion is expanded"
       },
       {
         "component": "text-input",
         "valueType": "string",
         "name": "ctaLabel",
-        "label": "CTA Label"
+        "label": "CTA Label",
+        "comment": "e.g., READ MORE"
       },
       {
         "component": "text-input",
