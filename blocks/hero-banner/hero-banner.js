@@ -5,9 +5,10 @@
 export default function decorate(block) {
   // Get all slides from the block
   const slides = [...block.querySelectorAll(':scope > div')];
+  const hasContent = slides.length > 0 && slides.some(slide => slide.textContent.trim() !== '');
 
-  if (!slides.length) {
-    console.warn('No slides found in herobanner block');
+  // Do not decorate in authoring mode if the block is empty
+  if (!hasContent && (window.location.hostname.endsWith('.page') || window.location.hostname.endsWith('.live'))) {
     return;
   }
 
@@ -104,7 +105,7 @@ export default function decorate(block) {
     // Update aria-hidden for slides
     const allSlides = track.querySelectorAll('.hero-slide');
     allSlides.forEach((slide, index) => {
-      slide.setAttribute('aria-hidden', index !== currentSlide);
+      slide.setAttribute('aria-hidden', String(index !== currentSlide));
     });
   }
 
