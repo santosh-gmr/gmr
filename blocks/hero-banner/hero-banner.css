@@ -3,6 +3,7 @@
    - Avoids 100vh pitfalls on mobile
    - Uses clamp() for typography
    - Adds safe-area & video styling
+   - Minimal placeholder background for lazy loading
 */
 
 /* Container: avoid strict 100vh (mobile address bar issue) */
@@ -45,6 +46,9 @@
     align-items: center;
     justify-content: flex-start;
     overflow: hidden;
+
+    /* placeholder background color while lazy-loading */
+    background-color: #0a0a0a;
 }
 
 /* Overlay gradient for text contrast */
