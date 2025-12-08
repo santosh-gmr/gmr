@@ -684,6 +684,18 @@
     ]
   },
   {
+    "id": "hero-banner",
+    "fields": [
+      {
+        "component": "text",
+        "name": "blockName",
+        "label": "Block Name",
+        "valueType": "string",
+        "comment": "Internal field to ensure parent model validity"
+      }
+    ]
+  },
+  {
     "id": "hero-banner-items",
     "fields": [
       {
@@ -702,6 +714,13 @@
         "component": "reference",
         "name": "background-image",
         "label": "Background Image",
+        "valueType": "string",
+        "multi": false
+      },
+      {
+        "component": "reference",
+        "name": "background-video",
+        "label": "Background Video (MP4)",
         "valueType": "string",
         "multi": false
       },
