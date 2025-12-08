@@ -1,6 +1,3 @@
-
-
-
 /**
  * Hero Banner Carousel - Universal Editor Compatible
  * @param {HTMLElement} block - The herobanner block element
