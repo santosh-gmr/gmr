@@ -383,7 +383,7 @@
     ]
   },
   {
-    "id": "businesses-section",
+    "id": "businesstest",
     "fields": [
       {
         "component": "text-input",
@@ -409,7 +409,7 @@
     ]
   },
   {
-    "id": "business-item",
+    "id": "businesstest-item",
     "fields": [
       {
         "component": "reference",
