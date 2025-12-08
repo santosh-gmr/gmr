@@ -3,21 +3,14 @@
  * @param {HTMLElement} block - The herobanner block element
  */
 export default function decorate(block) {
-  // A helper function to determine if we are in the authoring environment
-  const isAuthoring = () => window.location.hostname.endsWith('.page') || window.location.hostname.endsWith('.live');
-
-  // Find potential slide elements
-  const slideElements = [...block.querySelectorAll(':scope > div')];
-
-  // Check if the block contains actual authored content.
-  // An authored slide will have at least one nested div for its content.
-  const hasAuthoredContent = slideElements.length > 0 && slideElements.some(slide => slide.querySelector('div'));
-
-  // If we are in the authoring environment and there is no authored content,
-  // do not decorate the block. This preserves the "+" button.
-  if (isAuthoring() && !hasAuthoredContent) {
+  // The Universal Editor inserts a placeholder with this class.
+  // If it exists, we are in authoring mode with an empty block. Do not decorate.
+  if (block.querySelector('.aem-block-placeholder')) {
     return;
   }
+
+  // Get all slides from the block
+  const slideElements = [...block.querySelectorAll(':scope > div')];
 
   // Create carousel wrapper
   const carouselWrapper = document.createElement('div');
