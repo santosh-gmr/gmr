@@ -1,320 +1,346 @@
-/* business-accordion.css */
-.business-accordion-wrapper {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+/* businesses-accordion.css */
+.businesses-accordion-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 1rem;
 }
 
 .businesses-header {
-    text-align: center;
-    margin-bottom: 40px;
+  text-align: center;
+  margin-bottom: 3rem;
 }
 
 .businesses-header h2 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #333;
-    margin-bottom: 20px;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 0.5rem;
 }
 
 .businesses-header h2 span {
-    display: block;
-    font-size: 1.5rem;
-    font-weight: 400;
-    color: #666;
-    margin-top: 10px;
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: #666;
+  margin-top: 0.25rem;
 }
 
 .intro-text {
-    font-size: 1.125rem;
-    color: #555;
-    max-width: 800px;
-    margin: 0 auto;
-    line-height: 1.6;
+  font-size: 1.125rem;
+  color: #555;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
 }
 
-.intro-text p {
-    margin: 0;
-}
-
-/* Container for two-column layout */
-.business-accordion-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: start;
+.businesses-accordion-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
 }
 
 /* Desktop Image Preview */
-.business-image-preview {
-    position: sticky;
-    top: 100px;
-    height: 500px;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+.businesses-image-preview {
+  position: sticky;
+  top: 2rem;
+  height: 500px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 .desktop-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transition: opacity 0.5s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.5s ease;
 }
 
 .desktop-image.active {
-    opacity: 1;
+  opacity: 1;
 }
 
 .desktop-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* Accordion Styles */
-.accordion {
-    width: 100%;
+.businesses-accordion {
+  width: 100%;
 }
 
 .accordion-item {
-    border: none;
-    border-bottom: 1px solid #e0e0e0;
-    background: transparent;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .accordion-header {
-    margin: 0;
+  margin: 0;
 }
 
 .accordion-button {
-    width: 100%;
-    padding: 25px 0;
-    background: none;
-    border: none;
-    text-align: left;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    font-family: inherit;
-    color: #333;
-    font-size: 1.25rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    position: relative;
+  width: 100%;
+  padding: 1.5rem 0;
+  background: none;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-family: inherit;
+  color: #333;
+  font-size: 1.25rem;
+  font-weight: 600;
+  transition: color 0.3s ease;
+  text-align: left;
 }
 
 .accordion-button:hover {
-    color: #007bff;
+  color: #007bff;
 }
 
 .accordion-button:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(0,123,255,0.25);
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
-.accordion-button .accordion-title {
-    flex: 1;
-    text-align: left;
+.accordion-button[aria-expanded="true"] {
+  color: #007bff;
 }
 
-.accordion-button .accordion-icon {
-    font-size: 1.5rem;
-    font-weight: 400;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s ease;
+.accordion-title {
+  flex: 1;
 }
 
-.accordion-button:not(.collapsed) .accordion-icon {
-    transform: rotate(180deg);
+.accordion-icon {
+  font-size: 1.5rem;
+  font-weight: 400;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
 }
 
-.accordion-collapse {
-    transition: height 0.3s ease;
+.accordion-button[aria-expanded="true"] .accordion-icon {
+  transform: rotate(180deg);
 }
 
-.accordion-body {
-    padding: 0 0 25px 0;
+.accordion-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.accordion-panel.active {
+  max-height: 1000px; /* Adjust based on content */
+}
+
+.accordion-content {
+  padding-bottom: 1.5rem;
 }
 
 .business-description {
-    font-size: 1rem;
-    line-height: 1.7;
-    color: #555;
-    margin-bottom: 20px;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #555;
+  margin-bottom: 1.5rem;
 }
 
 .business-description p {
-    margin: 0 0 15px 0;
+  margin: 0 0 1rem 0;
 }
 
 .business-description p:last-child {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .business-cta {
-    margin-bottom: 25px;
+  margin-bottom: 1.5rem;
 }
 
 .business-cta .button {
-    display: inline-block;
-    padding: 12px 30px;
-    background: #007bff;
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    border: none;
-    cursor: pointer;
-    text-align: center;
+  display: inline-block;
+  padding: 0.75rem 1.875rem;
+  background: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
 }
 
 .business-cta .button:hover {
-    background: #0056b3;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+  background: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,123,255,0.3);
 }
 
-/* Mobile Images (hidden on desktop by default) */
+/* Mobile Images */
 .mobile-image {
-    display: none;
-    margin-top: 25px;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  display: none;
+  margin-top: 1.5rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 .mobile-image img {
-    width: 100%;
-    height: auto;
-    max-height: 300px;
-    object-fit: cover;
-    display: block;
+  width: 100%;
+  height: auto;
+  max-height: 300px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Controls */
+.accordion-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding: 1rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.accordion-prev,
+.accordion-next {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.accordion-prev:hover,
+.accordion-next:hover {
+  background: #e9ecef;
+  border-color: #007bff;
+}
+
+.accordion-prev svg,
+.accordion-next svg {
+  width: 24px;
+  height: 24px;
+  color: #333;
+}
+
+.accordion-counter {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  min-width: 60px;
+  text-align: center;
 }
 
 /* Responsive Design */
 @media (max-width: 991px) {
-    .business-accordion-container {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
-    
-    .business-image-preview {
-        display: none !important;
-    }
-    
-    .mobile-image {
-        display: block;
-    }
-    
-    .businesses-header h2 {
-        font-size: 2rem;
-    }
-    
-    .businesses-header h2 span {
-        font-size: 1.25rem;
-    }
-    
-    .accordion-button {
-        padding: 20px 0;
-        font-size: 1.125rem;
-    }
+  .businesses-accordion-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .businesses-image-preview {
+    display: none;
+  }
+  
+  .mobile-image {
+    display: block;
+  }
+  
+  .businesses-header h2 {
+    font-size: 2rem;
+  }
+  
+  .businesses-header h2 span {
+    font-size: 1.25rem;
+  }
+  
+  .accordion-button {
+    padding: 1.25rem 0;
+    font-size: 1.125rem;
+  }
 }
 
 @media (max-width: 768px) {
-    .business-accordion-wrapper {
-        padding: 0 15px;
-    }
-    
-    .businesses-header {
-        margin-bottom: 30px;
-    }
-    
-    .mobile-image img {
-        max-height: 250px;
-    }
-    
-    .business-cta .button {
-        width: 100%;
-        display: block;
-    }
+  .businesses-accordion-wrapper {
+    padding: 3rem 1rem;
+  }
+  
+  .businesses-header {
+    margin-bottom: 2rem;
+  }
+  
+  .mobile-image img {
+    max-height: 250px;
+  }
+  
+  .business-cta .button {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .accordion-controls {
+    margin-top: 1.5rem;
+  }
 }
 
 @media (max-width: 480px) {
-    .businesses-header h2 {
-        font-size: 1.75rem;
-    }
-    
-    .accordion-button {
-        padding: 15px 0;
-        font-size: 1rem;
-    }
-    
-    .business-description {
-        font-size: 0.9375rem;
-    }
-    
-    .mobile-image img {
-        max-height: 200px;
-    }
-}
-
-/* Animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.accordion-collapse.show .accordion-body {
-    animation: fadeIn 0.3s ease;
+  .businesses-header h2 {
+    font-size: 1.75rem;
+  }
+  
+  .accordion-button {
+    padding: 1rem 0;
+    font-size: 1rem;
+  }
+  
+  .business-description {
+    font-size: 0.9375rem;
+  }
+  
+  .mobile-image img {
+    max-height: 200px;
+  }
 }
 
 /* Accessibility */
 .accordion-button:focus-visible {
-    outline: 2px solid #007bff;
-    outline-offset: 2px;
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
 }
 
-/* Print Styles */
-@media print {
-    .business-accordion-container {
-        grid-template-columns: 1fr;
-    }
-    
-    .business-image-preview {
-        display: none;
-    }
-    
-    .accordion-button {
-        color: #000 !important;
-        background: none !important;
-    }
-    
-    .accordion-button::after {
-        display: none;
-    }
-    
-    .accordion-collapse {
-        display: block !important;
-        height: auto !important;
-    }
-    
-    .mobile-image {
-        display: block !important;
-    }
+.accordion-panel[aria-hidden="true"] {
+  display: none;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.accordion-panel.active .accordion-content {
+  animation: fadeIn 0.3s ease;
 }
