@@ -3,12 +3,19 @@
  * @param {HTMLElement} block - The herobanner block element
  */
 export default function decorate(block) {
-  // Get all slides from the block
-  const slides = [...block.querySelectorAll(':scope > div')];
-  const hasContent = slides.length > 0 && slides.some(slide => slide.textContent.trim() !== '');
+  // A helper function to determine if we are in the authoring environment
+  const isAuthoring = () => window.location.hostname.endsWith('.page') || window.location.hostname.endsWith('.live');
 
-  // Do not decorate in authoring mode if the block is empty
-  if (!hasContent && (window.location.hostname.endsWith('.page') || window.location.hostname.endsWith('.live'))) {
+  // Find potential slide elements
+  const slideElements = [...block.querySelectorAll(':scope > div')];
+
+  // Check if the block contains actual authored content.
+  // An authored slide will have at least one nested div for its content.
+  const hasAuthoredContent = slideElements.length > 0 && slideElements.some(slide => slide.querySelector('div'));
+
+  // If we are in the authoring environment and there is no authored content,
+  // do not decorate the block. This preserves the "+" button.
+  if (isAuthoring() && !hasAuthoredContent) {
     return;
   }
 
@@ -21,7 +28,7 @@ export default function decorate(block) {
   track.className = 'hero-carousel-track';
 
   // Process each slide
-  slides.forEach((slide, index) => {
+  slideElements.forEach((slide, index) => {
     // Query all divs within the slide
     const parts = slide.querySelectorAll(':scope > div');
 
@@ -48,7 +55,7 @@ export default function decorate(block) {
     slideEl.style.backgroundImage = `url('${bgImg}')`;
     slideEl.setAttribute('role', 'group');
     slideEl.setAttribute('aria-roledescription', 'slide');
-    slideEl.setAttribute('aria-label', `${index + 1} of ${slides.length}`);
+    slideEl.setAttribute('aria-label', `${index + 1} of ${slideElements.length}`);
 
     // Build slide content
     slideEl.innerHTML = `
@@ -77,7 +84,7 @@ export default function decorate(block) {
   controls.innerHTML = `
     <button class="hero-prev" aria-label="Previous slide" type="button">←</button>
     <div class="hero-pagination" aria-live="polite" aria-atomic="true">
-      01 / ${String(slides.length).padStart(2, '0')}
+      01 / ${String(slideElements.length).padStart(2, '0')}
     </div>
     <button class="hero-next" aria-label="Next slide" type="button">→</button>
   `;
@@ -99,7 +106,7 @@ export default function decorate(block) {
     const pagination = controls.querySelector('.hero-pagination');
     if (pagination) {
       pagination.textContent =
-        `${String(currentSlide + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+        `${String(currentSlide + 1).padStart(2, '0')} / ${String(slideElements.length).padStart(2, '0')}`;
     }
 
     // Update aria-hidden for slides
@@ -111,13 +118,13 @@ export default function decorate(block) {
 
   // Go to previous slide
   function prevSlide() {
-    currentSlide = currentSlide === 0 ? slides.length - 1 : currentSlide - 1;
+    currentSlide = currentSlide === 0 ? slideElements.length - 1 : currentSlide - 1;
     updateCarousel();
   }
 
   // Go to next slide
   function nextSlide() {
-    currentSlide = currentSlide === slides.length - 1 ? 0 : currentSlide + 1;
+    currentSlide = currentSlide === slideElements.length - 1 ? 0 : currentSlide + 1;
     updateCarousel();
   }
 
