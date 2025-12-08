@@ -70,6 +70,15 @@ export default function decorate(block) {
   accordionWrapper.className = 'accordion';
   accordionWrapper.id = 'businessAccordion';
   
+  // SVG icons for plus and minus
+  const plusIconSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+    <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
+  </svg>`;
+  
+  const minusIconSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+    <path d="M0 8a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1z"/>
+  </svg>`;
+  
   // Process each business item
   items.forEach((item, index) => {
     // Extract image from the original structure
@@ -120,12 +129,29 @@ export default function decorate(block) {
       button.appendChild(titleSpan);
     }
     
-    // REMOVED: No longer adding plus/minus icon
-    // const iconSpan = document.createElement('span');
-    // iconSpan.className = 'accordion-icon';
-    // iconSpan.setAttribute('aria-hidden', 'true');
-    // iconSpan.textContent = index === 0 ? '−' : '+';
-    // button.appendChild(iconSpan);
+    // Add icon container
+    const iconContainer = document.createElement('span');
+    iconContainer.className = 'accordion-icon';
+    iconContainer.setAttribute('aria-hidden', 'true');
+    
+    // Add SVG icon based on active state
+    const iconWrapper = document.createElement('span');
+    iconWrapper.className = 'icon-wrapper';
+    
+    // Add plus icon (hidden by default if active)
+    const plusIcon = document.createElement('span');
+    plusIcon.className = `plus-icon ${index === 0 ? 'hidden' : ''}`;
+    plusIcon.innerHTML = plusIconSVG;
+    iconWrapper.appendChild(plusIcon);
+    
+    // Add minus icon (visible only if active)
+    const minusIcon = document.createElement('span');
+    minusIcon.className = `minus-icon ${index === 0 ? '' : 'hidden'}`;
+    minusIcon.innerHTML = minusIconSVG;
+    iconWrapper.appendChild(minusIcon);
+    
+    iconContainer.appendChild(iconWrapper);
+    button.appendChild(iconContainer);
     
     accordionHeader.appendChild(button);
     accordionItem.appendChild(accordionHeader);
@@ -245,6 +271,22 @@ function initAccordionFunctionality(accordion, imageContainer) {
     }
   }
   
+  // Update icon visibility based on active state
+  function updateIcons(button, isActive) {
+    const plusIcon = button.querySelector('.plus-icon');
+    const minusIcon = button.querySelector('.minus-icon');
+    
+    if (plusIcon && minusIcon) {
+      if (isActive) {
+        plusIcon.classList.add('hidden');
+        minusIcon.classList.remove('hidden');
+      } else {
+        plusIcon.classList.remove('hidden');
+        minusIcon.classList.add('hidden');
+      }
+    }
+  }
+  
   // Update active states for accordion items and headers
   function updateActiveStates(index) {
     // Update accordion items
@@ -257,17 +299,14 @@ function initAccordionFunctionality(accordion, imageContainer) {
       header.classList.toggle('active', i === index);
     });
     
-    // Update buttons
+    // Update buttons and icons
     buttons.forEach((btn, i) => {
       const shouldBeActive = i === index;
       btn.classList.toggle('active', shouldBeActive);
       btn.setAttribute('aria-expanded', shouldBeActive);
       
-      // REMOVED: No longer updating plus/minus icon
-      // const icon = btn.querySelector('.accordion-icon');
-      // if (icon) {
-      //   icon.textContent = shouldBeActive ? '−' : '+';
-      // }
+      // Update icons
+      updateIcons(btn, shouldBeActive);
     });
   }
   
