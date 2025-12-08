@@ -684,17 +684,6 @@
     ]
   },
   {
-    "id": "hero-banner",
-    "fields": [
-      {
-        "component": "text",
-        "name": "block-name",
-        "label": "Block Name",
-        "valueType": "string"
-      }
-    ]
-  },
-  {
     "id": "hero-banner-items",
     "fields": [
       {
@@ -717,22 +706,15 @@
         "multi": false
       },
       {
-        "component": "reference",
-        "name": "background-video",
-        "label": "Background Video",
-        "valueType": "string",
-        "multi": false
-      },
-      {
         "component": "text",
         "name": "know-more-label",
         "label": "Know More Label",
         "valueType": "string"
       },
       {
-        "component": "text",
+        "component": "aem-content",
         "name": "know-more-link",
-        "label": "Know More Link",
+        "label": "Know More Link URL",
         "valueType": "string"
       },
       {
@@ -742,9 +724,9 @@
         "valueType": "string"
       },
       {
-        "component": "text",
+        "component": "aem-content",
         "name": "watch-video-link",
-        "label": "Watch Video Link",
+        "label": "Watch Video Link URL",
         "valueType": "string"
       }
     ]

@@ -511,15 +511,14 @@
           }
         },
         {
-          "title": "Hero Banner",
+          "title": "HeroBanner",
           "id": "hero-banner",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block",
                 "template": {
-                  "name": "hero-banner",
-                  "model": "hero-banner",
+                  "name": "HeroBanner",
                   "filter": "hero-banner"
                 }
               }
@@ -527,14 +526,14 @@
           }
         },
         {
-          "title": "Hero Banner Item",
+          "title": "HeroBannerItems",
           "id": "hero-banner-items",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "name": "hero-banner-items",
+                  "name": "HeroBannerItems",
                   "model": "hero-banner-items"
                 }
               }
