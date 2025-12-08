@@ -1,0 +1,140 @@
+/* businesses-accordion.css */
+.businesses-section {
+    position: relative;
+}
+
+.businesses-accordion {
+    width: 100%;
+}
+
+.accordion-item {
+    border: none;
+    border-bottom: 1px solid #dee2e6;
+    background: transparent;
+}
+
+.accordion-button {
+    background: transparent;
+    border: none;
+    padding: 1.5rem 0;
+    font-weight: bold;
+    color: #333;
+    position: relative;
+}
+
+.accordion-button:not(.collapsed) {
+    background: transparent;
+    color: #007bff;
+    box-shadow: none;
+}
+
+.accordion-button::after {
+    content: '+';
+    background-image: none;
+    transform: none;
+    font-size: 1.5rem;
+    font-weight: normal;
+    width: auto;
+    height: auto;
+}
+
+.accordion-button:not(.collapsed)::after {
+    content: '−';
+}
+
+.accordion-button:hover {
+    color: #0056b3;
+}
+
+.accordion-button:focus {
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+    outline: none;
+}
+
+.accordion-collapse {
+    transition: all 0.3s ease;
+}
+
+.accordion-body {
+    padding: 0 0 1.5rem 0;
+}
+
+.business-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.business-description {
+    margin-bottom: 1rem;
+}
+
+.business-cta {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.business-cta:hover {
+    background: #0056b3;
+    color: white;
+    text-decoration: none;
+}
+
+/* Image container styling */
+.business-image-container {
+    position: sticky;
+    top: 20px;
+    height: 500px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.business-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    object-fit: cover;
+}
+
+.business-image.active {
+    opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .accordion-button {
+        padding: 1rem 0;
+        font-size: 1rem;
+    }
+    
+    .business-image-container {
+        height: 300px;
+        margin-bottom: 2rem;
+    }
+    
+    .business-title {
+        font-size: 1.1rem;
+    }
+}
+
+/* Accessibility improvements */
+.accordion-button:focus-visible {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
+
+/* Animation for smooth transitions */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.accordion-collapse.show {
+    animation: fadeIn 0.3s ease;
+}
