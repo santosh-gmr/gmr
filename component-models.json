@@ -691,7 +691,7 @@
         "name": "blockName",
         "label": "Block Name",
         "valueType": "string",
-        "comment": "Internal field to ensure parent model validity"
+        "comment": "Internal field to make the parent a valid model"
       }
     ]
   },

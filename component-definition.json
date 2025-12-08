@@ -527,7 +527,7 @@
           }
         },
         {
-          "title": "Hero Banner Items",
+          "title": "Hero Banner Item",
           "id": "hero-banner-items",
           "plugins": {
             "xwalk": {
