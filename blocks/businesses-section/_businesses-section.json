@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "title": "businesses-section",
+      "title": "Businesses Section",
       "id": "businesses-section",
       "plugins": {
         "xwalk": {
@@ -17,7 +17,7 @@
       }
     },
     {
-      "title": "business-item",
+      "title": "Business Item",
       "id": "business-item",
       "plugins": {
         "xwalk": {

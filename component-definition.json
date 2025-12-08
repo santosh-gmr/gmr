@@ -176,7 +176,7 @@
           }
         },
         {
-          "title": "businesses-section",
+          "title": "Businesses Section",
           "id": "businesses-section",
           "plugins": {
             "xwalk": {
@@ -192,7 +192,7 @@
           }
         },
         {
-          "title": "business-item",
+          "title": "Business Item",
           "id": "business-item",
           "plugins": {
             "xwalk": {
@@ -511,7 +511,7 @@
           }
         },
         {
-          "title": "hero-banner",
+          "title": "Hero Banner",
           "id": "hero-banner",
           "plugins": {
             "xwalk": {
@@ -526,7 +526,7 @@
           }
         },
         {
-          "title": "hero-banner-items",
+          "title": "Hero Banner Items",
           "id": "hero-banner-items",
           "plugins": {
             "xwalk": {
