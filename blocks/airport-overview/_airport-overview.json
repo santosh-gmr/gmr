@@ -15,6 +15,21 @@
           }
         }
       }
+    },
+    {
+      "title": "Airport Overview Item",
+      "id": "airport-overview-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "name": "Airport Overview Item",
+              "model": "airport-overview-item"
+            }
+          }
+        }
+      }
     }
   ],
 
@@ -26,32 +41,61 @@
           "component": "text",
           "valueType": "string",
           "name": "title",
-          "label": "Title"
+          "label": "Section Title"
         },
         {
           "component": "richtext",
           "valueType": "string",
           "name": "description",
-          "label": "Description"
+          "label": "Section Description"
+        },
+
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "tabs",
+          "label": "Airport Tabs",
+          "description": "Add the airport names to appear at the top navigation (e.g. Delhi Airport, Hyderabad Airport, Goa Airport...)."
         },
         {
-          "component": "multifield",
-          "name": "stats",
-          "label": "Statistics",
-          "fields": [
-            {
-              "component": "text",
-              "valueType": "string",
-              "name": "value",
-              "label": "Value"
-            },
-            {
-              "component": "text",
-              "valueType": "string",
-              "name": "label",
-              "label": "Label"
-            }
-          ]
+          "component": "select",
+          "valueType": "string",
+          "name": "selectorType",
+          "label": "Airport Type Selector",
+          "options": [
+            { "name": "Domestic", "value": "Domestic" },
+            { "name": "International", "value": "International" }
+          ],
+          "value": "Domestic"
+        },
+
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "selectorLabel",
+          "label": "Selector Label",
+          "description": "Optional text label for the selector dropdown."
+        }
+      ]
+    },
+
+    {
+      "id": "airport-overview-item",
+      "fields": [
+        
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "statNumber",
+          "label": "Statistic Number",
+          "description": "Example: 79M+, 150+, 4"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "statLabel",
+          "label": "Statistic Label",
+          "description": "Example: Passengers handled annually"
         }
       ]
     }
@@ -60,9 +104,7 @@
   "filters": [
     {
       "id": "airport-overview",
-      "components": [
-        "airport-overview"
-      ]
+      "components": ["airport-overview-item"]
     }
   ]
 }

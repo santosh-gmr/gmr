@@ -16,8 +16,23 @@
       "cards",
       "columns",
       "fragment",
-      "businesses-section",
-      "hero-banner"
+      "footerlinks",
+      "footertopbars",
+      "footerbottoms",
+      "banners",
+      "header",
+      "nav-item",
+      "header-img",
+      "success-stories",
+      "news-updates",
+      "aviation-expertise",
+      "content-fragment-block",
+      "airport-overview",
+      "recognition-awards",
+      "awards-carousel",
+      "experience-banner",
+      "committed-banner",
+      "passenger-experience"
     ]
   },
   {
@@ -114,21 +129,27 @@
     ]
   },
   {
-    "id": "hero-banner",
-    "components": [
-      "hero-banner-items"
-    ]
+    "id": "airport-overview",
+    "components": ["airport-overview-item"]
   },
   {
-    "id": "news-updates",
-    "components": [
-      "news-item"
-    ]
+    "id": "recognition-awards",
+    "components": []
   },
   {
-    "id": "success-stories",
-    "components": [
-      "story-item"
-    ]
+    "id": "awards-carousel",
+    "components": ["award-item"]
+  },
+  {
+    "id": "experience-banner",
+    "components": []
+  },
+  {
+    "id": "committed-banner",
+    "components": []
+  },
+  {
+    "id": "passenger-experience",
+    "components": ["experience-item"]
   }
 ]
