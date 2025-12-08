@@ -1,140 +1,239 @@
-/* businesses-accordion.css */
+/* business-accordion.css */
 .businesses-section {
-    position: relative;
+    padding: 60px 0;
+    background: #fff;
 }
 
-.businesses-accordion {
-    width: 100%;
+.business-accordion-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
-.accordion-item {
-    border: none;
-    border-bottom: 1px solid #dee2e6;
-    background: transparent;
+.business-accordion-container header {
+    margin-bottom: 40px;
+    text-align: center;
 }
 
-.accordion-button {
-    background: transparent;
-    border: none;
-    padding: 1.5rem 0;
-    font-weight: bold;
+.business-accordion-container header h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
     color: #333;
-    position: relative;
+    margin-bottom: 20px;
 }
 
-.accordion-button:not(.collapsed) {
-    background: transparent;
-    color: #007bff;
-    box-shadow: none;
-}
-
-.accordion-button::after {
-    content: '+';
-    background-image: none;
-    transform: none;
+.business-accordion-container header h2 span {
+    display: block;
     font-size: 1.5rem;
-    font-weight: normal;
-    width: auto;
-    height: auto;
+    font-weight: 400;
+    color: #666;
+    margin-top: 10px;
 }
 
-.accordion-button:not(.collapsed)::after {
-    content: '−';
+.business-accordion-container .intro-text {
+    font-size: 1.125rem;
+    color: #555;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
 }
 
-.accordion-button:hover {
-    color: #0056b3;
+.business-accordion-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
 }
 
-.accordion-button:focus {
-    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
-    outline: none;
-}
-
-.accordion-collapse {
-    transition: all 0.3s ease;
-}
-
-.accordion-body {
-    padding: 0 0 1.5rem 0;
-}
-
-.business-title {
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem;
-}
-
-.business-description {
-    margin-bottom: 1rem;
-}
-
-.business-cta {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    background: #007bff;
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background 0.3s ease;
-}
-
-.business-cta:hover {
-    background: #0056b3;
-    color: white;
-    text-decoration: none;
-}
-
-/* Image container styling */
 .business-image-container {
     position: sticky;
-    top: 20px;
+    top: 100px;
     height: 500px;
+    border-radius: 12px;
     overflow: hidden;
-    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 .business-image {
     position: absolute;
     width: 100%;
     height: 100%;
+    object-fit: cover;
     opacity: 0;
     transition: opacity 0.5s ease;
-    object-fit: cover;
 }
 
 .business-image.active {
     opacity: 1;
 }
 
-/* Responsive adjustments */
+.business-accordion {
+    width: 100%;
+}
+
+.accordion-item {
+    border: none;
+    border-bottom: 1px solid #e0e0e0;
+    background: transparent;
+}
+
+.accordion-header {
+    margin: 0;
+}
+
+.accordion-button {
+    width: 100%;
+    padding: 25px 0;
+    background: none;
+    border: none;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-family: inherit;
+    color: #333;
+    font-size: 1.25rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.accordion-button:hover {
+    color: #007bff;
+}
+
+.accordion-button:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.accordion-button .business-title {
+    flex: 1;
+}
+
+.accordion-button .accordion-icon {
+    font-size: 1.5rem;
+    font-weight: 400;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.accordion-item.active .accordion-button .accordion-icon {
+    transform: rotate(180deg);
+}
+
+.accordion-collapse {
+    transition: height 0.3s ease;
+}
+
+.accordion-body {
+    padding: 0 0 25px 0;
+}
+
+.business-description {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.business-cta .button {
+    display: inline-block;
+    padding: 12px 30px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.business-cta .button:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .business-accordion-layout {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .business-image-container {
+        height: 400px;
+        order: 2;
+        position: relative;
+        top: 0;
+    }
+    
+    .business-accordion {
+        order: 1;
+    }
+    
+    .business-accordion-container header h2 {
+        font-size: 2rem;
+    }
+    
+    .business-accordion-container header h2 span {
+        font-size: 1.25rem;
+    }
+}
+
 @media (max-width: 768px) {
-    .accordion-button {
-        padding: 1rem 0;
-        font-size: 1rem;
+    .businesses-section {
+        padding: 40px 0;
+    }
+    
+    .business-accordion-container {
+        padding: 0 15px;
     }
     
     .business-image-container {
         height: 300px;
-        margin-bottom: 2rem;
     }
     
-    .business-title {
-        font-size: 1.1rem;
+    .accordion-button {
+        padding: 20px 0;
+        font-size: 1.125rem;
+    }
+    
+    .business-accordion-container header {
+        margin-bottom: 30px;
     }
 }
 
-/* Accessibility improvements */
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.accordion-body {
+    animation: fadeIn 0.3s ease;
+}
+
+/* Accessibility */
 .accordion-button:focus-visible {
     outline: 2px solid #007bff;
     outline-offset: 2px;
+    border-radius: 4px;
 }
 
-/* Animation for smooth transitions */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.accordion-collapse.show {
-    animation: fadeIn 0.3s ease;
+.accordion-button[aria-expanded="true"] {
+    color: #007bff;
 }
