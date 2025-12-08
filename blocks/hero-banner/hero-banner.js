@@ -1,110 +1,138 @@
 /**
- * Hero Banner Carousel - Universal Editor Compatible (ROBUST VERSION)
- * Uses column headers to map fields instead of fixed indices
- * @param {HTMLElement} block - The herobanner block element
+ * Hero Banner Carousel (Franklin / AEM)
+ * Fully rewritten – no index dependency – reads fields by label
  */
+
 export default function decorate(block) {
-  // --- Authoring Prevention ---
   if (block.querySelector('.hero-carousel-wrapper')) return;
   if (block.querySelector('.aem-block-placeholder')) return;
 
-  // --- Extract & FILTER Slides ---
-  let slideElements = [...block.children].filter((slide) => {
-    const text = slide.innerText.trim();
-    const hasImage = slide.querySelector("img");
-    return text.length > 0 || hasImage;
+  const slides = [...block.children].filter(slide => {
+    return slide.innerText.trim().length > 0 || slide.querySelector("img");
   });
 
-  if (slideElements.length === 0) return;
+  if (slides.length === 0) return;
 
-  // --- Get column mapping from FIRST ROW headers ---
-  const headerRow = slideElements[0];
-  const headerCells = headerRow.querySelectorAll(":scope > div");
-  const columnMap = {};
-
-  headerCells.forEach((cell, index) => {
-    const headerText = cell.textContent?.trim().toLowerCase() || '';
-    if (headerText) {
-      columnMap[headerText] = index;
-    }
-  });
-
-  // --- Create structure ---
   const carouselWrapper = document.createElement("div");
   carouselWrapper.className = "hero-carousel-wrapper";
 
   const track = document.createElement("div");
   track.className = "hero-carousel-track";
 
-  slideElements.forEach((slide, index) => {
+  slides.forEach((slide, index) => {
     slide.className = "hero-slide";
     slide.setAttribute("role", "group");
     slide.setAttribute("aria-roledescription", "slide");
-    slide.setAttribute("aria-label", `${index + 1} of ${slideElements.length}`);
+    slide.setAttribute("aria-label", `${index + 1} of ${slides.length}`);
 
-    // --- ROBUST FIELD EXTRACTION using columnMap ---
-    const cells = slide.querySelectorAll(":scope > div");
-
-    // Helper to safely get field value
-    const getField = (fieldName) => {
-      const colIndex = columnMap[fieldName.toLowerCase()];
-      if (colIndex === undefined || colIndex >= cells.length) return '';
-      const cell = cells[colIndex];
-      return cell.textContent?.trim() || '';
-    };
-
-    const getLinkField = (fieldName) => {
-      const colIndex = columnMap[fieldName.toLowerCase()];
-      if (colIndex === undefined || colIndex >= cells.length) return '#';
-      const cell = cells[colIndex];
-      const link = cell.querySelector("a");
-      return link?.href || '#';
-    };
-
-    // Extract fields by name (order-independent!)
-    const title = getField("title");
-    const description = getField("description");
-
-    const bgImageCellIndex = columnMap["background image"] ?? columnMap["background-image"];
-    const bgImage = bgImageCellIndex !== undefined && bgImageCellIndex < cells.length
-      ? cells[bgImageCellIndex].querySelector("img")?.src || ''
-      : '';
-
-    const knowLabel = getField("know more label") || getField("know-more-label") || "Know More";
-    const knowLink = getLinkField("know more link") || getLinkField("know-more-link") || "#";
-
-    const watchLabel = getField("watch video label") || getField("watch-video-label") || "Watch Video";
-    const watchLink = getLinkField("watch video link") || getLinkField("watch-video-link") || "#";
-
-    // Set background
-    if (bgImage) {
-      slide.style.backgroundImage = `url('${bgImage}')`;
-    }
-
-    // Build slide content
-    slide.innerHTML = `
-      <div class="hero-slide-content">
-        ${title ? `<h1 class="hero-title">${title}</h1>` : ''}
-        ${description ? `<p class="hero-description">${description}</p>` : ''}
-        <div class="hero-cta-group">
-          ${knowLink !== '#' ? `<a href="${knowLink}" class="hero-btn primary">${knowLabel}</a>` : ''}
-          ${watchLink !== '#' ? `<a href="${watchLink}" class="hero-btn secondary">${watchLabel}</a>` : ''}
-        </div>
-      </div>
-    `;
-
+    const fields = extractFields(slide);
+    renderSlide(slide, fields);
     track.appendChild(slide);
   });
 
   carouselWrapper.appendChild(track);
-  block.innerHTML = '';
+  block.innerHTML = "";
   block.appendChild(carouselWrapper);
 
-  // Add carousel controls (dots, prev/next)
-  addCarouselControls(carouselWrapper, slideElements.length);
+  addCarouselControls(carouselWrapper, slides.length);
 }
 
-// Carousel controls function
+/* ---------------------------------------------
+   Extract AEM/Franklin Formatted Fields by Label
+---------------------------------------------- */
+function extractFields(slide) {
+  const fieldValues = {};
+
+  [...slide.querySelectorAll(":scope > div")].forEach(div => {
+    const strong = div.querySelector("strong");
+    const label = strong?.textContent?.trim();
+
+    if (!label) return;
+
+    const rawText = div.innerText.replace(label, "").trim();
+    const link = div.querySelector("a")?.href || "";
+    const img = div.querySelector("img")?.src || "";
+
+    switch (label) {
+      case "Title":
+        fieldValues.title = rawText;
+        break;
+
+      case "Description":
+        fieldValues.description = div.innerHTML.replace(label, "").trim();
+        break;
+
+      case "Background Image":
+        fieldValues.backgroundImage = img;
+        break;
+
+      case "Background Video (MP4)":
+        fieldValues.backgroundVideo = img;
+        break;
+
+      case "Know More Label":
+        fieldValues.knowMoreLabel = rawText;
+        break;
+
+      case "Know More Link URL":
+        fieldValues.knowMoreLink = link;
+        break;
+
+      case "Watch Video Label":
+        fieldValues.watchVideoLabel = rawText;
+        break;
+
+      case "Watch Video Link URL":
+        fieldValues.watchVideoLink = link;
+        break;
+    }
+  });
+
+  return {
+    title: fieldValues.title || "",
+    description: fieldValues.description || "",
+    backgroundImage: fieldValues.backgroundImage || "",
+    backgroundVideo: fieldValues.backgroundVideo || "",
+    knowMoreLabel: fieldValues.knowMoreLabel || "",
+    knowMoreLink: fieldValues.knowMoreLink || "",
+    watchVideoLabel: fieldValues.watchVideoLabel || "",
+    watchVideoLink: fieldValues.watchVideoLink || ""
+  };
+}
+
+/* ---------------------------------------------
+   Render Single Slide
+---------------------------------------------- */
+function renderSlide(slide, f) {
+  // Background image
+  if (f.backgroundImage) {
+    slide.style.backgroundImage = `url('${f.backgroundImage}')`;
+  }
+
+  // Slide content
+  slide.innerHTML = `
+    <div class="hero-slide-content">
+      ${f.title ? `<h1 class="hero-title">${f.title}</h1>` : ""}
+      ${f.description ? `<div class="hero-description">${f.description}</div>` : ""}
+
+      <div class="hero-cta-group">
+        ${f.knowMoreLink
+    ? `<a href="${f.knowMoreLink}" class="hero-btn primary">${f.knowMoreLabel || "Know More"}</a>`
+    : ""
+  }
+
+        ${f.watchVideoLink
+    ? `<a href="${f.watchVideoLink}" class="hero-btn secondary">${f.watchVideoLabel || "Watch Video"}</a>`
+    : ""
+  }
+      </div>
+    </div>
+  `;
+}
+
+/* ---------------------------------------------
+   Carousel Controls
+---------------------------------------------- */
 function addCarouselControls(wrapper, slideCount) {
   const controls = document.createElement("div");
   controls.className = "hero-controls";
@@ -118,32 +146,21 @@ function addCarouselControls(wrapper, slideCount) {
   wrapper.appendChild(controls);
 
   let currentIndex = 0;
-  const track = wrapper.querySelector('.hero-carousel-track');
+  const track = wrapper.querySelector(".hero-carousel-track");
 
-  const updatePagination = () => {
-    const pagination = controls.querySelector('.hero-pagination');
-    pagination.textContent = `${currentIndex + 1} / ${slideCount}`;
-  };
-
-  const moveToSlide = (index) => {
-    currentIndex = Math.max(0, Math.min(index, slideCount - 1));
+  function updateSlide() {
     track.style.transform = `translateX(-${currentIndex * 100}%)`;
-    updatePagination();
-  };
+    wrapper.querySelector(".hero-pagination").textContent =
+      `${currentIndex + 1} / ${slideCount}`;
+  }
 
-  controls.querySelector('.hero-prev').addEventListener('click', () => moveToSlide(currentIndex - 1));
-  controls.querySelector('.hero-next').addEventListener('click', () => moveToSlide(currentIndex + 1));
+  controls.querySelector(".hero-prev").addEventListener("click", () => {
+    if (currentIndex > 0) currentIndex--;
+    updateSlide();
+  });
 
-  // Auto-advance
-  let autoInterval;
-  const startAuto = () => {
-    autoInterval = setInterval(() => moveToSlide(currentIndex + 1), 5000);
-  };
-  const stopAuto = () => clearInterval(autoInterval);
-
-  wrapper.addEventListener('mouseenter', stopAuto);
-  wrapper.addEventListener('mouseleave', startAuto);
-  startAuto();
-
-  updatePagination();
+  controls.querySelector(".hero-next").addEventListener("click", () => {
+    if (currentIndex < slideCount - 1) currentIndex++;
+    updateSlide();
+  });
 }
