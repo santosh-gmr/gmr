@@ -36,7 +36,8 @@
 .accordion-button{padding:1.25rem 0;font-size:1.125rem}
 }
 @media (max-width:767px){
-.business-accordion-wrapper{padding:3rem 1rem; width: 90%; margin: auto;}
+.businesses-section-wrapper { background-color: var(--sky-blue); }
+.business-accordion-wrapper { padding: 3rem 1rem; width: 90%; margin: auto; box-shadow: 0px 0px 10px rgba(0, 51, 102, 0.10); margin-top: -80px; }
 .business-accordion-header{margin-bottom:2rem}
 .mobile-business-image img{max-height:250px}
 .business-cta .btn{width:100%;display:flex;}
