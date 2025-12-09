@@ -101,7 +101,7 @@
   font-size: 40px;
   font-weight: 400;
   color: var(--blue);
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
   display: flex;
   align-items: center;
   gap: 8px;
