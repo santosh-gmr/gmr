@@ -82,9 +82,9 @@ export default function decorate(block) {
   // Process each business item
   items.forEach((item, index) => {
     // Extract image from the original structure
+    // FIXED: Get the picture element which contains all necessary source/img elements
     const pictureElement = item.querySelector('[data-aue-prop="image"] picture');
     const imgElement = pictureElement?.querySelector('img');
-    const imageSrc = imgElement?.src || '';
     const imageAlt = imgElement?.alt || '';
     
     // Extract other content
@@ -93,14 +93,22 @@ export default function decorate(block) {
     const ctaLabelEl = item.querySelector('[data-aue-prop="ctaLabel"]');
     const ctaLinkEl = item.querySelector('.button-container a, a[href]');
     
-    // Create desktop image clone
-    if (imgElement && imageSrc) {
+    // Create desktop image clone - FIXED: Clone entire picture element
+    if (pictureElement) {
       const desktopImage = document.createElement('div');
       desktopImage.className = `desktop-business-image ${index === 0 ? 'active' : ''}`;
       desktopImage.setAttribute('data-index', index);
       
-      const imgClone = imgElement.cloneNode(true);
-      desktopImage.appendChild(imgClone);
+      // Clone the entire picture element with all its children (source elements, img, etc.)
+      const pictureClone = pictureElement.cloneNode(true);
+      
+      // Ensure lazy loading is set correctly
+      const clonedImg = pictureClone.querySelector('img');
+      if (clonedImg) {
+        clonedImg.loading = 'eager'; // Force immediate loading for desktop
+      }
+      
+      desktopImage.appendChild(pictureClone);
       imageContainer.appendChild(desktopImage);
     }
     
@@ -189,14 +197,22 @@ export default function decorate(block) {
       accordionBody.appendChild(ctaDiv);
     }
     
-    // Add mobile image
-    if (imgElement && imageSrc) {
+    // Add mobile image - FIXED: Clone entire picture element
+    if (pictureElement) {
       const mobileImage = document.createElement('div');
       mobileImage.className = 'mobile-business-image';
       mobileImage.setAttribute('data-index', index);
       
-      const mobileImg = imgElement.cloneNode(true);
-      mobileImage.appendChild(mobileImg);
+      // Clone the entire picture element
+      const mobilePicture = pictureElement.cloneNode(true);
+      
+      // Ensure lazy loading is set correctly for mobile
+      const mobileImg = mobilePicture.querySelector('img');
+      if (mobileImg) {
+        mobileImg.loading = 'lazy'; // Use lazy loading for mobile
+      }
+      
+      mobileImage.appendChild(mobilePicture);
       accordionBody.appendChild(mobileImage);
     }
     

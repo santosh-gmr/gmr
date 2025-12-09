@@ -345,3 +345,54 @@
     height: auto !important;
   }
 }
+/* Ensure images display properly */
+.business-image-container img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+}
+
+.business-image-container picture,
+.mobile-business-image picture {
+  display: block;
+  width: 100%;
+}
+
+.desktop-business-image {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.desktop-business-image.active {
+  display: block;
+  opacity: 1;
+}
+
+.mobile-business-image {
+  display: none;
+  margin-top: 1rem;
+}
+
+.mobile-business-image img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+/* Responsive behavior */
+@media (max-width: 991px) {
+  .business-image-preview {
+    display: none !important;
+  }
+  
+  .mobile-business-image {
+    display: block;
+  }
+}
+
+@media (min-width: 992px) {
+  .mobile-business-image {
+    display: none !important;
+  }
+}
