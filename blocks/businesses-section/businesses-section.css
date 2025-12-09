@@ -46,16 +46,27 @@
   display: none;
   /* Hide Bootstrap's default icon */
 }
+.accordion-button {
+    color: var(--black);
+    background-color: transparent;
+    box-shadow: none;
+    font-size: 30px;
+    font-weight: 400;
+    padding: 15px 0;
+}
 
 .accordion-button .accordion-icon {
   font-size: 1.5rem;
-  font-weight: 400;
-  width: 24px;
-  height: 24px;
+  font-weight: 400; line-height: normal;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: transform 0.2s ease-in-out;
+      color: var(--white);
+    background-color: var(--yellow);
+    border-radius: 8px;
 }
 
 .accordion-button:not(.collapsed) .accordion-icon {
