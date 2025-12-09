@@ -17,7 +17,8 @@
       "columns",
       "fragment",
       "businesses-section",
-      "hero-banner"
+      "hero-banner",
+      "article-header"
     ]
   },
   {
@@ -138,5 +139,9 @@
     "components": [
       "story-item"
     ]
+  },
+  {
+    "id": "article-header",
+    "components": []
   }
 ]
