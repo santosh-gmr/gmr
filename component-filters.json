@@ -31,7 +31,8 @@
       "committed-banner",
       "passenger-experience",
       "businesses-section",
-      "hero-banner"
+      "hero-banner",
+      "inner-banner"
     ]
   },
   {
@@ -130,6 +131,10 @@
     "components": [
       "hero-banner-items"
     ]
+  },
+  {
+    "id": "inner-banner",
+    "components": []
   }
   
 ]
