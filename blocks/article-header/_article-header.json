@@ -3,6 +3,7 @@
     {
       "title": "Article Header",
       "id": "article-header",
+      "groups": ["General"],
       "plugins": {
         "xwalk": {
           "page": {
@@ -25,7 +26,6 @@
           "name": "category",
           "label": "Category / Tag",
           "valueType": "string",
-          "comment": "CRITICAL: Type 'Business' here so the Accordion finds this page.",
           "required": true
         },
         {
@@ -33,37 +33,20 @@
           "name": "title",
           "label": "Article Title",
           "valueType": "string",
-          "comment": "e.g., Energy",
           "required": true
         },
         {
           "component": "richtext",
           "name": "description",
           "label": "Short Summary",
-          "valueType": "string",
-          "comment": "This text appears in the Accordion list (2-3 lines max)."
+          "valueType": "string"
         },
         {
           "component": "reference",
           "name": "image",
           "label": "Featured Image",
           "valueType": "string",
-          "multi": false,
-          "comment": "This image appears in the Accordion list AND the Article banner."
-        },
-        {
-          "component": "text",
-          "name": "author",
-          "label": "Author Name",
-          "valueType": "string",
-          "comment": "Optional"
-        },
-        {
-          "component": "text",
-          "name": "publicationDate",
-          "label": "Publication Date",
-          "valueType": "string",
-          "comment": "Format: YYYY-MM-DD"
+          "multi": false
         }
       ]
     }
