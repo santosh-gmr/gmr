@@ -66,7 +66,7 @@
   background-color: var(--yellow);
 }
 
-.accordion-header.active .accordion-button .accordion-icon .plus-icon {
+.accordion-header .accordion-button .accordion-icon .plus-icon {
   color: var(--yellow);
 }
 
