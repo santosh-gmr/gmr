@@ -355,6 +355,33 @@ function initAccordionFunctionality(accordion, imageContainer) {
   // Initialize with first item active
   updateActiveStates(0);
   updateImages(0);
+
+    // Bootstrap collapse event listeners
+  accordion.querySelectorAll('.accordion-collapse').forEach((collapseEl, idx) => {
+
+    // When accordion opens
+    collapseEl.addEventListener('shown.bs.collapse', () => {
+      updateActiveStates(idx);
+      updateImages(idx);
+    });
+
+    // When accordion closes
+    collapseEl.addEventListener('hidden.bs.collapse', () => {
+      // Remove active classes when closed
+      accordionItems[idx].classList.remove('active');
+      accordionHeaders[idx].classList.remove('active');
+      buttons[idx].classList.remove('active');
+      buttons[idx].setAttribute('aria-expanded', "false");
+
+      // Reset icons
+      const plusIcon = buttons[idx].querySelector('.plus-icon');
+      const minusIcon = buttons[idx].querySelector('.minus-icon');
+
+      if (plusIcon) plusIcon.classList.remove('d-none');
+      if (minusIcon) minusIcon.classList.add('d-none');
+    });
+  });
+
 }
 
 /**
