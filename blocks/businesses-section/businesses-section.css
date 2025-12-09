@@ -7,7 +7,8 @@
 .accordion-item {
   background-color: transparent;
   border: none;
-  border-bottom: 1px solid var(--turquoise); padding: 0 1rem;
+  border-bottom: 1px solid var(--turquoise);
+  padding: 0 1rem;
 }
 
 .accordion-button {
@@ -56,10 +57,18 @@
   justify-content: center;
   transition: transform 0.2s ease-in-out;
   color: var(--white);
-  background-color: transparent; border: 1px solid var(--yellow);
+  background-color: transparent;
+  border: 1px solid var(--yellow);
   border-radius: 8px;
 }
-.accordion-header.active .accordion-button .accordion-icon { background-color: var(--yellow);}
+
+.accordion-header.active .accordion-button .accordion-icon {
+  background-color: var(--yellow);
+}
+
+.accordion-header.active .accordion-button .accordion-icon .plus-icon {
+  color: var(--yellow);
+}
 
 .accordion-button:not(.collapsed) .accordion-icon {
   transform: rotate(180deg);
@@ -77,10 +86,10 @@
 .business-accordion-wrapper {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 70px 100px;
+  padding: 80px;
   background: var(--white);
   border-radius: 10px;
-  margin-top: -90px;
+  margin-top: -80px;
   position: relative;
 }
 
@@ -173,12 +182,17 @@
 .business-title {
   flex: 1;
   text-align: left;
-  padding-right: 1rem; font-weight: 300;
+  padding-right: 1rem;
+  font-weight: 300;
+  font-size: 24px;
 }
-.accordion-button.active .business-title { font-weight: 400;}
+
+.accordion-button.active .business-title {
+  font-weight: 400;
+}
 
 .business-description {
-  font-size: 18px;
+  font-size: 1rem;
   line-height: 1.4;
   color: var(--black);
   margin-bottom: 1.5rem;
