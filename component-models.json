@@ -813,5 +813,90 @@
         "label": "CTA Link"
       }
     ]
+  },
+  {
+    "id": "article-header",
+    "fields": [
+      {
+        "component": "text",
+        "name": "category",
+        "label": "Category / Tag",
+        "valueType": "string",
+        "required": true
+      },
+      {
+        "component": "text",
+        "name": "title",
+        "label": "Article Title",
+        "valueType": "string",
+        "required": true
+      },
+      {
+        "component": "richtext",
+        "name": "description",
+        "label": "Short Summary",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "name": "image",
+        "label": "Featured Image",
+        "valueType": "string",
+        "multi": false
+      }
+    ]
+  },
+  {
+    "id": "article-body",
+    "fields": [
+      {
+        "component": "richtext",
+        "name": "content",
+        "label": "Main Content",
+        "valueType": "string",
+        "required": true
+      }
+    ]
+  },
+  {
+    "id": "inner-banner",
+    "fields": [
+      {
+        "component": "richtext",
+        "name": "text",
+        "label": "Banner Text",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttonLabel",
+        "label": "Button Label",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttonLink",
+        "label": "Button Link",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "name": "video",
+        "label": "Background Video",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "name": "desktopBanner",
+        "label": "Desktop Banner Image",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "name": "mobileBanner",
+        "label": "Mobile Banner Image",
+        "valueType": "string"
+      }
+    ]
   }
 ]

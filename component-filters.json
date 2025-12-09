@@ -32,7 +32,9 @@
       "passenger-experience",
       "businesses-section",
       "hero-banner",
-      "inner-banner"
+      "inner-banner",
+      "article-header",
+      "article-body"
     ]
   },
   {
@@ -135,6 +137,13 @@
   {
     "id": "inner-banner",
     "components": []
+  },
+  {
+    "id": "article-header",
+    "components": []
+  },
+  {
+    "id": "article-body",
+    "components": []
   }
-  
 ]
