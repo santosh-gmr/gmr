@@ -18,7 +18,8 @@
       "fragment",
       "businesses-section",
       "hero-banner",
-      "article-header"
+      "article-header",
+      "article-body"
     ]
   },
   {
@@ -142,6 +143,10 @@
   },
   {
     "id": "article-header",
+    "components": []
+  },
+  {
+    "id": "article-body",
     "components": []
   }
 ]
