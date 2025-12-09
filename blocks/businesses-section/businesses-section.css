@@ -70,9 +70,9 @@
   color: var(--yellow);
 }
 
-.accordion-button:not(.collapsed) .accordion-icon {
+/* .accordion-button:not(.collapsed) .accordion-icon {
   transform: rotate(180deg);
-}
+} */
 
 .accordion-collapse {
   transition: height 0.35s ease;

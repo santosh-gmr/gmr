@@ -251,6 +251,20 @@ hr {
   gap: 6px;
 }
 
+/* Default button */
+.btn-transparent {
+  padding: 0;
+  font-weight: 500;
+  text-decoration: none;
+  border: none;
+  background: transparent;
+  color: #faa519 !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Default SVG (yellow) */
 .btn-transparent::after {
   content: "";
   width: 22px;
@@ -258,12 +272,22 @@ hr {
   display: inline-block;
   background-repeat: no-repeat;
   background-size: 22px;
+  transition: 0.3s ease-in-out;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23faa519' stroke-width='2'><path stroke-linecap='round' stroke-linejoin='round' d='M9 5l7 7-7 7'/></svg>");
 }
+
+/* Hover effects */
 .btn-transparent:hover,
 .btn-transparent:focus {
-    color: var(--black)!important;
+  color: var(--black) !important;
 }
+
+/* Hover: change arrow to black */
+.btn-transparent:hover::after,
+.btn-transparent:focus::after {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23000' stroke-width='2'><path stroke-linecap='round' stroke-linejoin='round' d='M9 5l7 7-7 7'/></svg>");
+}
+
 
 .container {
     max-width: 100%;
