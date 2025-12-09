@@ -11,13 +11,8 @@
   padding: 0 1rem; border-radius: 0 !important;
 }
 
-.accordion-button {
-  background-color: transparent;
+.accordion-button, .accordion-button:not(.collapsed) {
   border: none;
-  padding: 1.5rem 0;
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--black);
   text-align: left;
   width: 100%;
   display: flex;
@@ -25,6 +20,12 @@
   align-items: center;
   cursor: pointer;
   transition: color 0.15s ease-in-out;
+  color: var(--black);
+  background-color: transparent;
+  box-shadow: none;
+  font-size: 30px;
+  font-weight: 400;
+  padding: 15px 0;
 }
 
 .accordion-button:not(.collapsed) {
@@ -35,15 +36,6 @@
 .accordion-button::after {
   display: none;
   /* Hide Bootstrap's default icon */
-}
-
-.accordion-button:not(.collapsed) {
-  color: var(--black);
-  background-color: transparent;
-  box-shadow: none;
-  font-size: 30px;
-  font-weight: 400;
-  padding: 15px 0;
 }
 
 .accordion-button .accordion-icon {
@@ -343,56 +335,5 @@
   .accordion-collapse {
     display: block !important;
     height: auto !important;
-  }
-}
-/* Ensure images display properly */
-.business-image-container img {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-width: 100%;
-}
-
-.business-image-container picture,
-.mobile-business-image picture {
-  display: block;
-  width: 100%;
-}
-
-.desktop-business-image {
-  display: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.desktop-business-image.active {
-  display: block;
-  opacity: 1;
-}
-
-.mobile-business-image {
-  display: none;
-  margin-top: 1rem;
-}
-
-.mobile-business-image img {
-  width: 100%;
-  border-radius: 8px;
-}
-
-/* Responsive behavior */
-@media (max-width: 991px) {
-  .business-image-preview {
-    display: none !important;
-  }
-  
-  .mobile-business-image {
-    display: block;
-  }
-}
-
-@media (min-width: 992px) {
-  .mobile-business-image {
-    display: none !important;
   }
 }
