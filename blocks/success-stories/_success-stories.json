@@ -40,7 +40,8 @@
         { "component": "text", "valueType": "string", "name": "sectionTitle", "label": "Section Title" },
         { "component": "richtext", "valueType": "string", "name": "sectionDescription", "label": "Section Description" },
         { "component": "text", "valueType": "string", "name": "sectionCTA", "label": "Section CTA Text" },
-        { "component": "text", "valueType": "string", "name": "sectionCTALink", "label": "Section CTA Link" }
+        { "component": "text", "valueType": "string", "name": "sectionCTALink", "label": "Section CTA Link" },
+        { "component": "text", "valueType": "string", "name": "tag", "label": "Section Tag" }
       ]
     },
 

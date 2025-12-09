@@ -221,6 +221,12 @@
         "valueType": "string",
         "name": "sectionCTALink",
         "label": "Section CTA Link"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "tag",
+        "label": "Section Tag"
       }
     ]
   },
