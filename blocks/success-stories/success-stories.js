@@ -87,150 +87,133 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
 
 export default function decorate(block) {
-  /* ----------------------------------
-     1. Analyze the Context (Project Detection)
-  ---------------------------------- */
-  const path = window.location.pathname.toLowerCase();
-  let projectFilter = 'all'; // Default to showing everything
-  
-  // Define your project logic here
-  if (path.includes('/airport')) projectFilter = 'airport';
-  else if (path.includes('/infra')) projectFilter = 'infra';
-  else if (path.includes('/aero-gmr')) projectFilter = 'energy';
+  // 1. Setup the layout containers
+  const leftCol = document.createElement('div');
+  leftCol.classList.add('success-stories-left');
 
-  /* ----------------------------------
-     2. Setup Layout Containers
-  ---------------------------------- */
-  const container = document.createElement('div');
-  container.classList.add('success-stories-container');
-
-  const leftPanel = document.createElement('div');
-  leftPanel.classList.add('success-left');
-
-  const rightPanel = document.createElement('div');
-  rightPanel.classList.add('success-right');
+  const rightCol = document.createElement('div');
+  rightCol.classList.add('success-stories-right');
 
   const slider = document.createElement('div');
-  slider.classList.add('success-slider');
+  slider.classList.add('stories-slider');
 
-  /* ----------------------------------
-     3. Process Rows (The Fix)
-  ---------------------------------- */
-  // Convert HTMLCollection to Array for safe slicing
+  // 2. Identify the current Project context (for filtering)
+  // Logic: If URL contains '/airport', we look for 'airport' tag.
+  const path = window.location.pathname.toLowerCase();
+  let projectTag = 'all'; 
+  if (path.includes('/airport')) projectTag = 'airport';
+  if (path.includes('/infra')) projectTag = 'infra';
+
+  // 3. Get all rows provided in the Authoring Dialog
   const rows = [...block.children];
 
-  // Based on your Image: Row 0=Title, 1=Desc, 2=CTA, 3+=Stories
-  // We use specific checks to ensure we don't break if a row is missing
-  
+  // 4. Iterate and Move Content
   rows.forEach((row, index) => {
-    // --- PART A: The Header (Left Panel) ---
+    
+    // --- ROW 0: Section Title ---
     if (index === 0) {
-      // Title
-      const title = row.querySelector('h1, h2, h3, h4, h5, h6');
-      if (title) {
-        title.classList.add('section-title');
-        leftPanel.append(title);
+      const titleContent = row.firstElementChild; // Grab the actual div inside
+      if (titleContent) {
+        titleContent.classList.add('section-title');
+        // Move the H2/H3/P element directly to preserve formatting
+        leftCol.append(titleContent); 
       }
     } 
+
+    // --- ROW 1: Section Description ---
     else if (index === 1) {
-      // Description
-      const desc = row.querySelector('p');
-      if (desc) {
-        desc.classList.add('section-desc');
-        leftPanel.append(desc);
+      const descContent = row.firstElementChild;
+      if (descContent) {
+        descContent.classList.add('section-description');
+        leftCol.append(descContent);
       }
     } 
+
+    // --- ROW 2: Call to Action (CTA) ---
     else if (index === 2) {
-      // CTA
-      const btn = row.querySelector('a');
-      if (btn) {
-        const btnWrapper = document.createElement('div');
-        btnWrapper.classList.add('section-cta');
-        if (btn.closest('strong')) btn.classList.add('primary'); // bold = primary
-        btn.classList.add('button');
-        btnWrapper.append(btn);
-        leftPanel.append(btnWrapper);
+      const ctaContent = row.firstElementChild;
+      if (ctaContent) {
+        ctaContent.classList.add('section-cta');
+        // Add button class to the link inside
+        const link = ctaContent.querySelector('a');
+        if (link) link.classList.add('button', 'primary');
+        leftCol.append(ctaContent);
       }
     } 
-    // --- PART B: The Stories (Right Panel) ---
+
+    // --- ROW 3+: Success Story Cards ---
     else {
-      // This is a Story Item Row
-      // Expected columns: [Image] | [Text Content] | [Filter Tag (Optional)]
+      // Each row here is a story from your dialog
       const cols = [...row.children];
       
-      // Safety check: ensure it has content
+      // We expect: Column 1 (Image), Column 2 (Text), Column 3 (Optional Tag)
       if (cols.length >= 2) {
         const imgCol = cols[0];
         const textCol = cols[1];
-        // Check for a 3rd column for filtering, otherwise default to 'all'
-        const tagCol = cols[2] ? cols[2].textContent.trim().toLowerCase() : 'all';
+        const filterCol = cols[2]; // This might be empty or undefined
 
-        // FILTER LOGIC:
-        // Render card if:
-        // 1. The card tag is 'all' OR
-        // 2. The card tag matches the current project OR
-        // 3. We are on the main generic page (no specific filter active)
-        if (tagCol === 'all' || tagCol === projectFilter || projectFilter === 'all') {
+        // Filter Logic:
+        // If there is a filter column, check if it matches projectTag. 
+        // If no filter column exists, show it everywhere (default).
+        const itemTag = filterCol ? filterCol.textContent.trim().toLowerCase() : 'all';
+        
+        if (itemTag === 'all' || itemTag === projectTag || projectTag === 'all') {
             
             const card = document.createElement('div');
             card.classList.add('story-card');
 
-            // 1. Image
+            // Handle Image
             const pic = imgCol.querySelector('picture');
             if (pic) {
-                // Optimization: Use resizing for performance
-                const optimized = createOptimizedPicture(pic.querySelector('img').src, 'Story', false, [{ width: '400' }]);
-                card.append(optimized);
+                // Optimize image
+                const optimizedPic = createOptimizedPicture(pic.querySelector('img').src, 'Success Story', false, [{ width: '400' }]);
+                card.append(optimizedPic);
             }
 
-            // 2. Content
-            const content = document.createElement('div');
-            content.classList.add('card-content');
-            content.innerHTML = textCol.innerHTML;
+            // Handle Text Content
+            const contentDiv = document.createElement('div');
+            contentDiv.classList.add('story-content');
             
-            // Clean up: remove the filter text if it leaked into the content
-            // (Standard EDS practice is to just use the text content)
-            
-            card.append(content);
+            // Move all children from the text column to the new card
+            // This preserves H3, P, Links, etc. exactly as authored
+            while (textCol.firstChild) {
+                contentDiv.append(textCol.firstChild);
+            }
+
+            card.append(contentDiv);
             slider.append(card);
         }
       }
     }
   });
 
-  /* ----------------------------------
-     4. Add Navigation Arrows (Left Panel)
-  ---------------------------------- */
+  // 5. Add Navigation Arrows to Left Column
   const arrows = document.createElement('div');
-  arrows.classList.add('nav-arrows');
+  arrows.classList.add('slider-arrows');
   arrows.innerHTML = `
-    <button class="prev" aria-label="Previous Story">←</button>
-    <button class="next" aria-label="Next Story">→</button>
+    <button class="arrow-prev" aria-label="Previous"></button>
+    <button class="arrow-next" aria-label="Next"></button>
   `;
-  leftPanel.append(arrows);
+  leftCol.append(arrows);
 
-  /* ----------------------------------
-     5. Assemble DOM
-  ---------------------------------- */
-  rightPanel.append(slider);
-  container.append(leftPanel, rightPanel);
+  // 6. Final DOM Assembly
+  rightCol.append(slider);
   
-  block.textContent = ''; // CLEAR OLD CONTENT
-  block.append(container); // APPEND NEW CLEAN STRUCTURE
+  // Clear the original block structure strictly before appending new ones
+  block.textContent = ''; 
+  block.append(leftCol);
+  block.append(rightCol);
 
-  /* ----------------------------------
-     6. Event Listeners (Slider Logic)
-  ---------------------------------- */
-  const btnNext = arrows.querySelector('.next');
-  const btnPrev = arrows.querySelector('.prev');
+  // 7. Initialize Slider Events
+  const prevBtn = arrows.querySelector('.arrow-prev');
+  const nextBtn = arrows.querySelector('.arrow-next');
 
-  if (btnNext && btnPrev) {
-      btnNext.addEventListener('click', () => {
-        slider.scrollBy({ left: 320, behavior: 'smooth' }); // Adjust 320 to your card width + gap
+  if(prevBtn && nextBtn) {
+      nextBtn.addEventListener('click', () => {
+          slider.scrollBy({ left: 320, behavior: 'smooth' });
       });
-
-      btnPrev.addEventListener('click', () => {
-        slider.scrollBy({ left: -320, behavior: 'smooth' });
+      prevBtn.addEventListener('click', () => {
+          slider.scrollBy({ left: -320, behavior: 'smooth' });
       });
   }
 }
