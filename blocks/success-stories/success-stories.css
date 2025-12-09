@@ -1,0 +1,143 @@
+/* ----------------------------------
+   Hide header/footer on fragment pages
+----------------------------------- */
+body.fragment-page header,
+body.fragment-page footer {
+  display: none !important;
+}
+
+/* ----------------------------------
+   Section
+----------------------------------- */
+.success-stories-container {
+  background: #ffffff;
+  padding: 96px 0;
+}
+
+/* ----------------------------------
+   Main layout
+----------------------------------- */
+.success-stories {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 64px;
+  max-width: 1320px;
+  margin: auto;
+}
+
+/* ----------------------------------
+   LEFT
+----------------------------------- */
+.success-left p:first-child {
+  font-size: 56px;
+  font-weight: 600;
+  color: #0b2a4a;
+  line-height: 1.1;
+}
+
+.success-left p {
+  margin: 0;
+}
+
+.success-left > div:nth-child(2) p {
+  margin-top: 24px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #555;
+}
+
+.success-left > div:nth-child(3) p {
+  display: inline-block;
+  margin-top: 32px;
+  padding: 16px 36px;
+  background: #f6b94c;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ----------------------------------
+   Arrows
+----------------------------------- */
+.success-arrows {
+  display: flex;
+  gap: 16px;
+  margin-top: 48px;
+}
+
+.success-arrows button {
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  border: 2px solid #f6b94c;
+  background: transparent;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.success-arrows .arrow-next {
+  background: #f6b94c;
+}
+
+/* ----------------------------------
+   RIGHT / SLIDER
+----------------------------------- */
+.success-slider {
+  display: flex;
+  gap: 32px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}
+
+.success-slider::-webkit-scrollbar {
+  display: none;
+}
+
+/* ----------------------------------
+   Cards
+----------------------------------- */
+.success-slider > div {
+  min-width: 360px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  border: 1px solid #eee;
+}
+
+.success-slider picture img {
+  width: 100%;
+  border-radius: 14px;
+}
+
+.success-slider p:nth-child(2) {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 16px;
+}
+
+.success-slider p:nth-child(3) {
+  font-size: 14px;
+  color: #555;
+  margin-top: 8px;
+}
+
+.success-slider p:nth-child(4) {
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #f6b94c;
+  cursor: pointer;
+}
+
+/* ----------------------------------
+   Responsive
+----------------------------------- */
+@media (max-width: 1024px) {
+  .success-stories {
+    grid-template-columns: 1fr;
+  }
+
+  .success-slider > div {
+    min-width: 80%;
+  }
+}
