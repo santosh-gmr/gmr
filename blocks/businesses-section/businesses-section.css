@@ -46,7 +46,7 @@
   display: none;
   /* Hide Bootstrap's default icon */
 }
-.accordion-button {
+.accordion-button:not(.collapsed) {
     color: var(--black);
     background-color: transparent;
     box-shadow: none;
@@ -184,9 +184,9 @@
 }
 
 .business-description {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: #555;
+  font-size: 18px;
+    line-height: 1.4;
+    color: var(--black);
   margin-bottom: 1.5rem;
 }
 
@@ -202,26 +202,12 @@
   margin-bottom: 1.5rem;
 }
 
-.business-cta .btn {
-  padding: 0.75rem 1.875rem;
-  font-weight: 600;
+.business-cta .btn-transparent {
+  padding: 0;
+  font-weight: 500;
   text-decoration: none;
-  border-radius: 6px;
-  transition: all 0.3s ease;
+  border-radius: 0; background-color: transparent; color: var(--yellow); position: relative;
   display: inline-block;
-}
-
-.business-cta .btn-primary {
-  background: #007bff;
-  border-color: #007bff;
-  color: white;
-}
-
-.business-cta .btn-primary:hover {
-  background: #0056b3;
-  border-color: #0056b3;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
 }
 
 /* Mobile Business Images */
