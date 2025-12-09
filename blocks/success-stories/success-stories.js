@@ -291,7 +291,7 @@ let markerIndex = 1;
       block.removeEventListener('mouseleave', startAutoplay);
     };
   }else{
-  //  block.innerHTML = '';
+   block.innerHTML = '';
  // block.dataset.blockStatus = 'loaded';
   }
 
