@@ -57,7 +57,8 @@
         "fragment",
         "businesses-section",
         "hero-banner",
-        "article-header"
+        "article-header",
+        "article-body"
       ]
     }
   ]
