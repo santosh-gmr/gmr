@@ -38,10 +38,10 @@
       "fields": [
         {
           "component": "text",
-          "name": "block-name",
+          "name": "blockName",
           "label": "Block Name",
           "valueType": "string",
-          "comment": "Optional field to keep the model valid. You can ignore this."
+          "comment": "Internal field to make the parent a valid model"
         }
       ]
     },
@@ -65,16 +65,14 @@
           "name": "background-image",
           "label": "Background Image",
           "valueType": "string",
-          "multi": false,
-          "comment": "REQUIRED. Shows while video is loading or on mobile."
+          "multi": false
         },
         {
           "component": "reference",
           "name": "background-video",
           "label": "Background Video (MP4)",
           "valueType": "string",
-          "multi": false,
-          "comment": "Optional. If added, this plays in loop behind the text."
+          "multi": false
         },
         {
           "component": "text",
@@ -92,15 +90,13 @@
           "component": "text",
           "name": "watch-video-label",
           "label": "Watch Video Label",
-          "valueType": "string",
-          "comment": "Label for the popup video button"
+          "valueType": "string"
         },
         {
           "component": "aem-content",
           "name": "watch-video-link",
           "label": "Watch Video Link URL",
-          "valueType": "string",
-          "comment": "Link for the popup video (e.g. YouTube)"
+          "valueType": "string"
         }
       ]
     }
