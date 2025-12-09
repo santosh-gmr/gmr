@@ -181,7 +181,7 @@ export default function decorate(block) {
       
       const ctaLink = document.createElement('a');
       ctaLink.href = ctaLinkEl.href;
-      ctaLink.className = 'btn btn-primary';
+      ctaLink.className = 'btn btn-transparent';
       ctaLink.title = ctaLinkEl.title || ctaLabelEl.textContent?.trim() || '';
       ctaLink.textContent = ctaLabelEl.textContent?.trim() || '';
       
