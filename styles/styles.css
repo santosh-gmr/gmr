@@ -23,6 +23,7 @@
     --yellow: #faa519;
     --turquoise: #00abc5;
     --royal-blue: #305fab;
+    --sky-blue: #E2EAF7;
     --orange: #f68b1e;
     --green: #2e8b57;
     --light-grey: #e0e0e0;
@@ -235,6 +236,59 @@ hr {
     border-color: var(--orange);
     color: var(--black);
 }
+
+.btn-transparent {
+  padding: 0;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 0;
+  border: none;
+  background-color: transparent;
+  color: var(--yellow) !important;
+  position: relative;
+  height: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Default button */
+.btn-transparent {
+  padding: 0;
+  font-weight: 500;
+  text-decoration: none;
+  border: none;
+  background: transparent;
+  color: #faa519 !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Default SVG (yellow) */
+.btn-transparent::after {
+  content: "";
+  width: 22px;
+  height: 22px;
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-size: 22px;
+  transition: 0.3s ease-in-out;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23faa519' stroke-width='2'><path stroke-linecap='round' stroke-linejoin='round' d='M9 5l7 7-7 7'/></svg>");
+}
+
+/* Hover effects */
+.btn-transparent:hover,
+.btn-transparent:focus {
+  color: var(--black) !important;
+}
+
+/* Hover: change arrow to black */
+.btn-transparent:hover::after,
+.btn-transparent:focus::after {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23000' stroke-width='2'><path stroke-linecap='round' stroke-linejoin='round' d='M9 5l7 7-7 7'/></svg>");
+}
+
 
 .container {
     max-width: 100%;

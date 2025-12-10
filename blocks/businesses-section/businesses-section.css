@@ -1,309 +1,68 @@
-/* business-accordion.css */
-.businesses-section {
-    padding: 60px 0;
-    background: #fff;
+.businesses-section-wrapper .accordion{width:100%}
+.businesses-section-wrapper .accordion-item{background-color:transparent;border:none;border-bottom:1px solid var(--turquoise);padding:0 1rem;border-radius:0!important}
+.businesses-section-wrapper .accordion-button,.businesses-section-wrapper .accordion-button:not(.collapsed){border:none;text-align:left;width:100%;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:color .15s ease-in-out;color:var(--black);background-color:transparent;box-shadow:none;font-size:30px;font-weight:400;padding:16px 0}
+.businesses-section-wrapper .accordion-button:not(.collapsed){background-color:transparent;box-shadow:none}
+.businesses-section-wrapper .accordion-button::after{display:none}
+.businesses-section-wrapper .accordion-button .accordion-icon{font-size:1rem;font-weight:400;line-height:normal;width:36px;height:36px;display:flex;align-items:center;justify-content:center;transition:transform .2s ease-in-out;color:var(--white);background-color:transparent;border:1px solid var(--yellow);border-radius:8px}
+.businesses-section-wrapper .accordion-header.active .accordion-button .accordion-icon{background-color:var(--yellow)}
+.businesses-section-wrapper .accordion-header .accordion-button .accordion-icon .plus-icon{color:var(--yellow)}
+.businesses-section-wrapper .accordion-collapse{transition:height .35s ease}
+.businesses-section-wrapper .accordion-body{padding:0 1rem 1.5rem 0}
+.business-accordion-wrapper{max-width:1200px;margin:0 auto;padding:80px;background:var(--white);border-radius:10px;margin-top:-80px;position:relative}
+.business-accordion-header{margin-bottom:3rem}
+.business-accordion-header h2{font-size:40px;font-weight:400;color:var(--blue);margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.business-accordion-header h2 span{display:inline-block;font-size:28px;font-weight:300;font-style:italic;color:var(--turquoise);font-family:var(--font-secondary);position:relative}
+.business-accordion-header h2 span:before{content:'/';color:var(--blue)}
+.intro-text{font-size:20px;color:var(--charcoal);max-width:775px;margin:0;line-height:1.6}
+.business-accordion-container{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+.business-image-preview{position:sticky;top:2rem;height:500px}
+.business-image-container{position:relative;width:100%;height:100%;border-radius:10px;overflow:hidden}
+.desktop-business-image{position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;visibility:hidden;transition:opacity .5s ease-in-out,visibility .5s ease-in-out;z-index:1}
+.desktop-business-image.active{opacity:1;visibility:visible;z-index:2}
+.desktop-business-image img{width:100%;height:100%;object-fit:cover;display:block}
+.business-title{flex:1;text-align:left;padding-right:1rem;font-weight:300;font-size:24px}
+.businesses-section-wrapper .accordion-button.active .business-title{font-weight:400}
+.business-description{font-size:1rem;line-height:1.4;color:var(--black);margin-bottom:1.5rem}
+.business-description p{margin:0 0 1rem 0}
+.business-description p:last-child{margin-bottom:0}
+.mobile-business-image{display:none;margin:1.5rem 0;border-radius:8px;overflow:hidden;}
+.mobile-business-image img{width:100%;height:auto;max-height:300px;object-fit:cover;display:block}
+@media (max-width:991px){
+.business-accordion-container{grid-template-columns:1fr;gap:2rem}
+.business-image-preview{display:none}
+.mobile-business-image{display:block}
+.business-accordion-header h2{font-size:2rem}
+.business-accordion-header h2 span{font-size:1.25rem}
+.accordion-button{padding:1.25rem 0;font-size:1.125rem}
 }
-
-.business-accordion-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+@media (max-width:767px){
+.businesses-section-wrapper { background-color: var(--sky-blue); }
+.business-accordion-wrapper { padding: 3rem 1rem; width: 90%; margin: auto; box-shadow: 0px 0px 10px rgba(0, 51, 102, 0.10); margin-top: -80px; }
+.business-accordion-header{margin-bottom:2rem}
+.mobile-business-image img{max-height:250px}
+.business-cta .btn{width:100%;display:flex;}
+.business-accordion-header h2 { font-size: 1.75rem; flex-direction: column; align-items: flex-start; }
+.businesses-section-wrapper .accordion-button{padding:1rem 0;font-size:1rem}
+.businesses-section-wrapper .accordion-body { padding: 0 ; }
+.business-description{font-size:.9375rem}
+.mobile-business-image img{max-height:200px}
+.businesses-section-wrapper .accordion-item { padding: 0; }
+.businesses-section-wrapper .accordion-item:first-child { border-top: 1px solid var(--turquoise); }
+.business-title { font-size: 20px; }
+.businesses-section-wrapper .accordion-button .accordion-icon { width: 28px; height: 28px; }
+.businesses-section-wrapper .accordion-button,.businesses-section-wrapper .accordion-button:not(.collapsed){padding:24px 0}
 }
-
-.business-accordion-container header {
-    margin-bottom: 40px;
-    text-align: center;
+.collapsing{position:relative;height:0;overflow:hidden;transition:height .35s ease}
+.businesses-section-wrapper .accordion-button:focus-visible{outline:2px solid #007bff;outline-offset:2px}
+.desktop-business-image img.loading,.mobile-business-image img.loading{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:loading 1.5s infinite}
+@keyframes loading{
+0%{background-position:200% 0}
+100%{background-position:-200% 0}
 }
-
-.business-accordion-container header h2 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-.business-accordion-container header h2 span {
-    display: block;
-    font-size: 1.5rem;
-    font-weight: 400;
-    color: #666;
-    margin-top: 10px;
-}
-
-.business-accordion-container .intro-text {
-    font-size: 1.125rem;
-    color: #555;
-    max-width: 800px;
-    margin: 0 auto;
-    line-height: 1.6;
-}
-
-.business-accordion-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: start;
-}
-
-/* Desktop Image Container */
-.business-image-container.desktop-images {
-    position: sticky;
-    top: 100px;
-    height: 500px;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-}
-
-.business-image-container.desktop-images .business-image {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-}
-
-.business-image-container.desktop-images .business-image.active {
-    opacity: 1;
-}
-
-.business-image-container.desktop-images .business-image:not(.active):hover {
-    opacity: 0.5;
-}
-
-/* Accordion Styles */
-.business-accordion {
-    width: 100%;
-}
-
-.accordion-item {
-    border: none;
-    border-bottom: 1px solid #e0e0e0;
-    background: transparent;
-}
-
-.accordion-header {
-    margin: 0;
-}
-
-.accordion-button {
-    width: 100%;
-    padding: 25px 0;
-    background: none;
-    border: none;
-    text-align: left;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    font-family: inherit;
-    color: #333;
-    font-size: 1.25rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.accordion-button:hover {
-    color: #007bff;
-}
-
-.accordion-button:focus {
-    outline: none;
-    box-shadow: none;
-}
-
-.accordion-button .business-title {
-    flex: 1;
-    text-align: left;
-}
-
-.accordion-button .accordion-icon {
-    font-size: 1.5rem;
-    font-weight: 400;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s ease;
-}
-
-.accordion-item.active .accordion-button .accordion-icon {
-    transform: rotate(180deg);
-}
-
-.accordion-collapse {
-    transition: height 0.3s ease;
-}
-
-.accordion-body {
-    padding: 0 0 25px 0;
-}
-
-.business-description {
-    font-size: 1rem;
-    line-height: 1.7;
-    color: #555;
-    margin-bottom: 20px;
-}
-
-.business-cta {
-    margin-bottom: 20px;
-}
-
-.business-cta .button {
-    display: inline-block;
-    padding: 12px 30px;
-    background: #007bff;
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    border: none;
-    cursor: pointer;
-}
-
-.business-cta .button:hover {
-    background: #0056b3;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0,123,255,0.3);
-}
-
-/* Mobile Image Container */
-.mobile-image-container {
-    display: none;
-    margin-top: 20px;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-
-.mobile-business-image {
-    width: 100%;
-    height: auto;
-    max-height: 300px;
-    object-fit: cover;
-    display: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.mobile-business-image.active {
-    display: block;
-    opacity: 1;
-}
-
-/* Responsive Design */
-@media (max-width: 991px) {
-    .business-accordion-layout {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
-    
-    .business-image-container.desktop-images {
-        display: none !important;
-    }
-    
-    .mobile-image-container {
-        display: block;
-    }
-    
-    .mobile-business-image {
-        display: none;
-    }
-    
-    .accordion-item.active .mobile-business-image {
-        display: block;
-        animation: fadeInUp 0.5s ease;
-    }
-    
-    .business-accordion-container header h2 {
-        font-size: 2rem;
-    }
-    
-    .business-accordion-container header h2 span {
-        font-size: 1.25rem;
-    }
-    
-    .accordion-button {
-        padding: 20px 0;
-        font-size: 1.125rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .businesses-section {
-        padding: 40px 0;
-    }
-    
-    .business-accordion-container {
-        padding: 0 15px;
-    }
-    
-    .business-accordion-container header {
-        margin-bottom: 30px;
-    }
-    
-    .mobile-business-image {
-        max-height: 250px;
-    }
-    
-    .business-cta .button {
-        width: 100%;
-        text-align: center;
-    }
-}
-
-/* Animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.accordion-body {
-    animation: fadeIn 0.3s ease;
-}
-
-/* Accessibility */
-.accordion-button:focus-visible {
-    outline: 2px solid #007bff;
-    outline-offset: 2px;
-    border-radius: 4px;
-}
-
-.accordion-button[aria-expanded="true"] {
-    color: #007bff;
-}
-
-/* Image loading states */
-.business-image.loading,
-.mobile-business-image.loading {
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-    background-size: 200% 100%;
-    animation: loading 1.5s infinite;
-}
-
-@keyframes loading {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
+@media print{
+.business-accordion-container{grid-template-columns:1fr}
+.business-image-preview{display:none}
+.mobile-business-image{display:block!important}
+.businesses-section-wrapper .accordion-button::after{display:none!important}
+.businesses-section-wrapper .accordion-collapse{display:block!important;height:auto!important}
 }

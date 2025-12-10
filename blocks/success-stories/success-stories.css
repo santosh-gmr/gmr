@@ -1,0 +1,213 @@
+/* success-stories.css
+   Styles for Success Stories EDS block
+   Keep GAP in sync with JS (default: 28px)
+*/
+
+/* ---------- Container & Layout ---------- */
+.success-stories-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 420px 1fr; /* left fixed width, right flexible */
+  gap: 40px;
+  align-items: start;
+  box-sizing: border-box;
+  padding: 36px 48px;
+  background: #ffffff;
+  border-radius: 8px;
+}
+
+/* ensure wrapper selector matches nested fragment wrappers */
+.fragment.block .success-stories-wrapper { /* no-op, keeps specificity */ }
+
+/* ---------- LEFT COLUMN ---------- */
+.success-left {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-sizing: border-box;
+}
+
+/* Title */
+.success-left .title p {
+  margin: 0;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 1;
+  color: #0b3b66; /* deep blue */
+}
+
+/* Description paragraph under title */
+.success-left .desc p {
+  margin: 0;
+  color: #545758;
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 360px;
+}
+
+/* CTA */
+.cta-button {
+  display: inline-block;
+  background: #f6b84b; /* warm yellow */
+  color: #0b2b3a;
+  padding: 14px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.03);
+}
+
+/* ---------- ARROWS ---------- */
+.success-arrows {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+  align-items: center;
+}
+.success-arrows .arrow-prev,
+.success-arrows .arrow-next {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  border: 2px solid #f6b84b;
+  background: transparent;
+  color: #f6b84b;
+  font-size: 18px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.success-arrows .arrow-prev:hover,
+.success-arrows .arrow-next:hover {
+  background: #f6b84b;
+  color: #0b2b3a;
+}
+
+/* ---------- RIGHT: Slider Track ---------- */
+.success-right {
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.success-slider {
+  display: flex;
+  gap: 28px; /* IMPORTANT: keep same GAP as JS variable */
+  align-items: flex-start;
+  transition: transform 420ms cubic-bezier(.22,.9,.34,1);
+  will-change: transform;
+  padding-bottom: 6px;
+}
+
+/* ---------- Slide / Card ---------- */
+.slide {
+  background: #fff;
+  min-width: 360px; /* desktop card width */
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: 1px solid rgba(12,34,60,0.06);
+  box-shadow: 0 6px 22px rgba(13,33,54,0.06);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex-shrink: 0; /* prevent shrinking and wrapping */
+}
+
+/* media / image */
+.slide-media {
+  width: 33%;
+  height: 220px;
+  overflow: hidden;
+  border-radius: 6px;
+}
+.slide-media img,
+.slide-media picture {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* title & excerpt */
+.slide-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0b2b3a;
+}
+.slide-excerpt {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* read more link */
+.slide-cta {
+  color: #f6b84b;
+  font-weight: 700;
+  text-decoration: none;
+  margin-top: 6px;
+  display: inline-block;
+}
+
+/* optional small action button at bottom */
+.slide .button {
+  margin-top: auto;
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #f6b84b;
+  color: #0b2b3a;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* ---------- Responsive ---------- */
+
+/* Tablet / smaller desktop: stack columns (left above right) */
+@media (max-width: 1024px) {
+  .success-stories-wrapper {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 32px;
+  }
+  .success-left { order: 1; }
+  .success-right { order: 2; }
+  .slide { min-width: calc(100% - 40px); } /* full width slides with breathing room */
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .success-stories-wrapper { padding: 22px; }
+  .success-left .title p { font-size: 36px; }
+  .slide-media { height: 180px; }
+  .slide { padding: 16px; min-width: calc(100% - 32px); }
+  .success-slider { gap: 18px; }
+}
+
+/* ---------- Accessibility & Utilities ---------- */
+.success-arrows button:focus,
+.cta-button:focus,
+.slide-cta:focus {
+  outline: 3px solid rgba(246,184,75,0.2);
+  outline-offset: 2px;
+}
+
+/* Help: avoid global rules that may interfere */
+.success-stories-wrapper .slide,
+.success-stories-wrapper .success-slider { -webkit-font-smoothing:antialiased; }
+
+/* If your site has strong global 'img { max-width:100% }' rules this is fine; slide keeps min-width */
+/* If other CSS forces slides to wrap use this high-specificity override */
+.success-stories-wrapper .success-slider > .slide {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: auto;
+}
