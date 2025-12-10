@@ -54,7 +54,13 @@
         "hero",
         "cards",
         "columns",
-        "fragment"
+        "fragment",
+        "businesses-section",
+        "hero-banner",
+        "article-header",
+        "article-body",
+        "inner-banner",
+        "listed-companies"
       ]
     }
   ]
