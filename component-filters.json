@@ -20,7 +20,8 @@
       "hero-banner",
       "article-header",
       "article-body",
-      "inner-banner"
+      "inner-banner",
+      "listed-companies"
     ]
   },
   {
@@ -153,5 +154,11 @@
   {
     "id": "inner-banner",
     "components": []
+  },
+  {
+    "id": "listed-companies",
+    "components": [
+      "listed-company-item"
+    ]
   }
 ]

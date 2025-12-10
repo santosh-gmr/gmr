@@ -116,16 +116,14 @@
         {
           "title": "Article Body",
           "id": "article-body",
-          "groups": [
-            "General"
-          ],
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block",
                 "template": {
                   "name": "article-body",
-                  "model": "article-body"
+                  "model": "article-body",
+                  "filter": "article-body"
                 }
               }
             }
@@ -134,9 +132,6 @@
         {
           "title": "Article Header",
           "id": "article-header",
-          "groups": [
-            "General"
-          ],
           "plugins": {
             "xwalk": {
               "page": {
@@ -581,16 +576,14 @@
         {
           "title": "Inner Banner",
           "id": "inner-banner",
-          "groups": [
-            "General"
-          ],
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block",
                 "template": {
                   "name": "inner-banner",
-                  "model": "inner-banner"
+                  "model": "inner-banner",
+                  "filter": "inner-banner"
                 }
               }
             }
@@ -599,9 +592,6 @@
         {
           "title": "Listed Companies",
           "id": "listed-companies",
-          "groups": [
-            "General"
-          ],
           "plugins": {
             "xwalk": {
               "page": {
