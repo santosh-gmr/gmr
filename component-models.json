@@ -820,7 +820,7 @@
         "comment": "URL or page link for the CTA button"
       },
       {
-        "component": "reference",
+        "component": "file",
         "name": "video",
         "label": "Background Video",
         "valueType": "string",
@@ -831,18 +831,88 @@
         "comment": "Optional video for desktop view"
       },
       {
-        "component": "reference",
+        "component": "image",
         "name": "desktopBanner",
         "label": "Desktop Banner Image",
         "valueType": "string",
         "comment": "Recommended size: 1920px width"
       },
       {
-        "component": "reference",
+        "component": "image",
         "name": "mobileBanner",
         "label": "Mobile Banner Image",
         "valueType": "string",
         "comment": "Recommended size: 768px width"
+      }
+    ]
+  },
+  {
+    "id": "listed-companies",
+    "fields": [
+      {
+        "component": "text",
+        "name": "sectionTitle",
+        "label": "Section Title",
+        "valueType": "string",
+        "defaultValue": "Listed Companies"
+      },
+      {
+        "component": "richtext",
+        "name": "description",
+        "label": "Description",
+        "valueType": "string",
+        "comment": "The main text describing GEPL etc."
+      },
+      {
+        "component": "text",
+        "name": "ctaLabel",
+        "label": "Top Button Label",
+        "valueType": "string",
+        "defaultValue": "Visit Investor Relations"
+      },
+      {
+        "component": "text",
+        "name": "ctaLink",
+        "label": "Top Button Link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "listed-company-item",
+    "fields": [
+      {
+        "component": "text",
+        "name": "companyName",
+        "label": "Company Name",
+        "valueType": "string",
+        "comment": "e.g. GMR Airports Limited (GAL)"
+      },
+      {
+        "component": "richtext",
+        "name": "companyDesc",
+        "label": "Company Description",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "stockSymbol",
+        "label": "Stock API Symbol / ID",
+        "valueType": "string",
+        "required": true,
+        "comment": "CRITICAL: Enter the ID used by the API to fetch NSE/BSE data (e.g., 'GAL' or 'GPUIL')."
+      },
+      {
+        "component": "text",
+        "name": "websiteLink",
+        "label": "Visit Website URL",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "highlightsLink",
+        "label": "Explore Highlights URL",
+        "valueType": "string"
       }
     ]
   },
