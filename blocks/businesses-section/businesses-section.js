@@ -31,54 +31,6 @@ export default function decorate(block) {
   // Extract business items (remaining children starting from index 3)
   const businessItems = children.slice(3);
   
-  // --- CREATE DESKTOP IMAGE PREVIEW SECTION (hidden on mobile) ---
-  const imagePreview = document.createElement("div");
-  imagePreview.className = "business-image-preview";
-  imagePreview.style.display = "block";
-  
-  const imageContainer = document.createElement("div");
-  imageContainer.className = "business-image-container";
-  
-  // Create desktop image containers for each business item
-  businessItems.forEach((item, index) => {
-    const desktopImageDiv = document.createElement("div");
-    desktopImageDiv.className = `desktop-business-image ${index === 0 ? "active" : ""}`;
-    desktopImageDiv.setAttribute("data-index", index);
-    
-    // Extract image from the business item (first child is picture)
-    const pictureElement = item.children[0]?.querySelector("picture");
-    if (pictureElement) {
-      const img = document.createElement("img");
-      const imgElement = pictureElement.querySelector("img");
-      if (imgElement) {
-        // Get the highest resolution image available for desktop
-        let src = imgElement.src;
-        const sources = pictureElement.querySelectorAll("source");
-        
-        // Try to find desktop source (min-width: 600px)
-        sources.forEach(source => {
-          if (source.media && source.media.includes("min-width: 600")) {
-            const srcset = source.srcset.split(",")[0].split(" ")[0];
-            if (srcset) src = srcset;
-          }
-        });
-        
-        img.src = src;
-        img.alt = imgElement.alt || "";
-        img.setAttribute("data-aue-prop", "image");
-        img.setAttribute("data-aue-label", "Business Image");
-        img.setAttribute("data-aue-type", "media");
-        
-        desktopImageDiv.appendChild(img);
-      }
-    }
-    
-    imageContainer.appendChild(desktopImageDiv);
-  });
-  
-  imagePreview.appendChild(imageContainer);
-  accordionContainer.appendChild(imagePreview);
-  
   // --- CREATE ACCORDION ---
   const accordion = document.createElement("div");
   accordion.className = "accordion";
@@ -102,10 +54,10 @@ export default function decorate(block) {
     button.setAttribute("aria-expanded", index === 0 ? "true" : "false");
     button.setAttribute("aria-controls", `collapse${index}`);
     
-    // Business title (second child of item)
+    // Business title (first child of item, since image is removed)
     const titleSpan = document.createElement("span");
     titleSpan.className = "business-title";
-    const titleElement = item.children[1];
+    const titleElement = item.children[0];
     if (titleElement) {
       titleSpan.textContent = titleElement.textContent.trim();
     }
@@ -151,10 +103,10 @@ export default function decorate(block) {
     const accordionBody = document.createElement("div");
     accordionBody.className = "accordion-body";
     
-    // Business description (third child of item)
+    // Business description (second child of item, since image is removed)
     const descriptionDiv = document.createElement("div");
     descriptionDiv.className = "business-description";
-    const descriptionElement = item.children[2];
+    const descriptionElement = item.children[1];
     if (descriptionElement) {
       const p = document.createElement("p");
       p.textContent = descriptionElement.textContent.trim();
@@ -170,8 +122,9 @@ export default function decorate(block) {
     let linkUrl = "#";
     let linkTitle = "#";
     
-    // Check for button container (fifth child, contains <a> with href="#")
-    const buttonContainer = item.children[4];
+    // Check for button container (fourth child, contains <a> with href="#")
+    // Note: index 3 instead of 4 since we removed the image
+    const buttonContainer = item.children[3];
     if (buttonContainer) {
       const buttonLink = buttonContainer.querySelector("a");
       if (buttonLink) {
@@ -187,14 +140,15 @@ export default function decorate(block) {
       linkTitle = directLink.title || directLink.textContent.trim();
     }
     
-    // Create CTA link - Use "READ MORE" text from fourth child
+    // Create CTA link - Use "READ MORE" text from third child
+    // Note: index 2 instead of 3 since we removed the image
     const ctaLink = document.createElement("a");
     ctaLink.href = linkUrl;
     ctaLink.title = linkTitle;
     ctaLink.className = "btn btn-transparent";
     
-    // Get "READ MORE" text from fourth child
-    const readMoreElement = item.children[3];
+    // Get "READ MORE" text from third child
+    const readMoreElement = item.children[2];
     if (readMoreElement) {
       ctaLink.textContent = readMoreElement.textContent.trim();
     } else {
@@ -204,19 +158,6 @@ export default function decorate(block) {
     ctaDiv.appendChild(ctaLink);
     accordionBody.appendChild(ctaDiv);
     
-    // MOBILE BUSINESS IMAGE (shown below CTA button on mobile)
-    const mobileImageDiv = document.createElement("div");
-    mobileImageDiv.className = "mobile-business-image";
-    mobileImageDiv.setAttribute("data-index", index);
-    
-    const pictureElement = item.children[0]?.querySelector("picture");
-    if (pictureElement) {
-      // Clone the picture element for mobile
-      const mobilePicture = pictureElement.cloneNode(true);
-      mobileImageDiv.appendChild(mobilePicture);
-    }
-    
-    accordionBody.appendChild(mobileImageDiv);
     collapseDiv.appendChild(accordionBody);
     accordionItem.appendChild(collapseDiv);
     accordion.appendChild(accordionItem);
@@ -229,39 +170,9 @@ export default function decorate(block) {
   block.innerHTML = "";
   block.appendChild(wrapper);
   
-  // Add CSS for responsive behavior
-  const style = document.createElement('style');
-  style.textContent = `
-    @media (max-width: 767px) {
-      .business-image-preview {
-        display: none !important;
-      }
-      .mobile-business-image {
-        display: block !important;
-        margin-top: 20px;
-      }
-      .mobile-business-image picture,
-      .mobile-business-image img {
-        width: 100%;
-        height: auto;
-      }
-    }
-    
-    @media (min-width: 768px) {
-      .mobile-business-image {
-        display: none !important;
-      }
-      .business-image-preview {
-        display: block !important;
-      }
-    }
-  `;
-  document.head.appendChild(style);
-  
   // Add Bootstrap collapse event listeners
   setTimeout(() => {
     const collapseElements = wrapper.querySelectorAll('.accordion-collapse');
-    const desktopImages = wrapper.querySelectorAll('.desktop-business-image');
     const accordionItems = wrapper.querySelectorAll('.accordion-item');
     const accordionHeaders = wrapper.querySelectorAll('.accordion-header');
     const accordionButtons = wrapper.querySelectorAll('.accordion-button');
@@ -273,13 +184,11 @@ export default function decorate(block) {
         accordionItems.forEach(item => item.classList.remove('active'));
         accordionHeaders.forEach(header => header.classList.remove('active'));
         accordionButtons.forEach(button => button.classList.remove('active'));
-        desktopImages.forEach(img => img.classList.remove('active'));
         
         // Add active classes to current item
         accordionItems[index].classList.add('active');
         accordionHeaders[index].classList.add('active');
         accordionButtons[index].classList.add('active');
-        desktopImages[index].classList.add('active');
         
         // Update icons
         const allPlusIcons = wrapper.querySelectorAll('.plus-icon');
@@ -345,14 +254,12 @@ export default function decorate(block) {
           accordionItems.forEach(item => item.classList.remove('active'));
           accordionHeaders.forEach(header => header.classList.remove('active'));
           accordionButtons.forEach(btn => btn.classList.remove('active'));
-          desktopImages.forEach(img => img.classList.remove('active'));
           
           // Open this one
           target.classList.add('show');
           accordionItems[index].classList.add('active');
           accordionHeaders[index].classList.add('active');
           this.classList.add('active');
-          desktopImages[index].classList.add('active');
           
           // Update icons
           wrapper.querySelectorAll('.plus-icon').forEach(icon => icon.classList.remove('d-none'));
@@ -365,29 +272,5 @@ export default function decorate(block) {
         }
       });
     });
-    
-    // Handle window resize for responsive behavior
-    function handleResponsiveLayout() {
-      const isMobile = window.innerWidth <= 767;
-      const mobileImages = wrapper.querySelectorAll('.mobile-business-image');
-      
-      if (isMobile) {
-        // On mobile, ensure mobile images are visible in accordion body
-        mobileImages.forEach(imgDiv => {
-          imgDiv.style.display = 'block';
-        });
-      } else {
-        // On desktop, hide mobile images in accordion body
-        mobileImages.forEach(imgDiv => {
-          imgDiv.style.display = 'none';
-        });
-      }
-    }
-    
-    // Initial check
-    handleResponsiveLayout();
-    
-    // Listen for window resize
-    window.addEventListener('resize', handleResponsiveLayout);
   }, 100);
 }
