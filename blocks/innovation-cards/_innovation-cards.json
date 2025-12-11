@@ -41,7 +41,6 @@
         { "component": "richtext", "valueType": "string", "name": "sectionDescription", "label": "Section Description" }
       ]
     },
-
     {
       "id": "innovation-card-item",
       "fields": [

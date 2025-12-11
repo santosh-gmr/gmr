@@ -13,6 +13,13 @@ export default function decorate(block) {
   const grid = block.querySelector(".innovation-card-grid");
 
   rows.slice(2).forEach((row) => {
+    
+    const cols = [...row.children];
+
+    // Skip rows that have no authored values
+    if (cols.every(col => !col.innerText.trim() && !col.innerHTML.trim())) return;
+
+
     const [imageCol, titleCol, descCol, ctaCol] = row.children;
 
     const card = document.createElement("div");
