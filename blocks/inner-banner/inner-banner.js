@@ -23,41 +23,53 @@ export default function decorate(block) {
   const secondCol = document.createElement("div");
   secondCol.className = "col-md-6";
 
+  let buttonLabel = "";
+  let buttonLink = "";
+
   cells.forEach((cell, index) => {
-    const fieldName =
+    const rawName =
       cell.getAttribute("data-name") || cell.textContent.split(":")[0].trim();
+    const fieldName = rawName.toLowerCase();
 
     const fieldDiv = document.createElement("div");
     fieldDiv.className = `field-${fieldName}`;
 
-    let fieldValue = cell.innerHTML.replace(`${fieldName}:`, "").trim();
+    let fieldValue = cell.innerHTML.replace(`${rawName}:`, "").trim();
 
-    // ------------ BUTTON FIELD: one <a>, href + label only ---------------
-    if (fieldName.toLowerCase() === "button") {
+    // ---------------- LABEL field: store label only ----------------
+    if (fieldName === "label") {
+      buttonLabel = fieldValue;
+      fieldDiv.innerHTML = fieldValue;
+    }
+    // ---------------- LINK field: store URL only ----------------
+    else if (fieldName === "link") {
+      buttonLink = fieldValue;
+      fieldDiv.innerHTML = fieldValue;
+    }
+    // ---------------- BUTTON field -> Create <a> ----------------
+    else if (fieldName === "button") {
       const anchor = document.createElement("a");
-
-      const existingLink = cell.querySelector("a");
-
-      if (existingLink) {
-        anchor.href = existingLink.href;
-        anchor.textContent = existingLink.textContent.trim(); // label only
-      } else {
-        anchor.href = "#";
-        anchor.textContent = fieldValue; // plain label text
-      }
-
       anchor.classList.add("btn", "btn-primary");
+
+      anchor.href = buttonLink || "#";
+      anchor.textContent = buttonLabel || "Click Here";
 
       fieldDiv.innerHTML = "";
       fieldDiv.appendChild(anchor);
-    } else {
+    }
+    // ---------------- Normal fields ----------------
+    else {
       fieldDiv.innerHTML = fieldValue;
     }
 
     // -------------- Column placement logic ----------------
     if (index === 4) {
       separateWrapper.appendChild(fieldDiv);
-    } else if (index < 4) {
+      fieldDiv.classList.add("desktop-banner", "d-md-block", "d-none");
+    } else if (index === 5) {
+      fieldDiv.classList.add("mobile-banner", "d-md-none");
+      separateWrapper.appendChild(fieldDiv);
+    } else if (index < 3) {
       firstCol.appendChild(fieldDiv);
     } else {
       secondCol.appendChild(fieldDiv);
