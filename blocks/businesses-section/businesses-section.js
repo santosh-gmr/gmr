@@ -229,6 +229,35 @@ export default function decorate(block) {
   block.innerHTML = "";
   block.appendChild(wrapper);
   
+  // Add CSS for responsive behavior
+  const style = document.createElement('style');
+  style.textContent = `
+    @media (max-width: 767px) {
+      .business-image-preview {
+        display: none !important;
+      }
+      .mobile-business-image {
+        display: block !important;
+        margin-top: 20px;
+      }
+      .mobile-business-image picture,
+      .mobile-business-image img {
+        width: 100%;
+        height: auto;
+      }
+    }
+    
+    @media (min-width: 768px) {
+      .mobile-business-image {
+        display: none !important;
+      }
+      .business-image-preview {
+        display: block !important;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+  
   // Add Bootstrap collapse event listeners
   setTimeout(() => {
     const collapseElements = wrapper.querySelectorAll('.accordion-collapse');
