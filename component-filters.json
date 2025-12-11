@@ -33,7 +33,7 @@
       "businesses-section",
       "hero-banner",
       "commitment-cards",
-      "purpose-driven-team"
+      "innovation-cards"
     ]
   },
   {
@@ -136,5 +136,9 @@
   {
     "id": "purpose-driven-team",
     "components": ["team-item"]
+  },
+  {
+    "id": "innovation-cards",
+    "components": ["innovation-card-item"]
   }
 ]
