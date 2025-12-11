@@ -1,0 +1,67 @@
+.commitment-cards {
+  padding: 80px 40px;
+  background: linear-gradient(180deg, #0a4ea3, #0d61c5);
+  text-align: center;
+  border-radius: 0;
+  color: #fff;
+}
+
+.commitment-header h2,
+.commitment-header p[data-aue-prop="sectionTitle"] {
+  font-size: 40px;
+  font-weight: 600;
+  margin-bottom: 40px;
+}
+
+.commitment-cards-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.commitment-card {
+  background: #ffffff;
+  color: #333;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  overflow: hidden;
+  text-align: left;
+}
+
+.commitment-card img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+}
+
+.commitment-card p[data-aue-prop="title"] {
+  font-size: 28px;
+  font-weight: 600;
+  margin: 24px;
+  margin-bottom: 10px;
+}
+
+.commitment-card [data-aue-prop="description"] {
+  font-size: 16px;
+  color: #444;
+  margin: 0 24px 24px 24px;
+  line-height: 1.6;
+}
+
+.commitment-btn {
+  display: inline-block;
+  margin: 0 24px 24px 24px;
+  padding: 12px 24px;
+  background: #ffc950;
+  color: #1a1a1a;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.commitment-btn:hover {
+  background: #f3b436;
+}

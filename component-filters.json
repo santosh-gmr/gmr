@@ -31,7 +31,8 @@
       "committed-banner",
       "passenger-experience",
       "businesses-section",
-      "hero-banner"
+      "hero-banner",
+      "commitment-cards"
     ]
   },
   {
@@ -118,18 +119,17 @@
     "id": "passenger-experience",
     "components": ["experience-item"]
   },
-    {
+  {
     "id": "businesses-section",
-    "components": [
-      "business-item"
-    ]
+    "components": ["business-item"]
   },
-  
-   {
+
+  {
     "id": "hero-banner",
-    "components": [
-      "hero-banner-items"
-    ]
+    "components": ["hero-banner-items"]
+  },
+  {
+    "id": "commitment-cards",
+    "components": ["commitment-card"]
   }
-  
 ]
