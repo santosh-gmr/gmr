@@ -6,7 +6,7 @@
  */
 
 export default function decorate(block) {
-
+console.log('test');
   if (!block || !(block instanceof HTMLElement)) return;
 
   // helpers
