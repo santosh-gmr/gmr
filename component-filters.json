@@ -1,19 +1,13 @@
 [
   {
-    "id": "main",
-    "components": [
-      "section"
-    ]
-  },
-  {
     "id": "section",
     "components": [
       "text",
       "image",
       "button",
       "title",
-      "hero",
       "cards",
+      "carousel",
       "columns",
       "fragment",
       "businesses-section",
@@ -21,31 +15,17 @@
       "article-header",
       "article-body",
       "inner-banner",
-      "listed-companies"
-    ]
-  },
-  {
-    "id": "airport-overview",
-    "components": [
-      "airport-overview-item"
-    ]
-  },
-  {
-    "id": "aviation-expertise",
-    "components": [
-      "aviation-item"
-    ]
-  },
-  {
-    "id": "awards-carousel",
-    "components": [
-      "award-item"
-    ]
-  },
-  {
-    "id": "businesses-section",
-    "components": [
-      "business-item"
+      "listed-companies",
+      "cookie-consent",
+      "privacy-request",
+      "airport-overview",
+      "aviation-expertise",
+      "awards-carousel",
+      "committed-banner",
+      "experience-banner",
+      "news-updates",
+      "passenger-experience",
+      "success-stories"
     ]
   },
   {
@@ -61,38 +41,16 @@
     ]
   },
   {
-    "id": "columns",
-    "components": [
-      "column"
-    ]
-  },
-  {
-    "id": "column",
-    "components": [
-      "text",
-      "image",
-      "button",
-      "title"
-    ]
-  },
-  {
-    "id": "committed-banner",
-    "components": []
-  },
-  {
-    "id": "experience-banner",
-    "components": []
-  },
-  {
     "id": "footerbottoms",
     "components": [
-      "footerbottom"
+      "footerbottom",
+      "groupwebsitelink"
     ]
   },
   {
     "id": "footerlinks",
     "components": [
-      "footerlinks"
+      "footerlink"
     ]
   },
   {
@@ -126,6 +84,12 @@
     ]
   },
   {
+    "id": "listed-companies",
+    "components": [
+      "listed-company-item"
+    ]
+  },
+  {
     "id": "news-updates",
     "components": [
       "news-item"
@@ -144,21 +108,62 @@
     ]
   },
   {
-    "id": "article-header",
-    "components": []
+    "id": "airport-overview",
+    "components": [
+      "airport-overview-item"
+    ]
   },
   {
     "id": "article-body",
-    "components": []
-  },
-  {
-    "id": "inner-banner",
-    "components": []
-  },
-  {
-    "id": "listed-companies",
     "components": [
-      "listed-company-item"
+      "text",
+      "image",
+      "title",
+      "button"
+    ]
+  },
+  {
+    "id": "article-header",
+    "components": [
+      "text",
+      "image",
+      "title"
+    ]
+  },
+  {
+    "id": "aviation-expertise",
+    "components": [
+      "aviation-item"
+    ]
+  },
+  {
+    "id": "awards-carousel",
+    "components": [
+      "award-item"
+    ]
+  },
+  {
+    "id": "businesses-section",
+    "components": [
+      "business-item"
+    ]
+  },
+  {
+    "id": "committed-banner",
+    "components": [
+      "text",
+      "image",
+      "title"
+    ]
+  },
+  
+  {
+    "id": "experience-banner",
+    "components": [
+      "text",
+      "richtext",
+      "image",
+      "button"
     ]
   }
 ]
