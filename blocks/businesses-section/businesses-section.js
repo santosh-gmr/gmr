@@ -1,221 +1,409 @@
+/**
+ * Businesses Accordion - Non-destructive AEM compatible
+ * @param {HTMLElement} block - The businesses-section block element
+ */
 export default function decorate(block) {
-  const wrapper = document.createElement("div");
-  wrapper.className = "business-accordion-wrapper";
-
-  const children = [...block.children];
-
-  // --- BUILD HEADER ---
-  const header = document.createElement("header");
-  header.className = "business-accordion-header";
-
-  // H2 + span (from first two divs)
-  const h2 = document.createElement("h2");
-  const title = children[0]?.textContent?.trim() || "";
-  const subtitle = children[1]?.textContent?.trim() || "";
-  h2.innerHTML = `<span class="title">${title}</span> <span class="subtitle"> ${subtitle}</span>`;
-  header.appendChild(h2);
-
-  // Intro text wrapper (from third div)
-  const intro = document.createElement("div");
-  intro.className = "intro-text";
-  const introText = children[2]?.innerHTML || "";
-  if (introText) intro.innerHTML = introText;
-  header.appendChild(intro);
-
-  wrapper.appendChild(header);
-
-  // --- CREATE ACCORDION CONTAINER ---
-  const accordionContainer = document.createElement("div");
-  accordionContainer.className = "business-accordion-container";
+  // Preserve original content - don't replace innerHTML
+  const originalHTML = block.innerHTML;
   
-  // Extract business items (remaining children starting from index 3)
-  const businessItems = children.slice(3);
+  // Get all business items
+  const items = [...block.querySelectorAll('[data-aue-model="business-item"]')];
   
-  // --- CREATE DESKTOP IMAGE PREVIEW SECTION (hidden on mobile) ---
-  const imagePreview = document.createElement("div");
-  imagePreview.className = "business-image-preview";
-  imagePreview.style.display = "block";
-  
-  const imageContainer = document.createElement("div");
-  imageContainer.className = "business-image-container";
-  
+  if (!items.length) {
+    console.warn('No business items found in businesses-section block');
+    return;
+  }
 
+  // Extract header elements
+  const sectionTitleEl = block.querySelector('[data-aue-prop="sectionTitle"]');
+  const sectionSubtitleEl = block.querySelector('[data-aue-prop="sectionSubtitle"]');
+  const introTextEl = block.querySelector('[data-aue-prop="introText"]');
+
+  // Wrap the entire block for styling
+  const wrapper = document.createElement('div');
+  wrapper.className = 'business-accordion-wrapper';
+
+  // Preserve header structure but add proper markup
+  const headerContainer = document.createElement('header');
+  headerContainer.className = 'business-accordion-header';
   
+  if (sectionTitleEl || sectionSubtitleEl) {
+    const titleWrapper = document.createElement('h2');
+    if (sectionTitleEl) {
+      const titleText = sectionTitleEl.textContent?.replace('/', '').trim() || '';
+      titleWrapper.appendChild(document.createTextNode(titleText));
+    }
+    if (sectionSubtitleEl) {
+      const subtitleText = sectionSubtitleEl.textContent?.trim() || '';
+      const span = document.createElement('span');
+      span.textContent = ` ${subtitleText}`;
+      titleWrapper.appendChild(span);
+    }
+    headerContainer.appendChild(titleWrapper);
+  }
+  
+  if (introTextEl) {
+    const introWrapper = document.createElement('div');
+    introWrapper.className = 'intro-text';
+    introWrapper.innerHTML = introTextEl.innerHTML;
+    headerContainer.appendChild(introWrapper);
+  }
+  
+  wrapper.appendChild(headerContainer);
+
+  // Create main container
+  const mainContainer = document.createElement('div');
+  mainContainer.className = 'business-accordion-container';
+
+  // Create image preview container for desktop
+  const imagePreview = document.createElement('div');
+  imagePreview.className = 'business-image-preview';
+  
+  const imageContainer = document.createElement('div');
+  imageContainer.className = 'business-image-container';
+
+  // Create accordion wrapper
+  const accordionWrapper = document.createElement('div');
+  accordionWrapper.className = 'accordion';
+  accordionWrapper.id = 'businessAccordion';
+
+  // SVG icons for plus and minus - as template literals
+  const plusIconSVG = `<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
+  </svg>`;
+  
+  const minusIconSVG = `<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14"/>
+  </svg>`;
+
+  // Process each business item
+  items.forEach((item, index) => {
+    // Extract image from the original structure
+    const pictureElement = item.querySelector('picture') || item.querySelector('[data-aue-prop="image"] picture');
+    const imgElement = pictureElement?.querySelector('img');
+    const imageSrc = imgElement?.src || '';
+    const imageAlt = imgElement?.alt || '';
+
+    // Extract other content
+    const titleEl = item.querySelector('[data-aue-prop="title"]');
+    const descriptionEl = item.querySelector('[data-aue-prop="description"]');
+    const ctaLabelEl = item.querySelector('[data-aue-prop="ctaLabel"]');
+    const ctaLinkEl = item.querySelector('.button-container a, a[href]');
+
+    // Create desktop image clone
+    if (imgElement && imageSrc) {
+      const desktopImage = document.createElement('div');
+      desktopImage.className = `desktop-business-image ${index === 0 ? 'active' : ''}`;
+      desktopImage.setAttribute('data-index', index);
+      const imgClone = imgElement.cloneNode(true);
+      desktopImage.appendChild(imgClone);
+      imageContainer.appendChild(desktopImage);
+    }
+
+    // Create accordion item structure WITHOUT replacing original content
+    const accordionItem = document.createElement('div');
+    accordionItem.className = `accordion-item ${index === 0 ? 'active' : ''}`;
+
+    // Create accordion header
+    const accordionHeader = document.createElement('h2');
+    accordionHeader.className = `accordion-header ${index === 0 ? 'active' : ''}`;
+    accordionHeader.id = `heading${index}`;
+
+    const button = document.createElement('button');
+    button.className = `accordion-button ${index === 0 ? 'active' : ''}`;
+    button.type = 'button';
+    button.setAttribute('data-bs-toggle', 'collapse');
+    button.setAttribute('data-bs-target', `#collapse${index}`);
+    button.setAttribute('aria-expanded', index === 0 ? 'true' : 'false');
+    button.setAttribute('aria-controls', `collapse${index}`);
+
+    // Add title to button
+    if (titleEl) {
+      const titleSpan = document.createElement('span');
+      titleSpan.className = 'business-title';
+      titleSpan.textContent = titleEl.textContent?.trim() || '';
+      button.appendChild(titleSpan);
+    }
+
+    // Add icon container
+    const iconContainer = document.createElement('span');
+    iconContainer.className = 'accordion-icon';
+    iconContainer.setAttribute('aria-hidden', 'true');
+
+    // Add SVG icon based on active state
+    const iconWrapper = document.createElement('span');
+    iconWrapper.className = 'icon-wrapper';
+
+    // Add plus icon (hidden by default if active)
+    const plusIcon = document.createElement('span');
+    plusIcon.className = `plus-icon ${index === 0 ? 'd-none' : ''}`;
+    plusIcon.innerHTML = plusIconSVG;
+    iconWrapper.appendChild(plusIcon);
+
+    // Add minus icon (visible only if active)
+    const minusIcon = document.createElement('span');
+    minusIcon.className = `minus-icon ${index === 0 ? '' : 'd-none'}`;
+    minusIcon.innerHTML = minusIconSVG;
+    iconWrapper.appendChild(minusIcon);
+
+    iconContainer.appendChild(iconWrapper);
+    button.appendChild(iconContainer);
+    accordionHeader.appendChild(button);
+    accordionItem.appendChild(accordionHeader);
+
+    // Create accordion collapse
+    const accordionCollapse = document.createElement('div');
+    accordionCollapse.id = `collapse${index}`;
+    accordionCollapse.className = `accordion-collapse collapse ${index === 0 ? 'show' : ''}`;
+    accordionCollapse.setAttribute('aria-labelledby', `heading${index}`);
+    accordionCollapse.setAttribute('data-bs-parent', '#businessAccordion');
+
+    const accordionBody = document.createElement('div');
+    accordionBody.className = 'accordion-body';
+
+    // Add description
+    if (descriptionEl) {
+      const descDiv = document.createElement('div');
+      descDiv.className = 'business-description';
+      descDiv.innerHTML = descriptionEl.innerHTML;
+      accordionBody.appendChild(descDiv);
+    }
+
+    // Add CTA
+    if (ctaLabelEl && ctaLinkEl) {
+      const ctaDiv = document.createElement('div');
+      ctaDiv.className = 'business-cta';
+      const ctaLink = document.createElement('a');
+      ctaLink.href = ctaLinkEl.href;
+      ctaLink.className = 'btn btn-transparent';
+      ctaLink.title = ctaLinkEl.title || ctaLabelEl.textContent?.trim() || '';
+      ctaLink.textContent = ctaLabelEl.textContent?.trim() || '';
+      ctaDiv.appendChild(ctaLink);
+      accordionBody.appendChild(ctaDiv);
+    }
+
+    // Add mobile image
+    if (imgElement && imageSrc) {
+      const mobileImage = document.createElement('div');
+      mobileImage.className = 'mobile-business-image';
+      mobileImage.setAttribute('data-index', index);
+      const mobileImg = imgElement.cloneNode(true);
+      mobileImage.appendChild(mobileImg);
+      accordionBody.appendChild(mobileImage);
+    }
+
+    accordionCollapse.appendChild(accordionBody);
+    accordionItem.appendChild(accordionCollapse);
+    accordionWrapper.appendChild(accordionItem);
+  });
+
+  // Add image container to preview
   imagePreview.appendChild(imageContainer);
-  accordionContainer.appendChild(imagePreview);
-  
-  // --- CREATE ACCORDION ---
-  const accordion = document.createElement("div");
-  accordion.className = "accordion";
-  accordion.id = "businessAccordion";
 
+  // Build the layout
+  mainContainer.appendChild(imagePreview);
+  mainContainer.appendChild(accordionWrapper);
+  wrapper.appendChild(mainContainer);
+
+  // Hide original content but preserve it for AEM
+  const originalContent = block.querySelectorAll(':scope > div:not([data-aue-model])');
+  originalContent.forEach(el => {
+    el.style.display = 'none';
+  });
   
-  accordionContainer.appendChild(accordion);
-  wrapper.appendChild(accordionContainer);
-  
-  // Replace original block
-  block.innerHTML = "";
+  items.forEach(item => {
+    item.style.display = 'none';
+  });
+
+  // Add our enhanced UI
   block.appendChild(wrapper);
-  
-  // Add CSS for responsive behavior
-  const style = document.createElement('style');
-  style.textContent = `
-    @media (max-width: 767px) {
-      .business-image-preview {
-        display: none !important;
+
+  // Initialize accordion functionality
+  initAccordionFunctionality(accordionWrapper, imageContainer);
+  setupResponsiveBehavior(imageContainer);
+
+  // Public API
+  block.BusinessAccordion = {
+    openItem: (index) => {
+      const button = document.querySelector(`#heading${index} .accordion-button`);
+      if (button) button.click();
+    },
+    getActiveIndex: () => {
+      const activeCollapse = document.querySelector('.accordion-collapse.show');
+      if (activeCollapse) {
+        const match = activeCollapse.id.match(/collapse(\d+)/);
+        return match ? parseInt(match[1]) : -1;
       }
-      .mobile-business-image {
-        display: block !important;
-        margin-top: 20px;
-      }
-      .mobile-business-image picture,
-      .mobile-business-image img {
-        width: 100%;
-        height: auto;
-      }
+      return -1;
     }
-    
-    @media (min-width: 768px) {
-      .mobile-business-image {
-        display: none !important;
-      }
-      .business-image-preview {
-        display: block !important;
-      }
-    }
-  `;
-  document.head.appendChild(style);
-  
-  // Add Bootstrap collapse event listeners
-  setTimeout(() => {
-    const collapseElements = wrapper.querySelectorAll('.accordion-collapse');
-    const desktopImages = wrapper.querySelectorAll('.desktop-business-image');
-    const accordionItems = wrapper.querySelectorAll('.accordion-item');
-    const accordionHeaders = wrapper.querySelectorAll('.accordion-header');
-    const accordionButtons = wrapper.querySelectorAll('.accordion-button');
-    
-    // Listen to Bootstrap's collapse events
-    collapseElements.forEach((collapseEl, index) => {
-      collapseEl.addEventListener('show.bs.collapse', function () {
-        // Update active classes
-        accordionItems.forEach(item => item.classList.remove('active'));
-        accordionHeaders.forEach(header => header.classList.remove('active'));
-        accordionButtons.forEach(button => button.classList.remove('active'));
-        desktopImages.forEach(img => img.classList.remove('active'));
-        
-        // Add active classes to current item
-        accordionItems[index].classList.add('active');
-        accordionHeaders[index].classList.add('active');
-        accordionButtons[index].classList.add('active');
-        desktopImages[index].classList.add('active');
-        
-        // Update icons
-        const allPlusIcons = wrapper.querySelectorAll('.plus-icon');
-        const allMinusIcons = wrapper.querySelectorAll('.minus-icon');
-        
-        allPlusIcons.forEach(icon => icon.classList.remove('d-none'));
-        allMinusIcons.forEach(icon => icon.classList.add('d-none'));
-        
-        const currentPlusIcon = accordionButtons[index].querySelector('.plus-icon');
-        const currentMinusIcon = accordionButtons[index].querySelector('.minus-icon');
-        
-        if (currentPlusIcon) currentPlusIcon.classList.add('d-none');
-        if (currentMinusIcon) currentMinusIcon.classList.remove('d-none');
-      });
-      
-      collapseEl.addEventListener('hide.bs.collapse', function () {
-        // When collapsing, check if this is the last open item
-        const openItems = wrapper.querySelectorAll('.accordion-collapse.show');
-        if (openItems.length === 1 && openItems[0] === collapseEl) {
-          // This is the last open item being closed
-          accordionItems[index].classList.remove('active');
-          accordionHeaders[index].classList.remove('active');
-          accordionButtons[index].classList.remove('active');
-          
-          // Update icons
-          const currentPlusIcon = accordionButtons[index].querySelector('.plus-icon');
-          const currentMinusIcon = accordionButtons[index].querySelector('.minus-icon');
-          
-          if (currentPlusIcon) currentPlusIcon.classList.remove('d-none');
-          if (currentMinusIcon) currentMinusIcon.classList.add('d-none');
-        }
-      });
+  };
+}
+
+/**
+ * Initialize accordion functionality
+ */
+function initAccordionFunctionality(accordion, imageContainer) {
+  const buttons = accordion.querySelectorAll('.accordion-button');
+  const desktopImages = imageContainer.querySelectorAll('.desktop-business-image');
+  const mobileImages = accordion.querySelectorAll('.mobile-business-image');
+  const accordionItems = accordion.querySelectorAll('.accordion-item');
+  const accordionHeaders = accordion.querySelectorAll('.accordion-header');
+
+  // Update image display
+  function updateImages(index) {
+    desktopImages.forEach((img, i) => {
+      img.classList.toggle('active', i === index);
     });
     
-    // Optional: Manual toggle for non-Bootstrap environments
-    accordionButtons.forEach((button, index) => {
-      button.addEventListener('click', function(e) {
-        // Only run if Bootstrap is not loaded
-        if (typeof bootstrap !== 'undefined') {
-          return;
-        }
-        
-        const targetId = this.getAttribute('data-bs-target');
-        const target = wrapper.querySelector(targetId);
-        
-        if (target.classList.contains('show')) {
-          // Close it
-          target.classList.remove('show');
-          accordionItems[index].classList.remove('active');
-          accordionHeaders[index].classList.remove('active');
-          this.classList.remove('active');
-          
-          // Update icons
-          const plusIcon = this.querySelector('.plus-icon');
-          const minusIcon = this.querySelector('.minus-icon');
-          if (plusIcon) plusIcon.classList.remove('d-none');
-          if (minusIcon) minusIcon.classList.add('d-none');
-        } else {
-          // Close all others
-          wrapper.querySelectorAll('.accordion-collapse.show').forEach(el => {
-            el.classList.remove('show');
-          });
-          accordionItems.forEach(item => item.classList.remove('active'));
-          accordionHeaders.forEach(header => header.classList.remove('active'));
-          accordionButtons.forEach(btn => btn.classList.remove('active'));
-          desktopImages.forEach(img => img.classList.remove('active'));
-          
-          // Open this one
-          target.classList.add('show');
-          accordionItems[index].classList.add('active');
-          accordionHeaders[index].classList.add('active');
-          this.classList.add('active');
-          desktopImages[index].classList.add('active');
-          
-          // Update icons
-          wrapper.querySelectorAll('.plus-icon').forEach(icon => icon.classList.remove('d-none'));
-          wrapper.querySelectorAll('.minus-icon').forEach(icon => icon.classList.add('d-none'));
-          
-          const plusIcon = this.querySelector('.plus-icon');
-          const minusIcon = this.querySelector('.minus-icon');
-          if (plusIcon) plusIcon.classList.add('d-none');
-          if (minusIcon) minusIcon.classList.remove('d-none');
-        }
+    const isMobile = window.innerWidth < 992;
+    if (isMobile) {
+      mobileImages.forEach((mobileImg, i) => {
+        mobileImg.style.display = i === index ? 'block' : 'none';
       });
-    });
+    }
+  }
+
+  // Update icon visibility based on active state
+  function updateIcons(button, isActive) {
+    const plusIcon = button.querySelector('.plus-icon');
+    const minusIcon = button.querySelector('.minus-icon');
     
-    // Handle window resize for responsive behavior
-    function handleResponsiveLayout() {
-      const isMobile = window.innerWidth <= 767;
-      const mobileImages = wrapper.querySelectorAll('.mobile-business-image');
-      
-      if (isMobile) {
-        // On mobile, ensure mobile images are visible in accordion body
-        mobileImages.forEach(imgDiv => {
-          imgDiv.style.display = 'block';
-        });
+    if (plusIcon && minusIcon) {
+      if (isActive) {
+        plusIcon.classList.add('d-none');
+        minusIcon.classList.remove('d-none');
       } else {
-        // On desktop, hide mobile images in accordion body
-        mobileImages.forEach(imgDiv => {
-          imgDiv.style.display = 'none';
-        });
+        plusIcon.classList.remove('d-none');
+        minusIcon.classList.add('d-none');
       }
     }
+  }
+
+  // Update active states for accordion items and headers
+  function updateActiveStates(index) {
+    // Update accordion items
+    accordionItems.forEach((item, i) => {
+      item.classList.toggle('active', i === index);
+    });
     
-    // Initial check
-    handleResponsiveLayout();
+    // Update accordion headers
+    accordionHeaders.forEach((header, i) => {
+      header.classList.toggle('active', i === index);
+    });
     
-    // Listen for window resize
-    window.addEventListener('resize', handleResponsiveLayout);
-  }, 100);
+    // Update buttons and icons
+    buttons.forEach((btn, i) => {
+      const shouldBeActive = i === index;
+      btn.classList.toggle('active', shouldBeActive);
+      btn.setAttribute('aria-expanded', shouldBeActive);
+      
+      // Update icons
+      updateIcons(btn, shouldBeActive);
+    });
+  }
+
+  // Add click handlers
+  buttons.forEach((button, index) => {
+    button.addEventListener('click', function (e) {
+      e.preventDefault();
+      const isActive = this.classList.contains('active');
+      
+      if (!isActive) {
+        // Update all active states
+        updateActiveStates(index);
+        // Update images
+        updateImages(index);
+      }
+    });
+
+    // Keyboard navigation
+    button.addEventListener('keydown', (e) => {
+      switch (e.key) {
+        case 'Enter':
+        case ' ':
+          e.preventDefault();
+          button.click();
+          break;
+        case 'ArrowDown':
+          e.preventDefault();
+          const nextIndex = (index + 1) % buttons.length;
+          buttons[nextIndex].focus();
+          buttons[nextIndex].click();
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          const prevIndex = (index - 1 + buttons.length) % buttons.length;
+          buttons[prevIndex].focus();
+          buttons[prevIndex].click();
+          break;
+      }
+    });
+  });
+
+  // Initialize with first item active
+  updateActiveStates(0);
+  updateImages(0);
+
+  // Bootstrap collapse event listeners
+  accordion.querySelectorAll('.accordion-collapse').forEach((collapseEl, idx) => {
+    // When accordion opens
+    collapseEl.addEventListener('shown.bs.collapse', () => {
+      updateActiveStates(idx);
+      updateImages(idx);
+    });
+    
+    // When accordion closes
+    collapseEl.addEventListener('hidden.bs.collapse', () => {
+      // Remove active classes when closed
+      accordionItems[idx].classList.remove('active');
+      accordionHeaders[idx].classList.remove('active');
+      buttons[idx].classList.remove('active');
+      buttons[idx].setAttribute('aria-expanded', "false");
+      
+      // Reset icons
+      const plusIcon = buttons[idx].querySelector('.plus-icon');
+      const minusIcon = buttons[idx].querySelector('.minus-icon');
+      if (plusIcon) plusIcon.classList.remove('d-none');
+      if (minusIcon) minusIcon.classList.add('d-none');
+    });
+  });
+}
+
+/**
+ * Setup responsive behavior
+ */
+function setupResponsiveBehavior(imageContainer) {
+  function updateLayout() {
+    const isMobile = window.innerWidth < 992;
+    const mobileImages = document.querySelectorAll('.mobile-business-image');
+    
+    if (imageContainer) {
+      imageContainer.parentElement.style.display = isMobile ? 'none' : 'block';
+    }
+    
+    // Update mobile images
+    if (isMobile) {
+      const activeButton = document.querySelector('.accordion-button.active');
+      const buttons = document.querySelectorAll('.accordion-button');
+      const activeBtnIndex = activeButton ? Array.from(buttons).indexOf(activeButton) : 0;
+      
+      mobileImages.forEach((img, index) => {
+        img.style.display = index === activeBtnIndex ? 'block' : 'none';
+      });
+    } else {
+      mobileImages.forEach(img => {
+        img.style.display = 'none';
+      });
+    }
+  }
+
+  // Initial update
+  updateLayout();
+
+  // Update on resize
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(updateLayout, 250);
+  });
 }
