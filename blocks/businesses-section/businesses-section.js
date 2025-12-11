@@ -1,30 +1,23 @@
 export default function decorate(block) {
-  const wrapper = document.createElement("div");
-  wrapper.className = "business-accordion-wrapper";
-
+  // Create container wrapper
+  const container = document.createElement("div");
+  container.className = "container";
+ 
+  // Collect all children
   const children = [...block.children];
-
-  // --- BUILD HEADER ---
-  const header = document.createElement("header");
-  header.className = "business-accordion-header";
-
-  // H2 + span (from first two divs)
-  const h2 = document.createElement("h2");
-  const title = children[0]?.textContent?.trim() || "";
-  const subtitle = children[1]?.textContent?.trim() || "";
-  h2.innerHTML = `<span class="title">${title}</span> <span class="subtitle"> ${subtitle}</span>`;
-  header.appendChild(h2);
-
-  // Intro text wrapper (from third div)
-  const intro = document.createElement("div");
-  intro.className = "intro-text";
-  const introText = children[2]?.innerHTML || "";
-  if (introText) intro.innerHTML = introText;
-  header.appendChild(intro);
-
-  wrapper.appendChild(header);
-
-  // Replace original block with just the header
+ 
+  children.forEach((child, index) => {
+    if (index === 0) {
+      // Convert first item to H2
+      const h2 = document.createElement("h2");
+      h2.innerHTML = child.innerHTML;
+      container.appendChild(h2);
+    } else {
+      container.appendChild(child);
+    }
+  });
+ 
+  // Clear original block content and append container
   block.innerHTML = "";
-  block.appendChild(wrapper);
+  block.appendChild(container);
 }
