@@ -1,13 +1,51 @@
 [
   {
+    "id": "main",
+    "components": [
+      "section"
+    ]
+  },
+  {
     "id": "section",
     "components": [
       "text",
       "image",
       "button",
       "title",
+      "hero",
+      "cards",
       "columns",
-      "fragment"
+      "fragment",
+      "businesses-section",
+      "hero-banner",
+      "article-header",
+      "article-body",
+      "inner-banner",
+      "listed-companies"
+    ]
+  },
+  {
+    "id": "airport-overview",
+    "components": [
+      "airport-overview-item"
+    ]
+  },
+  {
+    "id": "aviation-expertise",
+    "components": [
+      "aviation-item"
+    ]
+  },
+  {
+    "id": "awards-carousel",
+    "components": [
+      "award-item"
+    ]
+  },
+  {
+    "id": "businesses-section",
+    "components": [
+      "business-item"
     ]
   },
   {
@@ -23,16 +61,38 @@
     ]
   },
   {
+    "id": "columns",
+    "components": [
+      "column"
+    ]
+  },
+  {
+    "id": "column",
+    "components": [
+      "text",
+      "image",
+      "button",
+      "title"
+    ]
+  },
+  {
+    "id": "committed-banner",
+    "components": []
+  },
+  {
+    "id": "experience-banner",
+    "components": []
+  },
+  {
     "id": "footerbottoms",
     "components": [
-      "footerbottom",
-      "groupwebsitelink"
+      "footerbottom"
     ]
   },
   {
     "id": "footerlinks",
     "components": [
-      "footerlink"
+      "footerlinks"
     ]
   },
   {
@@ -66,12 +126,6 @@
     ]
   },
   {
-    "id": "listed-companies",
-    "components": [
-      "listed-company-item"
-    ]
-  },
-  {
     "id": "news-updates",
     "components": [
       "news-item"
@@ -90,62 +144,21 @@
     ]
   },
   {
-    "id": "airport-overview",
-    "components": [
-      "airport-overview-item"
-    ]
+    "id": "article-header",
+    "components": []
   },
   {
     "id": "article-body",
-    "components": [
-      "text",
-      "image",
-      "title",
-      "button"
-    ]
+    "components": []
   },
   {
-    "id": "article-header",
-    "components": [
-      "text",
-      "image",
-      "title"
-    ]
+    "id": "inner-banner",
+    "components": []
   },
   {
-    "id": "aviation-expertise",
+    "id": "listed-companies",
     "components": [
-      "aviation-item"
-    ]
-  },
-  {
-    "id": "awards-carousel",
-    "components": [
-      "award-item"
-    ]
-  },
-  {
-    "id": "businesses-section",
-    "components": [
-      "business-item"
-    ]
-  },
-  {
-    "id": "committed-banner",
-    "components": [
-      "text",
-      "image",
-      "title"
-    ]
-  },
-  
-  {
-    "id": "experience-banner",
-    "components": [
-      "text",
-      "richtext",
-      "image",
-      "button"
+      "listed-company-item"
     ]
   }
 ]
