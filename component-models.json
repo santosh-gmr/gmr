@@ -524,6 +524,46 @@
     ]
   },
   {
+    "id": "cookie-consent",
+    "fields": [
+      {
+        "component": "richtext",
+        "name": "message",
+        "label": "Consent Message",
+        "valueType": "string",
+        "defaultValue": "We use cookies to enhance your user experience."
+      },
+      {
+        "component": "text",
+        "name": "policyLabel",
+        "label": "Policy Link Text",
+        "valueType": "string",
+        "defaultValue": "Read Privacy Policy"
+      },
+      {
+        "component": "text",
+        "name": "policyLink",
+        "label": "Policy Page URL",
+        "valueType": "string",
+        "comment": "Link to your privacy page (e.g. /privacy-policy)"
+      },
+      {
+        "component": "text",
+        "name": "acceptLabel",
+        "label": "Accept Button Label",
+        "valueType": "string",
+        "defaultValue": "Allow all cookies"
+      },
+      {
+        "component": "text",
+        "name": "declineLabel",
+        "label": "Decline Button Label",
+        "valueType": "string",
+        "defaultValue": "Decline"
+      }
+    ]
+  },
+  {
     "id": "experience-banner",
     "fields": [
       {
@@ -1029,6 +1069,32 @@
         "valueType": "string",
         "name": "description",
         "label": "Description"
+      }
+    ]
+  },
+  {
+    "id": "privacy-request",
+    "fields": [
+      {
+        "component": "text",
+        "name": "title",
+        "label": "Title",
+        "valueType": "string",
+        "defaultValue": "Request Data Deletion"
+      },
+      {
+        "component": "richtext",
+        "name": "description",
+        "label": "Description",
+        "valueType": "string",
+        "defaultValue": "Enter your Record ID to permanently erase your data from our systems."
+      },
+      {
+        "component": "text",
+        "name": "btnLabel",
+        "label": "Button Label",
+        "valueType": "string",
+        "defaultValue": "Erase My Data"
       }
     ]
   },

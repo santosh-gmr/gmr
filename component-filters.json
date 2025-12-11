@@ -21,7 +21,9 @@
       "article-header",
       "article-body",
       "inner-banner",
-      "listed-companies"
+      "listed-companies",
+      "cookie-consent",
+      "privacy-request"
     ]
   },
   {
@@ -29,6 +31,14 @@
     "components": [
       "airport-overview-item"
     ]
+  },
+  {
+    "id": "article-body",
+    "components": []
+  },
+  {
+    "id": "article-header",
+    "components": []
   },
   {
     "id": "aviation-expertise",
@@ -126,6 +136,16 @@
     ]
   },
   {
+    "id": "inner-banner",
+    "components": []
+  },
+  {
+    "id": "listed-companies",
+    "components": [
+      "listed-company-item"
+    ]
+  },
+  {
     "id": "news-updates",
     "components": [
       "news-item"
@@ -141,24 +161,6 @@
     "id": "success-stories",
     "components": [
       "story-item"
-    ]
-  },
-  {
-    "id": "article-header",
-    "components": []
-  },
-  {
-    "id": "article-body",
-    "components": []
-  },
-  {
-    "id": "inner-banner",
-    "components": []
-  },
-  {
-    "id": "listed-companies",
-    "components": [
-      "listed-company-item"
     ]
   }
 ]
