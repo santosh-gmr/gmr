@@ -39,42 +39,7 @@ export default function decorate(block) {
   const imageContainer = document.createElement("div");
   imageContainer.className = "business-image-container";
   
-  // Create desktop image containers for each business item
-  businessItems.forEach((item, index) => {
-    const desktopImageDiv = document.createElement("div");
-    desktopImageDiv.className = `desktop-business-image ${index === 0 ? "active" : ""}`;
-    desktopImageDiv.setAttribute("data-index", index);
-    
-    // Extract image from the business item (first child is picture)
-    const pictureElement = item.children[0]?.querySelector("picture");
-    if (pictureElement) {
-      const img = document.createElement("img");
-      const imgElement = pictureElement.querySelector("img");
-      if (imgElement) {
-        // Get the highest resolution image available for desktop
-        let src = imgElement.src;
-        const sources = pictureElement.querySelectorAll("source");
-        
-        // Try to find desktop source (min-width: 600px)
-        sources.forEach(source => {
-          if (source.media && source.media.includes("min-width: 600")) {
-            const srcset = source.srcset.split(",")[0].split(" ")[0];
-            if (srcset) src = srcset;
-          }
-        });
-        
-        img.src = src;
-        img.alt = imgElement.alt || "";
-        img.setAttribute("data-aue-prop", "image");
-        img.setAttribute("data-aue-label", "Business Image");
-        img.setAttribute("data-aue-type", "media");
-        
-        desktopImageDiv.appendChild(img);
-      }
-    }
-    
-    imageContainer.appendChild(desktopImageDiv);
-  });
+
   
   imagePreview.appendChild(imageContainer);
   accordionContainer.appendChild(imagePreview);
