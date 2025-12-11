@@ -60,7 +60,9 @@
         "article-header",
         "article-body",
         "inner-banner",
-        "listed-companies"
+        "listed-companies",
+        "cookie-consent",
+        "privacy-request"
       ]
     }
   ]

@@ -1,0 +1,110 @@
+/* Wrapper: Fixed at bottom, full width */
+.cookie-consent-wrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    background-color: #1a1a1a; /* Dark background */
+    color: #ffffff;
+    padding: 15px 20px;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.15);
+    display: none; /* Hidden by default until JS runs */
+    font-family: sans-serif;
+}
+
+/* Flex Container */
+.cookie-consent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 30px;
+}
+
+/* Message Text */
+.cookie-message {
+    flex: 1;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.cookie-message p {
+    margin: 0;
+}
+
+/* Buttons Area */
+.cookie-buttons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Policy Link (CTA) */
+.cookie-policy-link {
+    color: #fff;
+    text-decoration: underline;
+    font-size: 0.9rem;
+    margin-right: 10px;
+    white-space: nowrap;
+}
+.cookie-policy-link:hover {
+    color: #f5a623; /* GMR Orange hover */
+}
+
+/* Standard Button Styles */
+.cookie-btn {
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+/* Accept Button (Primary) */
+.cookie-btn.primary {
+    background-color: #f5a623; /* GMR Orange */
+    color: #000;
+}
+.cookie-btn.primary:hover {
+    background-color: #e09612;
+}
+
+/* Decline Button (Secondary) */
+.cookie-btn.secondary {
+    background-color: transparent;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+}
+.cookie-btn.secondary:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .cookie-consent {
+        flex-direction: column;
+        text-align: left;
+        gap: 20px;
+    }
+
+    .cookie-buttons {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+    .cookie-btn {
+        flex: 1;
+        text-align: center;
+    }
+
+    .cookie-policy-link {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+}

@@ -125,7 +125,8 @@
                 "resourceType": "core/franklin/components/block/v1/block",
                 "template": {
                   "name": "article-body",
-                  "model": "article-body"
+                  "model": "article-body",
+                  "filter": "article-body"
                 }
               }
             }
@@ -329,6 +330,24 @@
                   "name": "Committed Banner",
                   "model": "committed-banner",
                   "filter": "committed-banner"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Cookie Consent",
+          "id": "cookie-consent",
+          "groups": [
+            "General"
+          ],
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "cookie-consent",
+                  "model": "cookie-consent"
                 }
               }
             }
@@ -590,7 +609,8 @@
                 "resourceType": "core/franklin/components/block/v1/block",
                 "template": {
                   "name": "inner-banner",
-                  "model": "inner-banner"
+                  "model": "inner-banner",
+                  "filter": "inner-banner"
                 }
               }
             }
@@ -687,6 +707,24 @@
                 "template": {
                   "name": "Experience Item",
                   "model": "experience-item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Privacy Request Form",
+          "id": "privacy-request",
+          "groups": [
+            "General"
+          ],
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "privacy-request",
+                  "model": "privacy-request"
                 }
               }
             }
