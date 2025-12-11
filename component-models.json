@@ -387,23 +387,53 @@
       }
     ]
   },
- {
-      "id": "innovation-cards",
-      "fields": [
-        { "component": "text", "valueType": "string", "name": "sectionTitle", "label": "Section Title" },
-        { "component": "richtext", "valueType": "string", "name": "sectionDescription", "label": "Section Description" }
-      ]
-    },
+  {
+    "id": "innovation-cards",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "sectionTitle",
+        "label": "Section Title"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "sectionDescription",
+        "label": "Section Description"
+      }
+    ]
+  },
 
-    {
-      "id": "innovation-card-item",
-      "fields": [
-        { "component": "reference", "valueType": "string", "name": "image", "label": "Card Image" },
-        { "component": "text", "valueType": "string", "name": "title", "label": "Card Title" },
-        { "component": "richtext", "valueType": "string", "name": "description", "label": "Card Description" },
-        { "component": "text", "valueType": "string", "name": "ctaText", "label": "CTA Text" }
-      ]
-    },
+  {
+    "id": "innovation-card-item",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Card Image"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "title",
+        "label": "Card Title"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "description",
+        "label": "Card Description"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "ctaText",
+        "label": "CTA Text"
+      }
+    ]
+  },
   {
     "id": "aviation-expertise",
     "fields": [

@@ -124,7 +124,6 @@
     "id": "businesses-section",
     "components": ["business-item"]
   },
-
   {
     "id": "hero-banner",
     "components": ["hero-banner-items"]
@@ -133,10 +132,7 @@
     "id": "commitment-cards",
     "components": ["commitment-card"]
   },
-  {
-    "id": "purpose-driven-team",
-    "components": ["team-item"]
-  },
+
   {
     "id": "innovation-cards",
     "components": ["innovation-card-item"]
