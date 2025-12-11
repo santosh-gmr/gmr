@@ -12,7 +12,7 @@ export default function decorate(block) {
   const h2 = document.createElement('h2');
   const title = children[0]?.textContent?.trim() || '';
   const subtitle = children[1]?.textContent?.trim() || '';
-  h2.innerHTML = `<span class="title">${title}</span> <span class="subtitle"> ${subtitle}</span>`;
+  h2.innerHTML = `<span class="title">${title}</span> <span class="subtitle">${subtitle}</span>`;
   header.appendChild(h2);
 
   // Intro text wrapper (from third div)
@@ -34,19 +34,19 @@ export default function decorate(block) {
   // --- CREATE DESKTOP IMAGE PREVIEW SECTION (hidden on mobile) ---
   const imagePreview = document.createElement('div');
   imagePreview.className = 'business-image-preview';
-  imagePreview.style.display = 'block';
   
   const imageContainer = document.createElement('div');
   imageContainer.className = 'business-image-container';
   
-  // Create desktop image containers for each business item
-  businessItems.forEach((item, index) => {
-    const desktopImageDiv = document.createElement('div');
-    desktopImageDiv.className = `desktop-business-image ${index === 0 ? 'active' : ''}`;
-    desktopImageDiv.setAttribute('data-index', index);
-    
-    // Extract image from the business item (first child is picture)
-    const pictureElement = item.children[0]?.querySelector('picture');
+  // FIX: Create ONLY ONE desktop image container that will show active image
+  const desktopImageDiv = document.createElement('div');
+  desktopImageDiv.className = 'desktop-business-image active';
+  desktopImageDiv.setAttribute('data-index', '0');
+  
+  // FIX: Set first business item's image as the initial active image
+  if (businessItems.length > 0) {
+    const firstItem = businessItems[0];
+    const pictureElement = firstItem.children[0]?.querySelector('picture');
     if (pictureElement) {
       const img = document.createElement('img');
       const imgElement = pictureElement.querySelector('img');
@@ -56,7 +56,7 @@ export default function decorate(block) {
         const sources = pictureElement.querySelectorAll('source');
         
         // Try to find desktop source (min-width: 600px)
-        sources.forEach((source) => {
+        sources.forEach(source => {
           if (source.media && source.media.includes('min-width: 600')) {
             const srcset = source.srcset.split(',')[0].split(' ')[0];
             if (srcset) src = srcset;
@@ -72,10 +72,9 @@ export default function decorate(block) {
         desktopImageDiv.appendChild(img);
       }
     }
-    
-    imageContainer.appendChild(desktopImageDiv);
-  });
+  }
   
+  imageContainer.appendChild(desktopImageDiv);
   imagePreview.appendChild(imageContainer);
   accordionContainer.appendChild(imagePreview);
   
@@ -107,7 +106,8 @@ export default function decorate(block) {
     titleSpan.className = 'business-title';
     const titleElement = item.children[1];
     if (titleElement) {
-      titleSpan.textContent = titleElement.textContent.trim();
+      // FIX: Use innerHTML to preserve any HTML formatting
+      titleSpan.innerHTML = titleElement.innerHTML || '';
     }
     button.appendChild(titleSpan);
     
@@ -122,16 +122,12 @@ export default function decorate(block) {
     // Plus icon SVG
     const plusIcon = document.createElement('span');
     plusIcon.className = `plus-icon ${index === 0 ? 'd-none' : ''}`;
-    plusIcon.innerHTML = `<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
-</svg>`;
+    plusIcon.innerHTML = '<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/></svg>';
     
     // Minus icon SVG
     const minusIcon = document.createElement('span');
     minusIcon.className = `minus-icon ${index === 0 ? '' : 'd-none'}`;
-    minusIcon.innerHTML = `<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14"/>
-</svg>`;
+    minusIcon.innerHTML = '<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14"/></svg>';
     
     iconWrapper.appendChild(plusIcon);
     iconWrapper.appendChild(minusIcon);
@@ -156,9 +152,8 @@ export default function decorate(block) {
     descriptionDiv.className = 'business-description';
     const descriptionElement = item.children[2];
     if (descriptionElement) {
-      const p = document.createElement('p');
-      p.textContent = descriptionElement.textContent.trim();
-      descriptionDiv.appendChild(p);
+      // FIX: Use innerHTML instead of textContent to preserve formatting
+      descriptionDiv.innerHTML = descriptionElement.innerHTML || '';
     }
     accordionBody.appendChild(descriptionDiv);
     
@@ -229,146 +224,142 @@ export default function decorate(block) {
   block.innerHTML = '';
   block.appendChild(wrapper);
   
-  // Add Bootstrap collapse event listeners
+  // Add event listeners
   setTimeout(() => {
     const collapseElements = wrapper.querySelectorAll('.accordion-collapse');
-    const desktopImages = wrapper.querySelectorAll('.desktop-business-image');
+    const desktopImageContainer = wrapper.querySelector('.desktop-business-image');
+    const desktopImageImg = desktopImageContainer?.querySelector('img');
     const accordionItems = wrapper.querySelectorAll('.accordion-item');
     const accordionHeaders = wrapper.querySelectorAll('.accordion-header');
     const accordionButtons = wrapper.querySelectorAll('.accordion-button');
     
-    // Define event handler functions
-    function handleCollapseShow(event) {
-      const index = Array.from(collapseElements).indexOf(event.target);
-      
-      // Update active classes
-      accordionItems.forEach((item) => item.classList.remove('active'));
-      accordionHeaders.forEach((header) => header.classList.remove('active'));
-      accordionButtons.forEach((button) => button.classList.remove('active'));
-      desktopImages.forEach((img) => img.classList.remove('active'));
-      
-      // Add active classes to current item
-      accordionItems[index].classList.add('active');
-      accordionHeaders[index].classList.add('active');
-      accordionButtons[index].classList.add('active');
-      desktopImages[index].classList.add('active');
-      
-      // Update icons
-      const allPlusIcons = wrapper.querySelectorAll('.plus-icon');
-      const allMinusIcons = wrapper.querySelectorAll('.minus-icon');
-      
-      allPlusIcons.forEach((icon) => icon.classList.remove('d-none'));
-      allMinusIcons.forEach((icon) => icon.classList.add('d-none'));
-      
-      const currentPlusIcon = accordionButtons[index].querySelector('.plus-icon');
-      const currentMinusIcon = accordionButtons[index].querySelector('.minus-icon');
-      
-      if (currentPlusIcon) currentPlusIcon.classList.add('d-none');
-      if (currentMinusIcon) currentMinusIcon.classList.remove('d-none');
-    }
-    
-    function handleCollapseHide(event) {
-      const index = Array.from(collapseElements).indexOf(event.target);
-      
-      // When collapsing, check if this is the last open item
-      const openItems = wrapper.querySelectorAll('.accordion-collapse.show');
-      if (openItems.length === 1 && openItems[0] === event.target) {
-        // This is the last open item being closed
-        accordionItems[index].classList.remove('active');
-        accordionHeaders[index].classList.remove('active');
-        accordionButtons[index].classList.remove('active');
-        
-        // Update icons
-        const currentPlusIcon = accordionButtons[index].querySelector('.plus-icon');
-        const currentMinusIcon = accordionButtons[index].querySelector('.minus-icon');
-        
-        if (currentPlusIcon) currentPlusIcon.classList.remove('d-none');
-        if (currentMinusIcon) currentMinusIcon.classList.add('d-none');
+    // Function to update desktop image
+    const updateDesktopImage = (index) => {
+      if (businessItems.length > index) {
+        const item = businessItems[index];
+        const pictureElement = item.children[0]?.querySelector('picture');
+        if (pictureElement && desktopImageImg) {
+          const imgElement = pictureElement.querySelector('img');
+          if (imgElement) {
+            // Get the highest resolution image available for desktop
+            let src = imgElement.src;
+            const sources = pictureElement.querySelectorAll('source');
+            
+            // Try to find desktop source (min-width: 600px)
+            sources.forEach(source => {
+              if (source.media && source.media.includes('min-width: 600')) {
+                const srcset = source.srcset.split(',')[0].split(' ')[0];
+                if (srcset) src = srcset;
+              }
+            });
+            
+            desktopImageImg.src = src;
+            desktopImageImg.alt = imgElement.alt || '';
+          }
+        }
       }
-    }
-    
-    function handleButtonClick(e) {
-      // Only run if Bootstrap is not loaded
-      if (typeof bootstrap !== 'undefined') {
-        return;
-      }
-      
-      const index = Array.from(accordionButtons).indexOf(e.currentTarget);
-      const targetId = e.currentTarget.getAttribute('data-bs-target');
-      const target = wrapper.querySelector(targetId);
-      
-      if (target.classList.contains('show')) {
-        // Close it
-        target.classList.remove('show');
-        accordionItems[index].classList.remove('active');
-        accordionHeaders[index].classList.remove('active');
-        e.currentTarget.classList.remove('active');
-        
-        // Update icons
-        const plusIcon = e.currentTarget.querySelector('.plus-icon');
-        const minusIcon = e.currentTarget.querySelector('.minus-icon');
-        if (plusIcon) plusIcon.classList.remove('d-none');
-        if (minusIcon) minusIcon.classList.add('d-none');
-      } else {
-        // Close all others
-        wrapper.querySelectorAll('.accordion-collapse.show').forEach((el) => {
-          el.classList.remove('show');
-        });
-        accordionItems.forEach((item) => item.classList.remove('active'));
-        accordionHeaders.forEach((header) => header.classList.remove('active'));
-        accordionButtons.forEach((btn) => btn.classList.remove('active'));
-        desktopImages.forEach((img) => img.classList.remove('active'));
-        
-        // Open this one
-        target.classList.add('show');
-        accordionItems[index].classList.add('active');
-        accordionHeaders[index].classList.add('active');
-        e.currentTarget.classList.add('active');
-        desktopImages[index].classList.add('active');
-        
-        // Update icons
-        wrapper.querySelectorAll('.plus-icon').forEach((icon) => icon.classList.remove('d-none'));
-        wrapper.querySelectorAll('.minus-icon').forEach((icon) => icon.classList.add('d-none'));
-        
-        const plusIcon = e.currentTarget.querySelector('.plus-icon');
-        const minusIcon = e.currentTarget.querySelector('.minus-icon');
-        if (plusIcon) plusIcon.classList.add('d-none');
-        if (minusIcon) minusIcon.classList.remove('d-none');
-      }
-    }
-    
-    function handleResponsiveLayout() {
-      const isMobile = window.innerWidth <= 767;
-      const mobileImages = wrapper.querySelectorAll('.mobile-business-image');
-      
-      if (isMobile) {
-        // On mobile, ensure mobile images are visible in accordion body
-        mobileImages.forEach((imgDiv) => {
-          imgDiv.style.display = 'block';
-        });
-      } else {
-        // On desktop, hide mobile images in accordion body
-        mobileImages.forEach((imgDiv) => {
-          imgDiv.style.display = 'none';
-        });
-      }
-    }
+    };
     
     // Listen to Bootstrap's collapse events
     collapseElements.forEach((collapseEl, index) => {
-      collapseEl.addEventListener('show.bs.collapse', handleCollapseShow);
-      collapseEl.addEventListener('hide.bs.collapse', handleCollapseHide);
+      collapseEl.addEventListener('show.bs.collapse', function () {
+        // Update active classes
+        accordionItems.forEach(item => item.classList.remove('active'));
+        accordionHeaders.forEach(header => header.classList.remove('active'));
+        accordionButtons.forEach(button => button.classList.remove('active'));
+        
+        // Add active classes to current item
+        accordionItems[index].classList.add('active');
+        accordionHeaders[index].classList.add('active');
+        accordionButtons[index].classList.add('active');
+        
+        // Update desktop image
+        updateDesktopImage(index);
+        
+        // Update icons
+        const allPlusIcons = wrapper.querySelectorAll('.plus-icon');
+        const allMinusIcons = wrapper.querySelectorAll('.minus-icon');
+        
+        allPlusIcons.forEach(icon => icon.classList.remove('d-none'));
+        allMinusIcons.forEach(icon => icon.classList.add('d-none'));
+        
+        const currentPlusIcon = accordionButtons[index].querySelector('.plus-icon');
+        const currentMinusIcon = accordionButtons[index].querySelector('.minus-icon');
+        
+        if (currentPlusIcon) currentPlusIcon.classList.add('d-none');
+        if (currentMinusIcon) currentMinusIcon.classList.remove('d-none');
+      });
+      
+      collapseEl.addEventListener('hide.bs.collapse', function () {
+        // When collapsing, check if this is the last open item
+        const openItems = wrapper.querySelectorAll('.accordion-collapse.show');
+        if (openItems.length === 1 && openItems[0] === collapseEl) {
+          // This is the last open item being closed
+          accordionItems[index].classList.remove('active');
+          accordionHeaders[index].classList.remove('active');
+          accordionButtons[index].classList.remove('active');
+          
+          // Update icons
+          const currentPlusIcon = accordionButtons[index].querySelector('.plus-icon');
+          const currentMinusIcon = accordionButtons[index].querySelector('.minus-icon');
+          
+          if (currentPlusIcon) currentPlusIcon.classList.remove('d-none');
+          if (currentMinusIcon) currentMinusIcon.classList.add('d-none');
+        }
+      });
     });
     
     // Optional: Manual toggle for non-Bootstrap environments
     accordionButtons.forEach((button, index) => {
-      button.addEventListener('click', handleButtonClick);
+      button.addEventListener('click', function(e) {
+        // Only run if Bootstrap is not loaded
+        if (typeof bootstrap !== 'undefined') {
+          return;
+        }
+        
+        const targetId = this.getAttribute('data-bs-target');
+        const target = wrapper.querySelector(targetId);
+        
+        if (target.classList.contains('show')) {
+          // Close it
+          target.classList.remove('show');
+          accordionItems[index].classList.remove('active');
+          accordionHeaders[index].classList.remove('active');
+          this.classList.remove('active');
+          
+          // Update icons
+          const plusIcon = this.querySelector('.plus-icon');
+          const minusIcon = this.querySelector('.minus-icon');
+          if (plusIcon) plusIcon.classList.remove('d-none');
+          if (minusIcon) minusIcon.classList.add('d-none');
+        } else {
+          // Close all others
+          wrapper.querySelectorAll('.accordion-collapse.show').forEach(el => {
+            el.classList.remove('show');
+          });
+          accordionItems.forEach(item => item.classList.remove('active'));
+          accordionHeaders.forEach(header => header.classList.remove('active'));
+          accordionButtons.forEach(btn => btn.classList.remove('active'));
+          
+          // Open this one
+          target.classList.add('show');
+          accordionItems[index].classList.add('active');
+          accordionHeaders[index].classList.add('active');
+          this.classList.add('active');
+          
+          // Update desktop image
+          updateDesktopImage(index);
+          
+          // Update icons
+          wrapper.querySelectorAll('.plus-icon').forEach(icon => icon.classList.remove('d-none'));
+          wrapper.querySelectorAll('.minus-icon').forEach(icon => icon.classList.add('d-none'));
+          
+          const plusIcon = this.querySelector('.plus-icon');
+          const minusIcon = this.querySelector('.minus-icon');
+          if (plusIcon) plusIcon.classList.add('d-none');
+          if (minusIcon) minusIcon.classList.remove('d-none');
+        }
+      });
     });
-    
-    // Initial check
-    handleResponsiveLayout();
-    
-    // Listen for window resize
-    window.addEventListener('resize', handleResponsiveLayout);
   }, 100);
 }
