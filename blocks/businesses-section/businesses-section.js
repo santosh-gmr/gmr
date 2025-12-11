@@ -45,8 +45,8 @@ export default function decorate(block) {
     desktopImageDiv.className = `desktop-business-image ${index === 0 ? "active" : ""}`;
     desktopImageDiv.setAttribute("data-index", index);
     
-    // Extract image from the business item
-    const pictureElement = item.querySelector("picture");
+    // Extract image from the business item (first child is picture)
+    const pictureElement = item.children[0]?.querySelector("picture");
     if (pictureElement) {
       const img = document.createElement("img");
       const imgElement = pictureElement.querySelector("img");
@@ -102,19 +102,11 @@ export default function decorate(block) {
     button.setAttribute("aria-expanded", index === 0 ? "true" : "false");
     button.setAttribute("aria-controls", `collapse${index}`);
     
-    // Business title - find the div with business-title class or the second child
+    // Business title (second child of item)
     const titleSpan = document.createElement("span");
     titleSpan.className = "business-title";
-    
-    // Try to find by class first
-    const titleElement = item.querySelector(".business-title");
-    if (!titleElement) {
-      // Fallback to second child
-      const itemChildren = [...item.children];
-      if (itemChildren.length > 1) {
-        titleSpan.textContent = itemChildren[1].textContent.trim();
-      }
-    } else {
+    const titleElement = item.children[1];
+    if (titleElement) {
       titleSpan.textContent = titleElement.textContent.trim();
     }
     button.appendChild(titleSpan);
@@ -159,49 +151,55 @@ export default function decorate(block) {
     const accordionBody = document.createElement("div");
     accordionBody.className = "accordion-body";
     
-    // Business description - find the div with business-description class or third child
+    // Business description (third child of item)
     const descriptionDiv = document.createElement("div");
     descriptionDiv.className = "business-description";
-    
-    const descriptionElement = item.querySelector(".business-description");
-    if (!descriptionElement) {
-      // Fallback to third child
-      const itemChildren = [...item.children];
-      if (itemChildren.length > 2) {
-        const p = document.createElement("p");
-        p.textContent = itemChildren[2].textContent.trim();
-        descriptionDiv.appendChild(p);
-      }
-    } else {
-      descriptionDiv.innerHTML = descriptionElement.innerHTML;
+    const descriptionElement = item.children[2];
+    if (descriptionElement) {
+      const p = document.createElement("p");
+      p.textContent = descriptionElement.textContent.trim();
+      descriptionDiv.appendChild(p);
     }
     accordionBody.appendChild(descriptionDiv);
     
-    // CTA button
+    // CTA button - Get URL from button container or link
     const ctaDiv = document.createElement("div");
     ctaDiv.className = "business-cta";
     
     // Find the actual link URL
     let linkUrl = "#";
-    let linkText = "READ MORE";
+    let linkTitle = "#";
     
-    // Try to find CTA by class first
-    const ctaElement = item.querySelector(".cta-label");
-    if (ctaElement) {
-      linkText = ctaElement.textContent.trim();
+    // Check for button container (fifth child, contains <a> with href="#")
+    const buttonContainer = item.children[4];
+    if (buttonContainer) {
+      const buttonLink = buttonContainer.querySelector("a");
+      if (buttonLink) {
+        linkUrl = buttonLink.href || "#";
+        linkTitle = buttonLink.title || "#";
+      }
     }
     
-    // Look for a link element
-    const linkElement = item.querySelector("a");
-    if (linkElement) {
-      linkUrl = linkElement.href;
+    // Check for direct link (in case of Foundation with Google link)
+    const directLink = item.querySelector("a[href*='http']");
+    if (directLink && directLink.href.includes("http")) {
+      linkUrl = directLink.href;
+      linkTitle = directLink.title || directLink.textContent.trim();
     }
     
-    // Create CTA link
+    // Create CTA link - Use "READ MORE" text from fourth child
     const ctaLink = document.createElement("a");
     ctaLink.href = linkUrl;
+    ctaLink.title = linkTitle;
     ctaLink.className = "btn btn-transparent";
-    ctaLink.textContent = linkText;
+    
+    // Get "READ MORE" text from fourth child
+    const readMoreElement = item.children[3];
+    if (readMoreElement) {
+      ctaLink.textContent = readMoreElement.textContent.trim();
+    } else {
+      ctaLink.textContent = "READ MORE";
+    }
     
     ctaDiv.appendChild(ctaLink);
     accordionBody.appendChild(ctaDiv);
@@ -211,7 +209,7 @@ export default function decorate(block) {
     mobileImageDiv.className = "mobile-business-image";
     mobileImageDiv.setAttribute("data-index", index);
     
-    const pictureElement = item.querySelector("picture");
+    const pictureElement = item.children[0]?.querySelector("picture");
     if (pictureElement) {
       // Clone the picture element for mobile
       const mobilePicture = pictureElement.cloneNode(true);
@@ -257,176 +255,116 @@ export default function decorate(block) {
         display: block !important;
       }
     }
-    
-    /* Basic accordion styles */
-    .accordion-item {
-      border-bottom: 1px solid #ddd;
-    }
-    
-    .accordion-header {
-      margin: 0;
-    }
-    
-    .accordion-button {
-      width: 100%;
-      text-align: left;
-      background: none;
-      border: none;
-      padding: 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-    }
-    
-    .accordion-button.active {
-      font-weight: bold;
-    }
-    
-    .accordion-collapse {
-      overflow: hidden;
-      transition: height 0.3s ease;
-    }
-    
-    .accordion-collapse:not(.show) {
-      display: none;
-    }
-    
-    .accordion-body {
-      padding: 1rem;
-    }
-    
-    .business-title {
-      flex-grow: 1;
-    }
-    
-    .accordion-icon {
-      display: flex;
-      align-items: center;
-    }
-    
-    .icon-wrapper {
-      display: inline-flex;
-      align-items: center;
-    }
-    
-    .plus-icon, .minus-icon {
-      display: inline-flex;
-      align-items: center;
-    }
-    
-    .d-none {
-      display: none !important;
-    }
   `;
   document.head.appendChild(style);
   
-  // Add event listeners for accordion functionality
+  // Add Bootstrap collapse event listeners
   setTimeout(() => {
-    const accordionButtons = wrapper.querySelectorAll('.accordion-button');
+    const collapseElements = wrapper.querySelectorAll('.accordion-collapse');
     const desktopImages = wrapper.querySelectorAll('.desktop-business-image');
+    const accordionItems = wrapper.querySelectorAll('.accordion-item');
+    const accordionHeaders = wrapper.querySelectorAll('.accordion-header');
+    const accordionButtons = wrapper.querySelectorAll('.accordion-button');
     
-    // If Bootstrap is not available, add manual toggle functionality
-    if (typeof bootstrap === 'undefined') {
-      accordionButtons.forEach((button, index) => {
-        button.addEventListener('click', function(e) {
-          e.preventDefault();
-          
-          const targetId = this.getAttribute('data-bs-target');
-          const target = wrapper.querySelector(targetId);
-          const isExpanded = target.classList.contains('show');
-          
-          if (isExpanded) {
-            // Close this item
-            target.classList.remove('show');
-            button.classList.remove('active');
-            button.setAttribute('aria-expanded', 'false');
-            
-            // Update icons
-            const plusIcon = button.querySelector('.plus-icon');
-            const minusIcon = button.querySelector('.minus-icon');
-            if (plusIcon) plusIcon.classList.remove('d-none');
-            if (minusIcon) minusIcon.classList.add('d-none');
-            
-            // Update desktop image
-            desktopImages[index]?.classList.remove('active');
-          } else {
-            // Close all other items
-            wrapper.querySelectorAll('.accordion-collapse.show').forEach(collapse => {
-              collapse.classList.remove('show');
-            });
-            
-            wrapper.querySelectorAll('.accordion-button.active').forEach(btn => {
-              btn.classList.remove('active');
-              btn.setAttribute('aria-expanded', 'false');
-              
-              // Update icons for all buttons
-              const plusIcon = btn.querySelector('.plus-icon');
-              const minusIcon = btn.querySelector('.minus-icon');
-              if (plusIcon) plusIcon.classList.remove('d-none');
-              if (minusIcon) minusIcon.classList.add('d-none');
-            });
-            
-            // Remove active from all desktop images
-            desktopImages.forEach(img => img.classList.remove('active'));
-            
-            // Open this item
-            target.classList.add('show');
-            button.classList.add('active');
-            button.setAttribute('aria-expanded', 'true');
-            
-            // Update icons
-            const plusIcon = button.querySelector('.plus-icon');
-            const minusIcon = button.querySelector('.minus-icon');
-            if (plusIcon) plusIcon.classList.add('d-none');
-            if (minusIcon) minusIcon.classList.remove('d-none');
-            
-            // Update desktop image
-            desktopImages[index]?.classList.add('active');
-          }
-        });
+    // Listen to Bootstrap's collapse events
+    collapseElements.forEach((collapseEl, index) => {
+      collapseEl.addEventListener('show.bs.collapse', function () {
+        // Update active classes
+        accordionItems.forEach(item => item.classList.remove('active'));
+        accordionHeaders.forEach(header => header.classList.remove('active'));
+        accordionButtons.forEach(button => button.classList.remove('active'));
+        desktopImages.forEach(img => img.classList.remove('active'));
+        
+        // Add active classes to current item
+        accordionItems[index].classList.add('active');
+        accordionHeaders[index].classList.add('active');
+        accordionButtons[index].classList.add('active');
+        desktopImages[index].classList.add('active');
+        
+        // Update icons
+        const allPlusIcons = wrapper.querySelectorAll('.plus-icon');
+        const allMinusIcons = wrapper.querySelectorAll('.minus-icon');
+        
+        allPlusIcons.forEach(icon => icon.classList.remove('d-none'));
+        allMinusIcons.forEach(icon => icon.classList.add('d-none'));
+        
+        const currentPlusIcon = accordionButtons[index].querySelector('.plus-icon');
+        const currentMinusIcon = accordionButtons[index].querySelector('.minus-icon');
+        
+        if (currentPlusIcon) currentPlusIcon.classList.add('d-none');
+        if (currentMinusIcon) currentMinusIcon.classList.remove('d-none');
       });
-    } else {
-      // Bootstrap is available, use Bootstrap events
-      const collapseElements = wrapper.querySelectorAll('.accordion-collapse');
       
-      collapseElements.forEach((collapseEl, index) => {
-        collapseEl.addEventListener('show.bs.collapse', function () {
-          // Update active classes
-          desktopImages.forEach(img => img.classList.remove('active'));
-          desktopImages[index]?.classList.add('active');
+      collapseEl.addEventListener('hide.bs.collapse', function () {
+        // When collapsing, check if this is the last open item
+        const openItems = wrapper.querySelectorAll('.accordion-collapse.show');
+        if (openItems.length === 1 && openItems[0] === collapseEl) {
+          // This is the last open item being closed
+          accordionItems[index].classList.remove('active');
+          accordionHeaders[index].classList.remove('active');
+          accordionButtons[index].classList.remove('active');
           
           // Update icons
-          const allPlusIcons = wrapper.querySelectorAll('.plus-icon');
-          const allMinusIcons = wrapper.querySelectorAll('.minus-icon');
-          
-          allPlusIcons.forEach(icon => icon.classList.remove('d-none'));
-          allMinusIcons.forEach(icon => icon.classList.add('d-none'));
-          
-          const currentButton = accordionButtons[index];
-          const currentPlusIcon = currentButton.querySelector('.plus-icon');
-          const currentMinusIcon = currentButton.querySelector('.minus-icon');
-          
-          if (currentPlusIcon) currentPlusIcon.classList.add('d-none');
-          if (currentMinusIcon) currentMinusIcon.classList.remove('d-none');
-        });
-        
-        collapseEl.addEventListener('hide.bs.collapse', function () {
-          // When closing, update icons
-          const currentButton = accordionButtons[index];
-          const currentPlusIcon = currentButton.querySelector('.plus-icon');
-          const currentMinusIcon = currentButton.querySelector('.minus-icon');
+          const currentPlusIcon = accordionButtons[index].querySelector('.plus-icon');
+          const currentMinusIcon = accordionButtons[index].querySelector('.minus-icon');
           
           if (currentPlusIcon) currentPlusIcon.classList.remove('d-none');
           if (currentMinusIcon) currentMinusIcon.classList.add('d-none');
-          
-          // Check if this was the active desktop image
-          if (desktopImages[index]?.classList.contains('active')) {
-            desktopImages[index]?.classList.remove('active');
-          }
-        });
+        }
       });
-    }
+    });
+    
+    // Optional: Manual toggle for non-Bootstrap environments
+    accordionButtons.forEach((button, index) => {
+      button.addEventListener('click', function(e) {
+        // Only run if Bootstrap is not loaded
+        if (typeof bootstrap !== 'undefined') {
+          return;
+        }
+        
+        const targetId = this.getAttribute('data-bs-target');
+        const target = wrapper.querySelector(targetId);
+        
+        if (target.classList.contains('show')) {
+          // Close it
+          target.classList.remove('show');
+          accordionItems[index].classList.remove('active');
+          accordionHeaders[index].classList.remove('active');
+          this.classList.remove('active');
+          
+          // Update icons
+          const plusIcon = this.querySelector('.plus-icon');
+          const minusIcon = this.querySelector('.minus-icon');
+          if (plusIcon) plusIcon.classList.remove('d-none');
+          if (minusIcon) minusIcon.classList.add('d-none');
+        } else {
+          // Close all others
+          wrapper.querySelectorAll('.accordion-collapse.show').forEach(el => {
+            el.classList.remove('show');
+          });
+          accordionItems.forEach(item => item.classList.remove('active'));
+          accordionHeaders.forEach(header => header.classList.remove('active'));
+          accordionButtons.forEach(btn => btn.classList.remove('active'));
+          desktopImages.forEach(img => img.classList.remove('active'));
+          
+          // Open this one
+          target.classList.add('show');
+          accordionItems[index].classList.add('active');
+          accordionHeaders[index].classList.add('active');
+          this.classList.add('active');
+          desktopImages[index].classList.add('active');
+          
+          // Update icons
+          wrapper.querySelectorAll('.plus-icon').forEach(icon => icon.classList.remove('d-none'));
+          wrapper.querySelectorAll('.minus-icon').forEach(icon => icon.classList.add('d-none'));
+          
+          const plusIcon = this.querySelector('.plus-icon');
+          const minusIcon = this.querySelector('.minus-icon');
+          if (plusIcon) plusIcon.classList.add('d-none');
+          if (minusIcon) minusIcon.classList.remove('d-none');
+        }
+      });
+    });
     
     // Handle window resize for responsive behavior
     function handleResponsiveLayout() {
@@ -434,12 +372,12 @@ export default function decorate(block) {
       const mobileImages = wrapper.querySelectorAll('.mobile-business-image');
       
       if (isMobile) {
-        // On mobile, ensure mobile images are visible
+        // On mobile, ensure mobile images are visible in accordion body
         mobileImages.forEach(imgDiv => {
           imgDiv.style.display = 'block';
         });
       } else {
-        // On desktop, hide mobile images
+        // On desktop, hide mobile images in accordion body
         mobileImages.forEach(imgDiv => {
           imgDiv.style.display = 'none';
         });
