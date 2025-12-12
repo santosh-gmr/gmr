@@ -1,289 +1,232 @@
+/**
+ * success-stories.js — fixed & defensive
+ * - export default decorate(block)
+ * - finds marker div dynamically (no fixed index)
+ * - safe guards for author/publish environments
+ */
 
 export default function decorate(block) {
-
   if (!block || !(block instanceof HTMLElement)) return;
 
-  const text = (el) => (el && el.textContent ? el.textContent.trim() : '');
-  const $ = (sel, root = document) => root.querySelector(sel);
-  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+  // Prevent double-decoration
+  if (block.dataset.ssDecorated === 'true') return;
+  block.dataset.ssDecorated = 'true';
 
-  // find direct child DIVs inside the block (the block provided is the ".success-stories.block")
-  const childDivs = Array.from(block.children).filter((c) => c.tagName.toLowerCase() === 'div');
+  try {
+    const text = (el) => (el && el.textContent ? el.textContent.trim() : '');
+    const childDivs = Array.from(block.children).filter(c => c && c.tagName && c.tagName.toLowerCase() === 'div');
 
-let markerIndex = 1;
-  const p = childDivs[4].querySelector('p');
-  const tagValue = text(p).toLowerCase();
-  let pageVal = 'global';
-  const isAero = window.location.pathname.startsWith('/aero-gmr/');
-  if(isAero){
-    pageVal = 'aero';
-  }
-  if (p && text(p).toLowerCase() === pageVal) {
-    // --- Extract header info (title, description, CTA) from the top section of the block.
-    // We assume title is in the first child div, description in second, CTA text in third.
-    const titleText = (childDivs[0] && childDivs[0].querySelector('p')) ? text(childDivs[0].querySelector('p')) : '';
-    const descText = (childDivs[1] && childDivs[1].querySelector('p')) ? text(childDivs[1].querySelector('p')) : '';
-    const ctaText = (childDivs[2] && childDivs[2].querySelector('p')) ? text(childDivs[2].querySelector('p')) : '';
+    // Compute expected tag value based on pathname (fallback to 'global')
+    let pageVal = 'global';
+    try {
+      const isAero = typeof window !== 'undefined' && window.location && window.location.pathname && window.location.pathname.startsWith('/aero-gmr/');
+      if (isAero) pageVal = 'aero';
+    } catch (e) { /* ignore */ }
 
-    // --- Collect slides: everything after the marker that contains an image/picture
-    const possibleSlides = childDivs.slice(markerIndex + 1);
-    const slides = possibleSlides.filter((d) => {
-      return d.querySelector('picture') || d.querySelector('img') || d.querySelector('source');
+    // Find the child DIV that contains a <p> equal to pageVal (case-insensitive)
+    const markerDiv = childDivs.find(div => {
+      if (!div || !div.querySelectorAll) return false;
+      const ps = Array.from(div.querySelectorAll('p')).map(p => p && p.textContent ? p.textContent.trim().toLowerCase() : '');
+      return ps.some(t => t === pageVal);
     });
 
-    // If no slides found, do nothing.
-    if (!slides.length) return;
+    // If no marker found -> clear block and mark loaded
+    if (!markerDiv) {
+      block.innerHTML = '';
+      block.dataset.blockStatus = 'loaded';
+      delete block.dataset.ssDecorated;
+      return;
+    }
 
-    // --- Build the new DOM structure
-    // Clear the block and build wrapper structure expected by CSS/JS
-    block.innerHTML = '';
+    // Get index of marker within direct child divs
+    const markerIndex = childDivs.indexOf(markerDiv);
+    if (markerIndex === -1) {
+      block.innerHTML = '';
+      block.dataset.blockStatus = 'loaded';
+      delete block.dataset.ssDecorated;
+      return;
+    }
 
-    // wrapper
+    // Extract header fields from the top of the same block (safe guards)
+    const titleText = (childDivs[0] && childDivs[0].querySelector && childDivs[0].querySelector('p')) ? text(childDivs[0].querySelector('p')) : '';
+    const descText  = (childDivs[1] && childDivs[1].querySelector && childDivs[1].querySelector('p')) ? text(childDivs[1].querySelector('p')) : '';
+    const ctaText   = (childDivs[2] && childDivs[2].querySelector && childDivs[2].querySelector('p')) ? text(childDivs[2].querySelector('p')) : '';
+
+    // Collect candidate slides only from the SAME wrapper area: divs AFTER the marker within childDivs
+    const possibleSlides = childDivs.slice(markerIndex + 1);
+    const slides = possibleSlides.filter(d => d && d.querySelector && (d.querySelector('picture') || d.querySelector('img') || d.querySelector('source')));
+
+    if (!slides.length) {
+      block.innerHTML = '';
+      block.dataset.blockStatus = 'loaded';
+      delete block.dataset.ssDecorated;
+      return;
+    }
+
+    // Build cleaned DOM
+    block.innerHTML = ''; // clear original markup (if you prefer hide instead of remove, change)
     const wrapper = document.createElement('div');
-    wrapper.className = 'success-stories-wrapper-'+tagValue;
+    // add a class that includes tag value for styling if needed
+    const firstP = markerDiv.querySelector('p');
+    const tagValue = firstP ? text(firstP).toLowerCase() : 'global';
+    wrapper.className = `success-stories-wrapper-${tagValue}`;
 
-    // left column
-    const left = document.createElement('div');
-    left.className = 'success-left';
+    // LEFT column
+    const left = document.createElement('div'); left.className = 'success-left';
+    const titleWrap = document.createElement('div'); const titleP = document.createElement('p'); titleP.className = 'story-title'; titleP.innerHTML = titleText || 'Success Stories'; titleWrap.appendChild(titleP);
+    const descWrap  = document.createElement('div'); const descP  = document.createElement('p'); descP.className = 'story-desc'; descP.innerHTML = descText || ''; descWrap.appendChild(descP);
+    const ctaWrap   = document.createElement('div'); const ctaLink = document.createElement('a'); ctaLink.className = 'cta-button'; ctaLink.href = '#'; ctaLink.textContent = ctaText || 'Explore Our Success Stories'; ctaWrap.appendChild(ctaLink);
+    const arrowsWrap = document.createElement('div'); arrowsWrap.className = 'success-arrows';
+    const prevBtn = document.createElement('button'); prevBtn.className = 'arrow-prev'; prevBtn.setAttribute('aria-label','Previous'); prevBtn.textContent = '←';
+    const nextBtn = document.createElement('button'); nextBtn.className = 'arrow-next'; nextBtn.setAttribute('aria-label','Next'); nextBtn.textContent = '→';
+    arrowsWrap.appendChild(prevBtn); arrowsWrap.appendChild(nextBtn);
 
-    const titleWrap = document.createElement('div');
-    const titleP = document.createElement('p');
-    titleP.className = 'story-title';
-    titleP.innerHTML = titleText || 'Success Stories';
-    titleWrap.appendChild(titleP);
+    left.appendChild(titleWrap); left.appendChild(descWrap); left.appendChild(ctaWrap); left.appendChild(arrowsWrap);
 
-    const descWrap = document.createElement('div');
-    const descP = document.createElement('p');
-    descP.className = 'story-desc';
-    descP.innerHTML = descText || '';
-    descWrap.appendChild(descP);
+    // RIGHT: slider
+    const right = document.createElement('div'); right.className = 'success-right';
+    const slider = document.createElement('div'); slider.className = 'success-slider'; slider.setAttribute('aria-live','polite');
 
-    const ctaWrap = document.createElement('div');
-    const ctaLink = document.createElement('a');
-    ctaLink.className = 'cta-button';
-    ctaLink.href = '#';
-    ctaLink.textContent = ctaText || 'Explore Our Success Stories';
-    ctaWrap.appendChild(ctaLink);
-
-    const arrowsWrap = document.createElement('div');
-    arrowsWrap.className = 'success-arrows';
-    const prevBtn = document.createElement('button');
-    prevBtn.className = 'arrow-prev';
-    prevBtn.setAttribute('aria-label', 'Previous');
-    prevBtn.textContent = '←';
-    const nextBtn = document.createElement('button');
-    nextBtn.className = 'arrow-next';
-    nextBtn.setAttribute('aria-label', 'Next');
-    nextBtn.textContent = '→';
-    arrowsWrap.appendChild(prevBtn);
-    arrowsWrap.appendChild(nextBtn);
-
-    left.appendChild(titleWrap);
-    left.appendChild(descWrap);
-    left.appendChild(ctaWrap);
-    left.appendChild(arrowsWrap);
-
-    // right column - slider track
-    const right = document.createElement('div');
-    right.className = 'success-right';
-
-    const slider = document.createElement('div');
-    slider.className = 'success-slider';
-    slider.setAttribute('aria-live', 'polite');
-
-    // build standardized slides from extracted nodes
-    slides.forEach((s) => {
-      const slideEl = document.createElement('article');
-      slideEl.className = 'slide';
-
-      // image: prefer picture > img, otherwise img
-      const pic = s.querySelector('picture') || s.querySelector('img') || null;
+    // create slides (clone image nodes to preserve srcset)
+    slides.forEach(src => {
+      if (!src) return;
+      const slideEl = document.createElement('article'); slideEl.className = 'slide';
+      const pic = src.querySelector ? (src.querySelector('picture') || src.querySelector('img')) : null;
       if (pic) {
-        const mediaWrap = document.createElement('div');
-        mediaWrap.className = 'slide-media';
-        // clone picture/img to preserve srcset and responsiveness
-        mediaWrap.appendChild(pic.cloneNode(true));
+        const mediaWrap = document.createElement('div'); mediaWrap.className = 'slide-media';
+        try { mediaWrap.appendChild(pic.cloneNode(true)); } catch (e) {}
         slideEl.appendChild(mediaWrap);
       }
 
-      // title: usually the next immediate <div><p> after picture in original markup
-      const titleNode = s.querySelector('div > p') || s.querySelector('h3') || null;
-      if (titleNode) {
-        const h = document.createElement('h3');
-        h.className = 'slide-title';
-        h.innerHTML = text(titleNode);
-        slideEl.appendChild(h);
+      // title/excerpt
+      const pTags = src.querySelectorAll ? Array.from(src.querySelectorAll('p')).filter(p => p && p.textContent && p.textContent.trim()) : [];
+      // pick first meaningful p for title (skip 'global'/'read more')
+      let titleCandidate = null;
+      for (const p of pTags) {
+        const t = p.textContent.trim().toLowerCase();
+        if (t && t !== 'global' && t !== 'read more') { titleCandidate = p; break; }
+      }
+      if (titleCandidate) {
+        const h = document.createElement('h3'); h.className = 'slide-title'; h.innerHTML = titleCandidate.textContent.trim(); slideEl.appendChild(h);
+        const idx = pTags.indexOf(titleCandidate);
+        if (pTags.length > idx + 1) {
+          const ex = pTags[idx + 1].textContent.trim();
+          if (ex && ex.toLowerCase() !== 'read more') { const p = document.createElement('p'); p.className = 'slide-excerpt'; p.innerHTML = ex; slideEl.appendChild(p); }
+        }
+      } else if (pTags.length) {
+        const p = document.createElement('p'); p.className = 'slide-excerpt'; p.innerHTML = pTags[0].textContent.trim(); slideEl.appendChild(p);
       }
 
-      // excerpt: often the following <div><p>
-      // We'll look for the first <p> that isn't the title or marker above
-      const pTags = Array.from(s.querySelectorAll('p')).filter(p => text(p) && text(p).toLowerCase() !== 'read more');
-      let excerptText = '';
-      if (pTags.length > 1) {
-        // if there are multiple, first was likely title, second excerpt
-        excerptText = text(pTags[1]) || '';
-      } else if (pTags.length === 1) {
-        // single p — use it as excerpt (title might be elsewhere)
-        excerptText = text(pTags[0]) || '';
-      }
-      if (excerptText) {
-        const p = document.createElement('p');
-        p.className = 'slide-excerpt';
-        p.innerHTML = excerptText;
-        slideEl.appendChild(p);
-      }
-
-      // CTA "Read More" — look for a p or a text 'Read More'
-      const readMoreNode = Array.from(s.querySelectorAll('p, a')).find(n => /read\s*more/i.test(text(n)));
-      if (readMoreNode) {
-        const a = document.createElement('a');
-        a.className = 'slide-cta';
-        a.href = '#';
-        a.textContent = text(readMoreNode) || 'Read More';
+      // read more
+      const readNode = src.querySelectorAll ? Array.from(src.querySelectorAll('p,a')).find(n => /read\s*more/i.test((n.textContent||'').trim())) : null;
+      if (readNode) {
+        const a = document.createElement('a'); a.className = 'slide-cta'; a.href = readNode.href || '#'; a.textContent = (readNode.textContent||'').trim() || 'Read More';
         slideEl.appendChild(a);
       }
 
       slider.appendChild(slideEl);
     });
 
-    // append columns into wrapper and wrapper into block
     right.appendChild(slider);
     wrapper.appendChild(left);
     wrapper.appendChild(right);
     block.appendChild(wrapper);
 
-    // --- Lightweight carousel behavior (2 on desktop, 1 on mobile)
-    // Basic variables & helpers
-    const GAP = 28; // px — keep in sync with CSS
+    // --- carousel behaviour (lightweight, same as before) ---
+    const GAP = 28;
     const AUTOPLAY_MS = 5000;
     const TRANS_MS = 420;
-    let slidesPerView = getSlidesPerView();
-    let slideEls = Array.from(slider.children);
-    let slideWidth = measureSlideWidth();
-    let index = 0;
-    let isAnimating = false;
-    let autoplayTimer = null;
 
-    // measure function tries to get exact slide width; falls back to computed style/min-width
-    function measureSlideWidth() {
-      if (!slideEls[0]) return 360;
-      const r = slideEls[0].getBoundingClientRect();
-      if (r && r.width > 0) return Math.round(r.width);
-      // fallback to CSS min-width parsing
-      const cs = window.getComputedStyle(slideEls[0]);
-      const mw = parseFloat(cs.minWidth) || 360;
-      return Math.round(mw);
+    const slideEls = Array.from(slider.children || []);
+    if (!slideEls.length) {
+      block.dataset.blockStatus = 'loaded';
+      delete block.dataset.ssDecorated;
+      return;
     }
+    slider.style.display = 'flex';
+    slider.style.gap = GAP + 'px';
+    slider.style.alignItems = 'stretch';
+    slideEls.forEach(s => { if (s && s.style) s.style.flexShrink = '0'; });
 
-    function getSlidesPerView() {
-      const w = window.innerWidth;
+    function slidesPerViewFromWidth() {
+      const w = (typeof window !== 'undefined' && window.innerWidth) ? window.innerWidth : 1200;
       if (w >= 1200) return 2;
       if (w >= 900) return 2;
       if (w >= 600) return 1;
       return 1;
     }
-
-    function fullSlideSize() {
-      return slideWidth + GAP;
+    function measureSlideWidth() {
+      const r = slideEls[0] && slideEls[0].getBoundingClientRect ? slideEls[0].getBoundingClientRect() : null;
+      if (r && r.width > 0) return Math.round(r.width);
+      const cs = (typeof window !== 'undefined' && window.getComputedStyle) ? window.getComputedStyle(slideEls[0]) : null;
+      return Math.round((cs && parseFloat(cs.minWidth)) || 360);
     }
 
+    let slidesPerView = slidesPerViewFromWidth();
+    let slideWidth = measureSlideWidth();
+    let index = 0;
+    let isAnimating = false;
+    let autoplayTimer = null;
+
+    function fullSize() { return slideWidth + GAP; }
+    function clampIndex(i) { return Math.min(Math.max(i, 0), Math.max(0, slideEls.length - slidesPerView)); }
     function applyTransform(immediate = false) {
-      const offset = -index * fullSlideSize();
+      const offset = -index * fullSize();
       if (immediate) slider.style.transition = 'none';
       else slider.style.transition = `transform ${TRANS_MS}ms cubic-bezier(.22,.9,.34,1)`;
       slider.style.transform = `translateX(${offset}px)`;
-      if (immediate) {
-        // force repaint then restore transition for future moves
-        void slider.offsetHeight;
-        slider.style.transition = `transform ${TRANS_MS}ms cubic-bezier(.22,.9,.34,1)`;
-      }
+      if (immediate) { void slider.offsetHeight; slider.style.transition = `transform ${TRANS_MS}ms cubic-bezier(.22,.9,.34,1)`; }
     }
+    function goTo(i) { if (isAnimating) return; isAnimating = true; index = clampIndex(i); applyTransform(false); setTimeout(() => { isAnimating = false; }, TRANS_MS + 30); }
+    function next() { if (index >= slideEls.length - slidesPerView) goTo(0); else goTo(index + 1); restartAutoplay(); }
+    function prev() { if (index <= 0) goTo(slideEls.length - slidesPerView); else goTo(index - 1); restartAutoplay(); }
 
-    function clampIndex(i) {
-      const max = Math.max(0, slideEls.length - slidesPerView);
-      return Math.min(Math.max(i, 0), max);
-    }
-
-    function goTo(i) {
-      if (isAnimating) return;
-      isAnimating = true;
-      index = clampIndex(i);
-      applyTransform(false);
-      setTimeout(() => { isAnimating = false; }, TRANS_MS + 30);
-    }
-
-    function next() {
-      goTo(index + 1);
-      restartAutoplay();
-    }
-    function prev() {
-      goTo(index - 1);
-      restartAutoplay();
-    }
-
-    function startAutoplay() {
-      stopAutoplay();
-      autoplayTimer = setInterval(() => {
-        // if at end, wrap to 0
-        if (index >= slideEls.length - slidesPerView) goTo(0);
-        else goTo(index + 1);
-      }, AUTOPLAY_MS);
-    }
-    function stopAutoplay() {
-      if (autoplayTimer) { clearInterval(autoplayTimer); autoplayTimer = null; }
-    }
+    function startAutoplay() { stopAutoplay(); autoplayTimer = setInterval(() => next(), AUTOPLAY_MS); }
+    function stopAutoplay() { if (autoplayTimer) { clearInterval(autoplayTimer); autoplayTimer = null; } }
     function restartAutoplay() { stopAutoplay(); startAutoplay(); }
 
-    // wire arrow buttons
-    prevBtn.addEventListener('click', prev);
-    nextBtn.addEventListener('click', next);
+    // attach safely
+    try { prevBtn && prevBtn.addEventListener && prevBtn.addEventListener('click', prev); } catch (e) {}
+    try { nextBtn && nextBtn.addEventListener && nextBtn.addEventListener('click', next); } catch (e) {}
 
-    // pause on hover/focus
     block.addEventListener('mouseenter', stopAutoplay);
     block.addEventListener('mouseleave', startAutoplay);
     block.addEventListener('focusin', stopAutoplay);
     block.addEventListener('focusout', startAutoplay);
+    block.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') prev(); if (e.key === 'ArrowRight') next(); });
 
-    // keyboard navigation
-    block.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') prev();
-      if (e.key === 'ArrowRight') next();
-    });
-
-    // responsive handling
     let resizeTimer = null;
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
-        slidesPerView = getSlidesPerView();
+        slidesPerView = slidesPerViewFromWidth();
         slideWidth = measureSlideWidth();
-        // ensure index within new bounds
         index = clampIndex(index);
         applyTransform(true);
       }, 120);
     });
 
-    // initial layout
-    // ensure slider has display:flex and prevents wrapping
-    slider.style.display = 'flex';
-    slider.style.gap = GAP + 'px';
-    slider.style.alignItems = 'stretch';
-    slideEls.forEach((s) => s.style.flexShrink = '0');
-
-    // set starting transform and start autoplay
     applyTransform(true);
     startAutoplay();
 
-    // expose destroy helper (useful during client-side updates)
-    block.__successStoriesDestroy = () => {
+    // expose destroy to clean up
+    block.__successStoriesDestroy = function destroy() {
       stopAutoplay();
-      prevBtn.removeEventListener('click', prev);
-      nextBtn.removeEventListener('click', next);
-      window.removeEventListener('resize', this);
+      try { prevBtn && prevBtn.removeEventListener && prevBtn.removeEventListener('click', prev); } catch (e) {}
+      try { nextBtn && nextBtn.removeEventListener && nextBtn.removeEventListener('click', next); } catch (e) {}
       block.removeEventListener('mouseenter', stopAutoplay);
       block.removeEventListener('mouseleave', startAutoplay);
+      block.removeEventListener('focusin', stopAutoplay);
+      block.removeEventListener('focusout', startAutoplay);
+      window.removeEventListener('resize', this);
+      delete block.dataset.ssDecorated;
     };
-  }else{
-   block.innerHTML = '';
-}
+
+    // done
+    block.dataset.blockStatus = 'loaded';
+  } catch (err) {
+    console.error('success-stories decorate error', err);
+    block.dataset.blockStatus = 'loaded';
+    delete block.dataset.ssDecorated;
+  }
 }
