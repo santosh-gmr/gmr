@@ -1,38 +1,20 @@
 export default function decorate(block) {
-  // keep original nodes (AEM editable fields)
   const original = [...block.children];
 
-  // helpers
   const hasPicture = (node) => !!node.querySelector && !!node.querySelector('picture');
 
-  // FIELD HOLDERS
   let sectionTitleNode = null;
   const pictureNodes = [];
   let blueCardNode = null;
 
-  // CTA fields
-  let ctaLabelNode = null; // <p> before CTA button
-  let ctaLinkNode = null;  // <a class="button">
+  // NEW: CTA Label = last text <p> node
+  let ctaLabelNode = null;
 
-  // CLASSIFY ALL CHILD NODES
-  original.forEach((child, index) => {
+  original.forEach((child) => {
     const p = child.querySelector && child.querySelector('p');
-    const a = child.querySelector && child.querySelector('a.button');
 
-    // Found CTA BUTTON <a>
-    if (!ctaLinkNode && a) {
-      ctaLinkNode = child;
-
-      // The CTA LABEL is ALWAYS the previous sibling <div><p>Label</p></div>
-      const prev = original[index - 1];
-      if (prev && prev.querySelector && prev.querySelector('p')) {
-        ctaLabelNode = prev;
-      }
-      return;
-    }
-
-    // Section title (first text node)
-    if (!sectionTitleNode && p && !p.closest("a")) {
+    // Section Title (first p)
+    if (!sectionTitleNode && p) {
       sectionTitleNode = child;
       return;
     }
@@ -43,14 +25,19 @@ export default function decorate(block) {
       return;
     }
 
-    // Blue card content (H2, H3, or P)
-    if (!blueCardNode && (child.querySelector('h2') || child.querySelector('h3') || child.querySelector('p'))) {
+    // Blue Card Text (first text after images)
+    if (!blueCardNode && p) {
       blueCardNode = child;
       return;
     }
+
+    // CTA LABEL (last <p> in the block)
+    if (p) {
+      ctaLabelNode = child;
+    }
   });
 
-  // MAIN WRAPPERS
+  // MAIN LAYOUT
   const container = document.createElement('div');
   container.className = 'careerSection';
 
@@ -67,45 +54,22 @@ export default function decorate(block) {
   col3.className = 'col-md-4';
 
 
-  /* -------------------------
-     COLUMN 1 – TWO IMAGES
-  ------------------------- */
-
+  /* COLUMN 1 – 2 Images */
   if (pictureNodes[0]) {
-    const wrap1 = document.createElement('div');
-    wrap1.className = 'careerImg picone';
-    wrap1.appendChild(pictureNodes[0]);
-
-    const img = wrap1.querySelector('img');
-    if (img) {
-      img.setAttribute('data-aue-prop', 'imageOffice');
-      img.setAttribute('data-aue-label', 'Image 1 (Top Left)');
-      img.setAttribute('data-aue-type', 'media');
-    }
-
-    col1.appendChild(wrap1);
+    const wrap = document.createElement('div');
+    wrap.className = 'careerImg picone';
+    wrap.appendChild(pictureNodes[0]);
+    col1.appendChild(wrap);
   }
 
   if (pictureNodes[1]) {
-    const wrap2 = document.createElement('div');
-    wrap2.className = 'careerImg pictwo';
-    wrap2.appendChild(pictureNodes[1]);
-
-    const img = wrap2.querySelector('img');
-    if (img) {
-      img.setAttribute('data-aue-prop', 'imageTeamSmall');
-      img.setAttribute('data-aue-label', 'Image 2 (Bottom Left)');
-      img.setAttribute('data-aue-type', 'media');
-    }
-
-    col1.appendChild(wrap2);
+    const wrap = document.createElement('div');
+    wrap.className = 'careerImg pictwo';
+    wrap.appendChild(pictureNodes[1]);
+    col1.appendChild(wrap);
   }
 
-
-  /* -------------------------
-     COLUMN 2 – BLUE CARD
-  ------------------------- */
-
+  /* COLUMN 2 – Blue Card */
   if (blueCardNode) {
     const cardContent = document.createElement('div');
     cardContent.className = 'cardContent';
@@ -113,56 +77,32 @@ export default function decorate(block) {
     col2.appendChild(cardContent);
   }
 
-
-  /* -------------------------
-     COLUMN 3 – LARGE IMAGE + CTA
-  ------------------------- */
-
+  /* COLUMN 3 – Image + CTA */
   if (pictureNodes[2]) {
-    const wrap3 = document.createElement('div');
-    wrap3.className = 'careerImg picthree';
-    wrap3.appendChild(pictureNodes[2]);
-
-    const img = wrap3.querySelector('img');
-    if (img) {
-      img.setAttribute('data-aue-prop', 'imageTeamLarge');
-      img.setAttribute('data-aue-label', 'Image 3 (Right Side)');
-      img.setAttribute('data-aue-type', 'media');
-    }
-
-    col3.appendChild(wrap3);
+    const wrap = document.createElement('div');
+    wrap.className = 'careerImg picthree';
+    wrap.appendChild(pictureNodes[2]);
+    col3.appendChild(wrap);
   }
 
-  // CTA MERGE FIX
+  // CTA BUTTON
   const ctaWrap = document.createElement('div');
   ctaWrap.className = 'cta careerBtn';
 
   const finalBtn = document.createElement('a');
   finalBtn.className = 'btn btn-orange w-100';
 
-  // CTA LABEL (always correct now)
+  // TEXT FROM CTA LABEL FIELD
   if (ctaLabelNode) {
     const p = ctaLabelNode.querySelector('p');
-    if (p) finalBtn.textContent = p.textContent.trim();
+    finalBtn.textContent = p ? p.textContent.trim() : '';
   }
 
-  // CTA LINK
-  if (ctaLinkNode) {
-    const a = ctaLinkNode.querySelector('a');
-    if (a) {
-      finalBtn.href = a.href;
-      if (a.title) finalBtn.title = a.title;
-    }
-  }
-
+  finalBtn.href = "#"; // no link field in AEM dialog
   ctaWrap.appendChild(finalBtn);
   col3.appendChild(ctaWrap);
 
-
-  /* -------------------------
-     ASSEMBLE STRUCTURE
-  ------------------------- */
-
+  /* ASSEMBLE */
   row.appendChild(col1);
   row.appendChild(col2);
   row.appendChild(col3);
@@ -170,13 +110,13 @@ export default function decorate(block) {
 
   block.innerHTML = '';
 
+  /* HEADER */
   if (sectionTitleNode) {
     const header = document.createElement('header');
     header.className = 'entry-container text-center';
 
     const p = sectionTitleNode.querySelector('p');
     if (p) p.classList.add('title');
-    else sectionTitleNode.classList.add('title');
 
     header.appendChild(sectionTitleNode);
     block.appendChild(header);
