@@ -999,9 +999,23 @@
       },
       {
         "component": "text",
+        "name": "visitWebsiteText",
+        "label": "Visit Website Button Label",
+        "valueType": "string",
+        "defaultValue": "Visit Website"
+      },
+      {
+        "component": "text",
         "name": "websiteLink",
         "label": "Visit Website URL",
         "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "exploreHighlightsText",
+        "label": "Explore Highlights Button Label",
+        "valueType": "string",
+        "defaultValue": "Explore Highlights"
       },
       {
         "component": "text",
