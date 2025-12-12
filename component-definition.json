@@ -18,6 +18,21 @@
               }
             }
           }
+        },
+        {
+          "title": "News Page",
+          "id": "news",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/page/v1/page",
+                "template": {
+                  "name": "News Page",
+                  "model": "news"
+                }
+              }
+            }
+          }
         }
       ]
     },
