@@ -915,7 +915,7 @@
         "comment": "URL or page link for the CTA button"
       },
       {
-        "component": "file",
+        "component": "reference",
         "name": "video",
         "label": "Background Video",
         "valueType": "string",
@@ -926,14 +926,14 @@
         "comment": "Optional video for desktop view"
       },
       {
-        "component": "image",
+        "component": "reference",
         "name": "desktopBanner",
         "label": "Desktop Banner Image",
         "valueType": "string",
         "comment": "Recommended size: 1920px width"
       },
       {
-        "component": "image",
+        "component": "reference",
         "name": "mobileBanner",
         "label": "Mobile Banner Image",
         "valueType": "string",

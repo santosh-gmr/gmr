@@ -23,7 +23,9 @@
       "inner-banner",
       "listed-companies",
       "cookie-consent",
-      "privacy-request"
+      "privacy-request",
+      "news-updates",
+      "careers-highlight"
     ]
   },
   {
@@ -156,5 +158,9 @@
     "components": [
       "story-item"
     ]
+  },
+  {
+    "id": "careers-highlight",
+    "components": []
   }
 ]
