@@ -3,7 +3,9 @@
     {
       "title": "Listed Companies",
       "id": "listed-companies",
-      "groups": ["General"],
+      "groups": [
+        "General"
+      ],
       "plugins": {
         "xwalk": {
           "page": {
@@ -32,29 +34,20 @@
           "component": "textarea",
           "name": "description",
           "label": "Description",
-          "valueType": "string",
-          "defaultValue": "GEPL is the holding company of the GMR Group..."
+          "valueType": "string"
         },
         {
           "component": "text",
-          "name": "ctaLabel",
-          "label": "Main Button Label",
+          "name": "ctaText",
+          "label": "Top Button Label",
           "valueType": "string",
           "defaultValue": "Visit Investor Relations"
         },
         {
           "component": "text",
-          "name": "ctaLink",
-          "label": "Main Button Link",
-          "valueType": "string",
-          "defaultValue": "/investor-relations"
-        },
-        {
-          "component": "multifield",
-          "name": "companies",
-          "label": "Company Cards",
-          "valueType": "string[]",
-          "type": "company-card"
+          "name": "ctaUrl",
+          "label": "Top Button Link",
+          "valueType": "string"
         }
       ]
     },
@@ -65,8 +58,7 @@
           "component": "text",
           "name": "name",
           "label": "Company Name",
-          "valueType": "string",
-          "defaultValue": "GMR Airports Limited (GAL)"
+          "valueType": "string"
         },
         {
           "component": "textarea",
@@ -77,28 +69,35 @@
         },
         {
           "component": "text",
-          "name": "websiteLabel",
-          "label": "Link 1 Label (e.g. Website)",
+          "name": "stockSymbol",
+          "label": "Stock API Symbol / IDD",
           "valueType": "string",
-          "defaultValue": "VISIT WEBSITE"
+          "required": true
         },
         {
           "component": "text",
-          "name": "websiteLink",
-          "label": "Link 1 URL",
+          "name": "visitWebsiteText",
+          "label": "Visit Website Button Label",
+          "valueType": "string",
+          "defaultValue": "Visit Website"
+        },
+        {
+          "component": "text",
+          "name": "visitWebsiteUrl",
+          "label": "Visit Website URL",
           "valueType": "string"
         },
         {
           "component": "text",
-          "name": "highlightLabel",
-          "label": "Link 2 Label (e.g. Highlights)",
+          "name": "exploreHighlightsText",
+          "label": "Explore Highlights Button Label",
           "valueType": "string",
-          "defaultValue": "EXPLORE HIGHLIGHTS"
+          "defaultValue": "Explore Highlights"
         },
         {
           "component": "text",
-          "name": "highlightLink",
-          "label": "Link 2 URL",
+          "name": "exploreHighlightsUrl",
+          "label": "Explore Highlights URL",
           "valueType": "string"
         },
         {
@@ -112,5 +111,12 @@
       ]
     }
   ],
-  "filters": []
+  "filters": [
+    {
+      "id": "listed-companies",
+      "components": [
+        "listed-company-item"
+      ]
+    }
+  ]
 }
