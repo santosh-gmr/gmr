@@ -164,14 +164,11 @@ export default function decorate(block) {
   ctaDiv.className = 'cta careerBtn';
   
   const link = document.createElement('a');
+  link.className = 'btn btn-orange w-100';
   if (ctaLink) {
     link.href = ctaLink.href || '#';
     link.textContent = ctaText || ctaLink.textContent || 'Explore Life at GMR';
     link.setAttribute('title', ctaLink.getAttribute('title') || '#');
-  } else {
-    link.href = '#';
-    link.textContent = ctaText || 'Explore Life at GMR';
-    link.setAttribute('title', '#');
   }
   
   ctaDiv.appendChild(link);
@@ -189,20 +186,11 @@ export default function decorate(block) {
   // Create and prepend the header
   if (headerText) {
     const header = document.createElement('header');
-    header.className = 'entry-container';
+    header.className = 'entry-container text-center';
     
     const headerH2 = document.createElement('h2');
     headerH2.textContent = headerText;
-    
-    header.appendChild(headerH2);
-    block.appendChild(header);
-  } else {
-    // Fallback header
-    const header = document.createElement('header');
-    header.className = 'entry-container';
-    
-    const headerH2 = document.createElement('h2');
-    headerH2.textContent = 'Grow With a Purpose-Driven Team';
+    headerH2.className = 'title';
     
     header.appendChild(headerH2);
     block.appendChild(header);
