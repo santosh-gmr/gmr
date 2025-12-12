@@ -53,14 +53,14 @@
         },
         {
           "component": "text",
-          "name": "ctaLabel",
+          "name": "ctaText",
           "label": "Top Button Label",
           "valueType": "string",
           "defaultValue": "Visit Investor Relations"
         },
         {
           "component": "text",
-          "name": "ctaLink",
+          "name": "ctaUrl",
           "label": "Top Button Link",
           "valueType": "string"
         }
@@ -91,27 +91,27 @@
         },
         {
           "component": "text",
-          "name": "visitWebsiteLabel",
+          "name": "visitWebsiteText",
           "label": "Visit Website Button Label",
           "valueType": "string",
           "defaultValue": "Visit Website"
         },
         {
           "component": "text",
-          "name": "visitWebsiteLink",
+          "name": "visitWebsiteUrl",
           "label": "Visit Website URL",
           "valueType": "string"
         },
         {
           "component": "text",
-          "name": "exploreHighlightsLabel",
+          "name": "exploreHighlightsText",
           "label": "Explore Highlights Button Label",
           "valueType": "string",
           "defaultValue": "Explore Highlights"
         },
         {
           "component": "text",
-          "name": "exploreHighlightsLink",
+          "name": "exploreHighlightsUrl",
           "label": "Explore Highlights URL",
           "valueType": "string"
         }
