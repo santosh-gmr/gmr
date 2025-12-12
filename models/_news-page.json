@@ -9,7 +9,7 @@
           "page": {
             "resourceType": "core/franklin/components/page/v1/page",
             "template": {
-              "name": "news-page",
+              "name": "News Article Page",
               "model": "news-page"
             }
           }
