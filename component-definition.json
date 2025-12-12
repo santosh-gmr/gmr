@@ -1,6 +1,30 @@
 {
   "groups": [
     {
+      "title": "Pages",
+      "id": "pages",
+      "components": [
+        {
+          "title": "News Article Page",
+          "id": "news-page",
+          "groups": [
+            "pages"
+          ],
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/page/v1/page",
+                "template": {
+                  "name": "News Article Page",
+                  "model": "news-page"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
       "title": "Default Content",
       "id": "default",
       "components": [
@@ -116,6 +140,9 @@
         {
           "title": "Article Body",
           "id": "article-body",
+          "groups": [
+            "General"
+          ],
           "plugins": {
             "xwalk": {
               "page": {
@@ -132,6 +159,9 @@
         {
           "title": "Article Header",
           "id": "article-header",
+          "groups": [
+            "General"
+          ],
           "plugins": {
             "xwalk": {
               "page": {
@@ -329,6 +359,37 @@
           }
         },
         {
+          "title": "Commitment Cards",
+          "id": "commitment-cards",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Commitment Cards",
+                  "model": "commitment-cards",
+                  "filter": "commitment-card"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Commitment Card",
+          "id": "commitment-card",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "Commitment Card",
+                  "model": "commitment-card"
+                }
+              }
+            }
+          }
+        },
+        {
           "title": "Committed Banner",
           "id": "committed-banner",
           "plugins": {
@@ -347,6 +408,9 @@
         {
           "title": "Cookie Consent",
           "id": "cookie-consent",
+          "groups": [
+            "General"
+          ],
           "plugins": {
             "xwalk": {
               "page": {
@@ -606,6 +670,9 @@
         {
           "title": "Inner Banner",
           "id": "inner-banner",
+          "groups": [
+            "General"
+          ],
           "plugins": {
             "xwalk": {
               "page": {
@@ -620,8 +687,42 @@
           }
         },
         {
+          "title": "Innovation Cards",
+          "id": "innovation-cards",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Innovation Cards",
+                  "model": "innovation-cards",
+                  "filter": "innovation-cards"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Innovation Card Item",
+          "id": "innovation-card-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "Innovation Card Item",
+                  "model": "innovation-card-item"
+                }
+              }
+            }
+          }
+        },
+        {
           "title": "Listed Companies",
           "id": "listed-companies",
+          "groups": [
+            "General"
+          ],
           "plugins": {
             "xwalk": {
               "page": {
@@ -702,6 +803,9 @@
         {
           "title": "Privacy Request Form",
           "id": "privacy-request",
+          "groups": [
+            "General"
+          ],
           "plugins": {
             "xwalk": {
               "page": {
