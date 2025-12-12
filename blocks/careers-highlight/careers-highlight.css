@@ -8,5 +8,6 @@
 @media (max-width:767px){
 .careerImg.picone{display:none}
 .careerImg.picthree{height:auto}
+.careerImg img{width: 100%;}
 .cardContent{margin:26px 0;background-size:cover;padding:26px}
 }
