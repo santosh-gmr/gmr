@@ -3,6 +3,9 @@
     "...": "./_page.json#/models"
   },
   {
+    "...": "./_news-page.json#/models"
+  },
+  {
     "...": "./_image.json#/models"
   },
   {
