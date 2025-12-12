@@ -146,12 +146,6 @@
     ]
   },
   {
-    "id": "news-updates",
-    "components": [
-      "news-item"
-    ]
-  },
-  {
     "id": "passenger-experience",
     "components": [
       "experience-item"

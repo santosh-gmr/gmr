@@ -275,6 +275,21 @@
           }
         },
         {
+          "title": "Careers Highlight",
+          "id": "careers-highlight",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "careers-highlight",
+                  "model": "careers-highlight"
+                }
+              }
+            }
+          }
+        },
+        {
           "title": "Carousel",
           "id": "carousel",
           "plugins": {
@@ -651,31 +666,18 @@
           }
         },
         {
-          "title": "News & Updates",
+          "title": "News & Updates (Dynamic)",
           "id": "news-updates",
+          "groups": [
+            "General"
+          ],
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block",
                 "template": {
-                  "name": "News & Updates",
-                  "model": "news-updates",
-                  "filter": "news-updates"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "News Item",
-          "id": "news-item",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "name": "News Item",
-                  "model": "news-item"
+                  "name": "news-updates",
+                  "model": "news-updates"
                 }
               }
             }
