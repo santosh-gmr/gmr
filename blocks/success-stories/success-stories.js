@@ -33,8 +33,8 @@ export default function decorate(block) {
     // If no marker found -> clear block and mark loaded
     if (!markerDiv) {
       block.innerHTML = '';
-      block.dataset.blockStatus = 'loaded';
-      delete block.dataset.ssDecorated;
+      //block.dataset.blockStatus = 'loaded';
+      //delete block.dataset.ssDecorated;
       return;
     }
 
@@ -58,8 +58,8 @@ export default function decorate(block) {
 
     if (!slides.length) {
       block.innerHTML = '';
-      block.dataset.blockStatus = 'loaded';
-      delete block.dataset.ssDecorated;
+      ///block.dataset.blockStatus = 'loaded';
+      //delete block.dataset.ssDecorated;
       return;
     }
 
@@ -219,14 +219,14 @@ export default function decorate(block) {
       block.removeEventListener('focusin', stopAutoplay);
       block.removeEventListener('focusout', startAutoplay);
       window.removeEventListener('resize', this);
-      delete block.dataset.ssDecorated;
+      //delete block.dataset.ssDecorated;
     };
 
     // done
     block.dataset.blockStatus = 'loaded';
   } catch (err) {
     console.error('success-stories decorate error', err);
-    block.dataset.blockStatus = 'loaded';
-    delete block.dataset.ssDecorated;
+    //block.dataset.blockStatus = 'loaded';
+    //delete block.dataset.ssDecorated;
   }
 }
