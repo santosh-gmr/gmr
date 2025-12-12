@@ -10,17 +10,29 @@ export default function decorate(block) {
   const pictureNodes = [];
   let blueCardNode = null;
 
-  // NEW: CTA fields captured separately  
-  let ctaLabelNode = null; // The p tag: CTA Button Label
-  let ctaLinkNode = null;  // The <a class="button">
-  
+  // CTA fields
+  let ctaLabelNode = null; // <p> before CTA button
+  let ctaLinkNode = null;  // <a class="button">
+
   // CLASSIFY ALL CHILD NODES
-  original.forEach((child) => {
+  original.forEach((child, index) => {
     const p = child.querySelector && child.querySelector('p');
     const a = child.querySelector && child.querySelector('a.button');
 
-    // Section title (first text node but not CTA)
-    if (!sectionTitleNode && p && !p.textContent.includes('Explore Life')) {
+    // Found CTA BUTTON <a>
+    if (!ctaLinkNode && a) {
+      ctaLinkNode = child;
+
+      // The CTA LABEL is ALWAYS the previous sibling <div><p>Label</p></div>
+      const prev = original[index - 1];
+      if (prev && prev.querySelector && prev.querySelector('p')) {
+        ctaLabelNode = prev;
+      }
+      return;
+    }
+
+    // Section title (first text node)
+    if (!sectionTitleNode && p && !p.closest("a")) {
       sectionTitleNode = child;
       return;
     }
@@ -31,19 +43,7 @@ export default function decorate(block) {
       return;
     }
 
-    // CTA label text (p field)
-    if (p && p.textContent.includes('Explore Life')) {
-      ctaLabelNode = child;
-      return;
-    }
-
-    // CTA button link (a field)
-    if (a) {
-      ctaLinkNode = child;
-      return;
-    }
-
-    // Blue card content
+    // Blue card content (H2, H3, or P)
     if (!blueCardNode && (child.querySelector('h2') || child.querySelector('h3') || child.querySelector('p'))) {
       blueCardNode = child;
       return;
@@ -71,7 +71,6 @@ export default function decorate(block) {
      COLUMN 1 – TWO IMAGES
   ------------------------- */
 
-  // Image 1 (top left)
   if (pictureNodes[0]) {
     const wrap1 = document.createElement('div');
     wrap1.className = 'careerImg picone';
@@ -87,7 +86,6 @@ export default function decorate(block) {
     col1.appendChild(wrap1);
   }
 
-  // Image 2 (bottom left)
   if (pictureNodes[1]) {
     const wrap2 = document.createElement('div');
     wrap2.className = 'careerImg pictwo';
@@ -120,7 +118,6 @@ export default function decorate(block) {
      COLUMN 3 – LARGE IMAGE + CTA
   ------------------------- */
 
-  // Image 3 (right side)
   if (pictureNodes[2]) {
     const wrap3 = document.createElement('div');
     wrap3.className = 'careerImg picthree';
@@ -136,22 +133,20 @@ export default function decorate(block) {
     col3.appendChild(wrap3);
   }
 
-  // --- CTA MERGE FIX ---
+  // CTA MERGE FIX
   const ctaWrap = document.createElement('div');
   ctaWrap.className = 'cta careerBtn';
 
   const finalBtn = document.createElement('a');
   finalBtn.className = 'btn btn-orange w-100';
 
-  // CTA LABEL (from text field)
+  // CTA LABEL (always correct now)
   if (ctaLabelNode) {
     const p = ctaLabelNode.querySelector('p');
-    if (p) {
-      finalBtn.textContent = p.textContent.trim();
-    }
+    if (p) finalBtn.textContent = p.textContent.trim();
   }
 
-  // CTA URL/TITLE (from button field)
+  // CTA LINK
   if (ctaLinkNode) {
     const a = ctaLinkNode.querySelector('a');
     if (a) {
@@ -165,7 +160,7 @@ export default function decorate(block) {
 
 
   /* -------------------------
-     ASSEMBLE FINAL STRUCTURE
+     ASSEMBLE STRUCTURE
   ------------------------- */
 
   row.appendChild(col1);
@@ -173,10 +168,8 @@ export default function decorate(block) {
   row.appendChild(col3);
   container.appendChild(row);
 
-  // Clear AEM block first
   block.innerHTML = '';
 
-  // Add header wrapper
   if (sectionTitleNode) {
     const header = document.createElement('header');
     header.className = 'entry-container text-center';
