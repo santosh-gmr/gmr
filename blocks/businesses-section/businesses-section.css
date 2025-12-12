@@ -92,7 +92,6 @@
   align-items: center;
   gap: 8px;
 }
-
 .business-accordion-header h2 .subtitle {
   display: inline-block;
   font-size: 1.75rem; /* 28px */
