@@ -1,49 +1,82 @@
-// export default function decorate(block) {
-//   const rows = [...block.children];
+export default function decorate(block) {
+  const rows = [...block.children];
 
-//   const title = rows[0]?.querySelector("[data-aue-prop='sectionTitle']");
-//   const desc = rows[1]?.querySelector("[data-aue-prop='sectionDescription']");
+  // Safely select the authored title/description nodes (they remain in author DOM)
+  const titleNode = rows[0]?.querySelector("[data-aue-prop='sectionTitle']");
+  const descNode = rows[1]?.querySelector("[data-aue-prop='sectionDescription']");
 
-//   // Create new wrapper WITHOUT deleting original author DOM
-//   const header = document.createElement("div");
-//   header.className = "innovation-header";
+  // Create a preview wrapper (we will append clones into this; do NOT remove original nodes)
+  const wrapper = document.createElement("div");
+  wrapper.className = "innovation-cards-wrapper";
 
-//   if (title) header.append(title.cloneNode(true));
-//   if (desc) header.append(desc.cloneNode(true));
+  // Build header (use clones so original nodes remain untouched)
+  const header = document.createElement("div");
+  header.className = "innovation-header";
 
-//   const grid = document.createElement("div");
-//   grid.className = "innovation-card-grid";
+  if (titleNode) {
+    // cloneNode(true) => deep clone (keeps innerHTML/text) without touching original
+    const clonedTitle = titleNode.cloneNode(true);
+    // ensure the clonedTitle has the class we want for styling
+    clonedTitle.classList.add("innovation-title");
+    header.appendChild(clonedTitle);
+  }
 
-//   // Now build cards
-//   rows.slice(2).forEach((row) => {
-//     const image = row.querySelector("[data-aue-prop='image']");
-//     const t = row.querySelector("[data-aue-prop='title']");
-//     const d = row.querySelector("[data-aue-prop='description']");
-//     const cta = row.querySelector("[data-aue-prop='ctaText']");
+  if (descNode) {
+    const clonedDesc = descNode.cloneNode(true);
+    clonedDesc.classList.add("innovation-description");
+    header.appendChild(clonedDesc);
+  }
 
-//     if (!image && !t && !d && !cta) return; // skip empty rows
+  // Card grid for preview
+  const grid = document.createElement("div");
+  grid.className = "innovation-card-grid";
 
-//     const card = document.createElement("div");
-//     card.className = "innovation-card";
+  // iterate over item rows (slice(2) = card items)
+  rows.slice(2).forEach((row) => {
+    // find authored props inside the row (these remain in author DOM)
+    const imageProp = row.querySelector("[data-aue-prop='image']");
+    const titleProp = row.querySelector("[data-aue-prop='title']");
+    const descProp = row.querySelector("[data-aue-prop='description']");
+    const ctaProp = row.querySelector("[data-aue-prop='ctaText']");
 
-//     card.innerHTML = `
-//       <div class="innovation-card-image">${image?.closest("picture")?.outerHTML || ""}</div>
-//       <div class="innovation-card-overlay">
-//         <h3>${t?.innerText || ""}</h3>
-//         <p>${d?.innerHTML || ""}</p>
-//         <a class="innovation-cta">${cta?.innerText || ""} ›</a>
-//       </div>
-//     `;
+    // if nothing authored in this row, skip
+    if (!imageProp && !titleProp && !descProp && !ctaProp) return;
 
-//     grid.append(card);
-//   });
+    // Use clones to build the preview card so original nodes remain intact
+    const clonedPicture = imageProp?.closest("picture")?.cloneNode(true) || null;
+    const clonedTitle = titleProp?.cloneNode(true) || null;
+    const clonedDesc = descProp?.cloneNode(true) || null;
+    const clonedCta = ctaProp?.cloneNode(true) || null;
 
-//   // Final output wrapper
-//   const wrapper = document.createElement("div");
-//   wrapper.className = "innovation-cards-wrapper";
-//   wrapper.append(header);
-//   wrapper.append(grid);
+    // If all clones empty, skip
+    if (!clonedPicture && !clonedTitle && !clonedDesc && !clonedCta) return;
 
-//   // Replace only visible HTML, NOT authoring DOM
-//   block.replaceChildren(wrapper);
-// }
+    const card = document.createElement("div");
+    card.className = "innovation-card";
+
+    // Build card HTML using clones (if clones exist, convert to outerHTML; else use empty string)
+    const pictureHTML = clonedPicture ? clonedPicture.outerHTML : "";
+    const titleText = clonedTitle ? clonedTitle.innerText : "";
+    const descHTML = clonedDesc ? clonedDesc.innerHTML : "";
+    const ctaText = clonedCta ? clonedCta.innerText : "";
+
+    card.innerHTML = `
+      <div class="innovation-card-image">${pictureHTML}</div>
+      <div class="innovation-card-overlay">
+        <h3>${titleText}</h3>
+        <p>${descHTML}</p>
+        <a class="innovation-cta">${ctaText} <span class="arrow">›</span></a>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+
+  // assemble wrapper
+  wrapper.appendChild(header);
+  wrapper.appendChild(grid);
+
+  // IMPORTANT: insert preview wrapper into the block WITHOUT deleting the authored DOM.
+  // Using insertBefore ensures original children remain (editor keeps its bindings).
+  block.insertBefore(wrapper, block.firstChild);
+}
