@@ -8,9 +8,28 @@ indices:
       - '/**.json'
     target: /query-index.json
     properties:
+      # --- KEEPING YOUR EXISTING PROPERTIES ---
       lastModified:
         select: none
         value: parseTimestamp(headers["last-modified"], "ddd, DD MMM YYYY hh:mm:ss GMT")
       robots:
         select: head > meta[name="robots"]
+        value: attribute(el, "content")
+
+      # --- NEW: PROPERTIES FOR NEWS & SEARCH ---
+      title:
+        select: head > meta[property="og:title"]
+        value: attribute(el, "content")
+      description:
+        select: head > meta[name="description"]
+        value: attribute(el, "content")
+      image:
+        select: head > meta[property="og:image"]
+        value: attribute(el, "content")
+      tags:
+        # This matches the <meta property="article:tag"> we injected in your news-page.js
+        select: head > meta[property="article:tag"]
+        value: attribute(el, "content")
+      publicationDate:
+        select: head > meta[name="publicationDate"]
         value: attribute(el, "content")

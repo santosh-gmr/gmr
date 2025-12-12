@@ -1,0 +1,63 @@
+{
+  "definitions": [
+    {
+      "title": "Cookie Consent",
+      "id": "cookie-consent",
+      "groups": ["General"],
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "cookie-consent",
+              "model": "cookie-consent"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "cookie-consent",
+      "fields": [
+        {
+          "component": "richtext",
+          "name": "message",
+          "label": "Consent Message",
+          "valueType": "string",
+          "defaultValue": "We use cookies to enhance your user experience."
+        },
+        {
+          "component": "text",
+          "name": "policyLabel",
+          "label": "Policy Link Text",
+          "valueType": "string",
+          "defaultValue": "Read Privacy Policy"
+        },
+        {
+          "component": "text",
+          "name": "policyLink",
+          "label": "Policy Page URL",
+          "valueType": "string",
+          "comment": "Link to your privacy page (e.g. /privacy-policy)"
+        },
+        {
+          "component": "text",
+          "name": "acceptLabel",
+          "label": "Accept Button Label",
+          "valueType": "string",
+          "defaultValue": "Allow all cookies"
+        },
+        {
+          "component": "text",
+          "name": "declineLabel",
+          "label": "Decline Button Label",
+          "valueType": "string",
+          "defaultValue": "Decline"
+        }
+      ]
+    }
+  ],
+  "filters": []
+}
