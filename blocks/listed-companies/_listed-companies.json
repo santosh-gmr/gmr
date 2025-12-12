@@ -33,6 +33,7 @@
       }
     }
   ],
+
   "models": [
     {
       "id": "listed-companies",
@@ -48,8 +49,7 @@
           "component": "richtext",
           "name": "description",
           "label": "Description",
-          "valueType": "string",
-          "comment": "The main text describing GEPL etc."
+          "valueType": "string"
         },
         {
           "component": "text",
@@ -66,6 +66,7 @@
         }
       ]
     },
+
     {
       "id": "listed-company-item",
       "fields": [
@@ -73,8 +74,7 @@
           "component": "text",
           "name": "companyName",
           "label": "Company Name",
-          "valueType": "string",
-          "comment": "e.g. GMR Airports Limited (GAL)"
+          "valueType": "string"
         },
         {
           "component": "richtext",
@@ -87,30 +87,42 @@
           "name": "stockSymbol",
           "label": "Stock API Symbol / ID",
           "valueType": "string",
-          "required": true,
-          "comment": "CRITICAL: Enter the ID used by the API to fetch NSE/BSE data (e.g., 'GAL' or 'GPUIL')."
+          "required": true
         },
         {
           "component": "text",
-          "name": "websiteLink",
+          "name": "visitWebsiteLabel",
+          "label": "Visit Website Button Label",
+          "valueType": "string",
+          "defaultValue": "Visit Website"
+        },
+        {
+          "component": "text",
+          "name": "visitWebsiteLink",
           "label": "Visit Website URL",
           "valueType": "string"
         },
         {
           "component": "text",
-          "name": "highlightsLink",
+          "name": "exploreHighlightsLabel",
+          "label": "Explore Highlights Button Label",
+          "valueType": "string",
+          "defaultValue": "Explore Highlights"
+        },
+        {
+          "component": "text",
+          "name": "exploreHighlightsLink",
           "label": "Explore Highlights URL",
           "valueType": "string"
         }
       ]
     }
   ],
+
   "filters": [
     {
       "id": "listed-companies",
-      "components": [
-        "listed-company-item"
-      ]
+      "components": ["listed-company-item"]
     }
   ]
 }
