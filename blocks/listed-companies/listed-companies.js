@@ -36,7 +36,7 @@ export default function decorate(block) {
     const linkDiv = children[2];
     const linkText = linkDiv.textContent || linkDiv.innerText;
     const link = document.createElement('a');
-    link.className = 'btn btn-primary';
+    link.className = 'btn btn-orange';
     link.href = '#';
     link.textContent = linkText.replace('Visit Investor Relations', '').trim() || 'Visit Investor Relations';
     header.appendChild(link);

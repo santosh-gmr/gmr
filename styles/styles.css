@@ -291,6 +291,19 @@ hr {
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23000' stroke-width='2'><path stroke-linecap='round' stroke-linejoin='round' d='M9 5l7 7-7 7'/></svg>");
 }
 
+.btn-orange { 
+  white-space: nowrap; 
+  border-radius: 8px; 
+  background-color: var(--lorange); 
+  min-height: 4rem; /* 64px */
+  min-width: 14.625rem; /* 234px */
+  justify-content: center;
+}
+
+.btn-orange:hover, .btn-orange:focus { 
+  background-color: var(--orange); 
+}
+
 
 .container, .businesses-section.block, .listed-companies-wrapper {
     max-width: 100%;
