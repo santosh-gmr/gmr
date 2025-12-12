@@ -6,6 +6,7 @@
 .careerImg.picthree{height:27.188rem}
 .careerImg.picthree img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
 .careerImg img{width:100%}
+.careerImg div { height: 100%; }
 @media (max-width:767px){
 .careerImg.picone{display:none}
 .careerImg.picthree{height:auto}
