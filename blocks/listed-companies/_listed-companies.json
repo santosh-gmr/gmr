@@ -92,8 +92,20 @@
         },
         {
           "component": "text",
+          "name": "ctaLabel",
+          "label": "Visit website Button Label",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
           "name": "websiteLink",
           "label": "Visit Website URL",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "name": "ctaLabel",
+          "label": "Highlight Button Label",
           "valueType": "string"
         },
         {
