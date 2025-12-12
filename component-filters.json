@@ -16,7 +16,7 @@
       "cards",
       "columns",
       "fragment",
-      "header"
+      "header",
       "footer",
       "footerlinks",
       "footertopbars",
@@ -195,7 +195,11 @@
     "components": ["commitment-card"]
   },
   {
-    "id": "innovation-cards",
-    "components": ["innovation-card-item"]
-  }
+      "id": "innovation-cards",
+      "elements": [
+        "sectionTitle",
+        "sectionDescription"
+      ],
+      "components": ["innovation-card-item"]
+    }
 ]
