@@ -1,6 +1,15 @@
 {
   "groups": [
     {
+      "title": "Pages",
+      "id": "pages",
+      "components": [
+        {
+          "...": "./_news-page.json#/definitions"
+        }
+      ]
+    },
+    {
       "title": "Default Content",
       "id": "default",
       "components": [
