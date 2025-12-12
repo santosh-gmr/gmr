@@ -1,93 +1,98 @@
 export default function decorate(block) {
+  const header = document.createElement('header');
+  header.className = 'd-md-flex align-items-center gap-3';
+  
+  const companiesCol = document.createElement('div');
+  companiesCol.className = 'companiesCol';
+  
   const children = Array.from(block.children);
-
-  if (children.length < 4) return;
-
-  // --- BUILD HEADER ---
-  const header = document.createElement("header");
-  header.className = "d-md-flex align-items-center gap-3";
-
-  const headerCol = document.createElement("div");
-  headerCol.className = "entry-container";
-
-  // Title (move original node)
-  const titleNode = children[0];
-  headerCol.appendChild(titleNode);
-
-  // Description (move original)
-  const descNode = children[1];
-  headerCol.appendChild(descNode);
-
-  header.appendChild(headerCol);
-
-  // Top Button (move original, keep editable)
-  const topBtnNode = children[2];
-  topBtnNode.classList.add("btn", "btn-orange");
-  header.appendChild(topBtnNode);
-
-  // --- COMPANIES SECTION ---
-  const companiesCol = document.createElement("div");
-  companiesCol.className = "companiesCol";
-
-  const row = document.createElement("div");
-  row.className = "row";
-
-  // Company items start at index 3
-  for (let i = 3; i < children.length; i++) {
-    const company = children[i];
-    const fields = Array.from(company.children);
-
-    if (fields.length < 6) continue;
-
-    // Bootstrap column wrapper
-    const col = document.createElement("div");
-    col.className = "col-md-6 mb-4";
-
-    // companiesGrid wrapper
-    const companiesGrid = document.createElement("div");
-    companiesGrid.className = "companiesGrid";
-
-    // Move Company Name (<p> or <h3>)
-    companiesGrid.appendChild(fields[0]);
-
-    // Move Company Description
-    companiesGrid.appendChild(fields[1]);
-
-    // --- LINKS WRAPPER ---
-    const links = document.createElement("div");
-    links.className = "companies-links mt-5 mb-4";
-
-    // Visit Website Button
-    if (fields[3]) {
-      fields[3].classList.add("btn", "btn-link");
-      links.appendChild(fields[3]);
+  
+  if (children.length >= 4) {
+    // --- HEADER ---
+    const headerCol = document.createElement('div');
+    headerCol.className = 'entry-container';
+    
+    const titleDiv = children[0];
+    const h2 = document.createElement('h2');
+    h2.textContent = titleDiv.textContent || titleDiv.innerText;
+    headerCol.appendChild(h2);
+    
+    const descDiv = children[1];
+    const descParagraph = descDiv.querySelector('p');
+    if (descParagraph) {
+      const newDesc = document.createElement('p');
+      newDesc.innerHTML = descParagraph.innerHTML;
+      headerCol.appendChild(newDesc);
     }
-
-    // Explore Highlights Button
-    if (fields[5]) {
-      fields[5].classList.add("btn", "btn-link");
-      links.appendChild(fields[5]);
+    
+    header.appendChild(headerCol);
+    
+    // Third child: Visit Investor Relations link
+    const linkDiv = children[2];
+    const linkText = linkDiv.textContent || linkDiv.innerText;
+    const link = document.createElement('a');
+    link.className = 'btn btn-orange';
+    link.href = '#';
+    link.textContent = linkText.trim() || 'Visit Investor Relations';
+    header.appendChild(link);
+    
+    // --- COMPANIES ---
+    const row = document.createElement('div');
+    row.className = 'row';
+    
+    for (let i = 3; i < children.length; i++) {
+      const companyDiv = children[i];
+      const companyChildren = Array.from(companyDiv.children);
+      
+      const col = document.createElement('div');
+      col.className = 'col-md-6 mb-4';
+      
+      const companiesGrid = document.createElement('div');
+      companiesGrid.className = 'companiesGrid';
+      
+      companyChildren.forEach((child) => {
+        const text = child.textContent.trim();
+        if (!text) return;
+        
+        if (child.querySelector('p')) {
+          const p = document.createElement('p');
+          p.innerHTML = child.querySelector('p').innerHTML;
+          companiesGrid.appendChild(p);
+        } else if (/Visit Website/i.test(text) || /Explore Highlights/i.test(text)) {
+          const a = document.createElement('a');
+          a.className = 'btn btn-link';
+          a.href = '#';
+          a.textContent = text;
+          const linksContainer = companiesGrid.querySelector('.companies-links') || (() => {
+            const div = document.createElement('div');
+            div.className = 'companies-links mt-5 mb-4';
+            companiesGrid.appendChild(div);
+            return div;
+          })();
+          linksContainer.appendChild(a);
+        } else {
+          // assume first child is h3 (company name)
+          if (!companiesGrid.querySelector('h3')) {
+            const h3 = document.createElement('h3');
+            h3.textContent = text;
+            companiesGrid.insertBefore(h3, companiesGrid.firstChild);
+          } else {
+            // other text could be stock
+            const stockDiv = document.createElement('div');
+            stockDiv.className = 'companiesStock';
+            stockDiv.textContent = text;
+            col.appendChild(stockDiv);
+          }
+        }
+      });
+      
+      col.appendChild(companiesGrid);
+      row.appendChild(col);
     }
-
-    companiesGrid.appendChild(links);
-    col.appendChild(companiesGrid);
-
-    // Stock number OUTSIDE companiesGrid
-    const stockNode = fields[2];
-    if (stockNode) {
-      const stockWrap = document.createElement("div");
-      stockWrap.className = "companiesStock";
-      stockWrap.appendChild(stockNode);
-      col.appendChild(stockWrap);
-    }
-
-    row.appendChild(col);
+    
+    companiesCol.appendChild(row);
+    block.innerHTML = '';
+    block.appendChild(header);
+    block.appendChild(companiesCol);
   }
-
-  companiesCol.appendChild(row);
-
-  // CLEAR BLOCK BUT KEEP NODES (we rebuild using original nodes)
-  block.textContent = "";
-  block.appendChild(header);
-  block.appendChild(companiesCol);
 }
