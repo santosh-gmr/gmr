@@ -12,7 +12,23 @@
             "resourceType": "core/franklin/components/block/v1/block",
             "template": {
               "name": "listed-companies",
-              "model": "listed-companies"
+              "model": "listed-companies",
+              "filter": "listed-companies"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Company Card",
+      "id": "listed-company-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "name": "listed-company-item",
+              "model": "listed-company-item"
             }
           }
         }
@@ -25,13 +41,13 @@
       "fields": [
         {
           "component": "text",
-          "name": "title",
+          "name": "sectionTitle",
           "label": "Section Title",
           "valueType": "string",
           "defaultValue": "Listed Companies"
         },
         {
-          "component": "textarea",
+          "component": "richtext",
           "name": "description",
           "label": "Description",
           "valueType": "string"
@@ -52,25 +68,24 @@
       ]
     },
     {
-      "id": "company-card",
+      "id": "listed-company-item",
       "fields": [
         {
           "component": "text",
-          "name": "name",
+          "name": "companyName",
           "label": "Company Name",
           "valueType": "string"
         },
         {
-          "component": "textarea",
-          "name": "cardDesc",
-          "label": "Card Description",
-          "valueType": "string",
-          "defaultValue": "GAL operates airports, manages airport cities..."
+          "component": "richtext",
+          "name": "companyDesc",
+          "label": "Company Description",
+          "valueType": "string"
         },
         {
           "component": "text",
           "name": "stockSymbol",
-          "label": "Stock API Symbol / IDD",
+          "label": "Stock API Symbol / ID",
           "valueType": "string",
           "required": true
         },
@@ -99,14 +114,6 @@
           "name": "exploreHighlightsUrl",
           "label": "Explore Highlights URL",
           "valueType": "string"
-        },
-        {
-          "component": "text",
-          "name": "stockSymbol",
-          "label": "Stock API Symbol",
-          "valueType": "string",
-          "comment": "Enter the symbol (e.g., GMRINFRA) to fetch live stock data.",
-          "defaultValue": "GMRINFRA"
         }
       ]
     }
