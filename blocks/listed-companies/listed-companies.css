@@ -1,0 +1,121 @@
+.listed-companies-container { 
+  background: #0066CC; 
+  background: linear-gradient(180deg, rgba(0, 102, 204, 1) 0%, rgba(30, 60, 107, 1) 100%); 
+  padding:10.938rem 0; 
+  margin-top: -4.688rem; 
+  position:relative; 
+}
+
+.listed-companies-container:before { 
+  position: absolute; 
+  content: ''; 
+  width: 100%; 
+  height: 100%; 
+  top:0; 
+  left:0; 
+  background: url('../../img/listed-bg.svg'); 
+  background-repeat: no-repeat; 
+  background-size: 100%; 
+  background-position: center; 
+  z-index: 1; 
+}
+
+.listed-companies-wrapper { 
+  position: relative; 
+  z-index: 2; 
+}
+
+.listed-companies.block { 
+  padding: 0 6rem; 
+  margin: 0 auto; 
+  color: var(--white);
+}
+
+.listed-companies.block header .btn { 
+  white-space: nowrap; 
+  border-radius: 8px; 
+  background-color: var(--lorange); 
+  min-height: 4rem; /* 64px */
+  min-width: 14.625rem; /* 234px */
+  justify-content: center;
+}
+
+.listed-companies.block header .btn:hover { 
+  background-color: var(--orange); 
+}
+
+.entry-container { 
+  margin-bottom: 80px; 
+}
+
+.entry-container h2 { 
+  font-size: 3rem; /* 48px */
+  font-weight: 400; 
+  margin-bottom: 1rem; 
+}
+
+.entry-container p { 
+  font-size: 1.5rem; /* 24px */
+  font-weight: 400; 
+}
+
+.companiesGrid { 
+  background-color: var(--gblue); 
+  border-radius: 10px; 
+  padding: 28px 32px; 
+  position: relative; 
+}
+
+.companiesGrid:after { 
+  position: absolute; 
+  content: ''; 
+  bottom: 0; 
+  background: #134b8f; 
+  width: 90%; 
+  margin: auto; 
+  left: 0; 
+  right: 0; 
+  height: 20px; 
+  border-radius: 10px 10px 0 0; 
+}
+
+.companiesGrid h3 { 
+  font-size: 1.5625rem; /* 25px */
+  font-weight: 500; 
+  margin-bottom: 14px; 
+}
+
+.companiesGrid p { 
+  font-size: 1.125rem; /* 18px */
+  font-weight: 400; 
+}
+
+.companiesStock { 
+  background: var(--white); 
+  color: var(--black); 
+  border-radius: 10px; 
+  padding: 14px 24px; 
+  max-width: 85%; 
+  margin: auto; 
+}
+
+.companies-links { 
+  display: flex; 
+  align-items: center; 
+  justify-content:space-between;
+}
+
+.companies-links .btn { 
+  color: var(--white); 
+  text-transform: uppercase; 
+  font-size: 1.125rem; /* 18px */
+  padding: 0; 
+  background: url('../../img/Ellipse.svg'); 
+  background-repeat: no-repeat; 
+  background-position: center left; 
+  padding-left: 45px; 
+}
+
+.companies-links .btn:hover { 
+  color: var(--black); 
+}
