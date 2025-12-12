@@ -1,393 +1,382 @@
+// Replace your existing decorate() with this version.
+// It preserves your layout & classes but finds elements flexibly instead of using fixed indexes.
 export default function decorate(block) {
-  const wrapper = document.createElement("div");
-  wrapper.className = "business-accordion-wrapper";
+  const wrapper = document.createElement('div');
+  wrapper.className = 'business-accordion-wrapper';
 
+  // Grab original child nodes (the editors may have merged things)
   const children = [...block.children];
 
-  // --- BUILD HEADER ---
-  const header = document.createElement("header");
-  header.className = "business-accordion-header";
+  // --- HEADER ---
+  const header = document.createElement('header');
+  header.className = 'business-accordion-header';
 
-  // H2 + span (from first two divs)
-  const h2 = document.createElement("h2");
-  const title = children[0]?.textContent || "";
-  const subtitle = children[1]?.textContent || "";
-  h2.innerHTML = `<span class="title">${title}</span> <span class="subtitle"> ${subtitle}</span>`;
+  // Robust title/subtitle extraction:
+  // If the first child contains both title and subtitle in one node, try splitting on <br> or newline,
+  // otherwise use the first two blocks if they exist.
+  const first = children[0] || null;
+  const second = children[1] || null;
+
+  let titleText = '';
+  let subtitleText = '';
+
+  if (first) {
+    // prefer heading tags if present
+    const heading = first.querySelector('h1,h2,h3,h4');
+    if (heading) {
+      titleText = heading.textContent.trim();
+      // subtitle may be in a small/span inside heading or following sibling
+      const small = heading.querySelector('small,span');
+      if (small) subtitleText = small.textContent.trim();
+    } else {
+      // fallback: split by <br> or newline
+      const html = first.innerHTML.trim();
+      if (html.includes('<br') || html.includes('\n')) {
+        // split by br or newline, take first as title second as subtitle
+        const temp = html.replace(/<br\s*\/?>/gi, '\n').split('\n').map(s => s.trim()).filter(Boolean);
+        titleText = temp[0] || '';
+        subtitleText = temp[1] || '';
+      } else {
+        // if second exists, use first as title, second as subtitle
+        if (second) {
+          titleText = first.textContent.trim();
+          subtitleText = second.textContent.trim();
+        } else {
+          // single node only: use it as title
+          titleText = first.textContent.trim();
+        }
+      }
+    }
+  }
+
+  const h2 = document.createElement('h2');
+  h2.innerHTML = `<span class="title">${titleText}</span>` + (subtitleText ? ` <span class="subtitle"> ${subtitleText}</span>` : '');
   header.appendChild(h2);
 
-  // Intro text wrapper (from third div)
-  const intro = document.createElement("div");
-  intro.className = "intro-text";
-  const introText = children[2]?.innerHTML || "";
-  if (introText) intro.innerHTML = introText;
-  header.appendChild(intro);
+  // intro text can be in third child or combined; find the next element that has more text (not the picture)
+  const introCandidate = children.find((c, i) => i >= 2 && c && c.textContent.trim().length > 0 && !c.querySelector('picture') && c.querySelectorAll('p,div').length >= 0);
+  if (introCandidate) {
+    const intro = document.createElement('div');
+    intro.className = 'intro-text';
+    // keep the rich HTML editors may have produced
+    intro.innerHTML = introCandidate.innerHTML.trim();
+    header.appendChild(intro);
+  }
 
   wrapper.appendChild(header);
 
-  // --- CREATE ACCORDION CONTAINER ---
-  const accordionContainer = document.createElement("div");
-  accordionContainer.className = "business-accordion-container";
-  
-  // Extract business items (remaining children starting from index 3)
-  const businessItems = children.slice(3);
-  
-  // --- CREATE DESKTOP IMAGE PREVIEW SECTION (hidden on mobile) ---
-  const imagePreview = document.createElement("div");
-  imagePreview.className = "business-image-preview";
-  imagePreview.style.display = "block";
-  
-  const imageContainer = document.createElement("div");
-  imageContainer.className = "business-image-container";
-  
-  // Create desktop image containers for each business item
-  businessItems.forEach((item, index) => {
-    const desktopImageDiv = document.createElement("div");
-    desktopImageDiv.className = `desktop-business-image ${index === 0 ? "active" : ""}`;
-    desktopImageDiv.setAttribute("data-index", index);
-    
-    // Extract image from the business item (first child is picture)
-    const pictureElement = item.children[0]?.querySelector("picture");
-    if (pictureElement) {
-      const img = document.createElement("img");
-      const imgElement = pictureElement.querySelector("img");
-      if (imgElement) {
-        // Get the highest resolution image available for desktop
-        let src = imgElement.src;
-        const sources = pictureElement.querySelectorAll("source");
-        
-        // Try to find desktop source (min-width: 600px)
-        sources.forEach(source => {
-          if (source.media && source.media.includes("min-width: 600")) {
-            const srcset = source.srcset.split(",")[0].split(" ")[0];
-            if (srcset) src = srcset;
-          }
-        });
-        
-        img.src = src;
-        img.alt = imgElement.alt || "";
-        img.setAttribute("data-aue-prop", "image");
-        img.setAttribute("data-aue-label", "Business Image");
-        img.setAttribute("data-aue-type", "media");
-        
-        desktopImageDiv.appendChild(img);
-      }
-    }
-    
-    imageContainer.appendChild(desktopImageDiv);
+  // --- ITEMS ---
+  // Identify business items — all remaining blocks that look like items (contain an image/title/description/link)
+  // We'll take children after the header-related nodes. A robust way: find nodes that contain either picture/img or an anchor
+  const itemCandidates = children.filter((c, idx) => {
+    // skip the header-like nodes we already consumed (first 3 tends to be header/title/intro)
+    // but don't rely on indexes only: include nodes that have content look like an item.
+    const hasPicture = !!c.querySelector('picture, img');
+    const hasLink = !!c.querySelector('a');
+    const textLen = (c.textContent || '').trim().length;
+    return (hasPicture || hasLink || textLen > 10) && idx >= 2;
   });
-  
-  imagePreview.appendChild(imageContainer);
-  accordionContainer.appendChild(imagePreview);
-  
-  // --- CREATE ACCORDION ---
-  const accordion = document.createElement("div");
-  accordion.className = "accordion";
-  accordion.id = "businessAccordion";
-  
-  // Create accordion items
-  businessItems.forEach((item, index) => {
-    const accordionItem = document.createElement("div");
-    accordionItem.className = `accordion-item ${index === 0 ? "active" : ""}`;
-    
-    // --- ACCORDION HEADER ---
-    const accordionHeader = document.createElement("h2");
-    accordionHeader.className = `accordion-header ${index === 0 ? "active" : ""}`;
-    accordionHeader.id = `heading${index}`;
-    
-    const button = document.createElement("button");
-    button.className = `accordion-button ${index === 0 ? "active" : ""}`;
-    button.type = "button";
-    button.setAttribute("data-bs-toggle", "collapse");
-    button.setAttribute("data-bs-target", `#collapse${index}`);
-    button.setAttribute("aria-expanded", index === 0 ? "true" : "false");
-    button.setAttribute("aria-controls", `collapse${index}`);
-    
-    // Business title (second child of item)
-    const titleSpan = document.createElement("span");
-    titleSpan.className = "business-title";
-    const titleElement = item.children[1];
-    if (titleElement) {
-      titleSpan.textContent = titleElement.textContent;
+
+  // Build the accordion container & image preview area (keeping your existing classes)
+  const accordionContainer = document.createElement('div');
+  accordionContainer.className = 'business-accordion-container';
+
+  const imagePreview = document.createElement('div');
+  imagePreview.className = 'business-image-preview';
+  const imageContainer = document.createElement('div');
+  imageContainer.className = 'business-image-container';
+
+  // Create accordion element
+  const accordion = document.createElement('div');
+  accordion.className = 'accordion';
+  accordion.id = 'businessAccordion';
+
+  // Helper functions for extracting elements from an item block
+  function extractImage(item) {
+    // prefer <picture>, otherwise first <img>
+    const picture = item.querySelector('picture');
+    if (picture) return picture.cloneNode(true);
+    const img = item.querySelector('img');
+    if (img) {
+      // create a simple picture-like wrapper with the img
+      const p = document.createElement('picture');
+      p.appendChild(img.cloneNode(true));
+      return p;
     }
+    return null;
+  }
+
+  function extractTitle(item) {
+    const heading = item.querySelector('h1,h2,h3,h4');
+    if (heading) return heading.textContent.trim();
+    // sometimes editors put title in strong or bold
+    const bold = item.querySelector('strong,b');
+    if (bold && bold.textContent.trim().length >= 2) return bold.textContent.trim();
+    // fallback: find the child element with the largest text length (likely the title)
+    let best = '';
+    [...item.children].forEach(ch => {
+      const t = (ch.textContent || '').trim();
+      if (t.length > best.length) best = t;
+    });
+    // if nothing, fallback to entire item text (shortened)
+    if (!best) best = (item.textContent || '').trim().split('\n').map(s=>s.trim()).filter(Boolean)[0] || '';
+    return best;
+  }
+
+  function extractDescription(item) {
+    // join all <p> elements or anything with text except the title and links
+    const ps = [...item.querySelectorAll('p')].map(p => p.innerHTML.trim()).filter(Boolean);
+    if (ps.length) return ps.join('');
+    // if no <p>, take content of the node(s) that are not title or links or picture
+    const parts = [];
+    [...item.childNodes].forEach(node => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const t = node.textContent.trim();
+        if (t) parts.push(t);
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        const el = node;
+        if (el.matches('picture, img, a, h1, h2, h3, h4, strong, b')) return;
+        const txt = el.innerHTML.trim();
+        if (txt) parts.push(txt);
+      }
+    });
+    return parts.join('<br/>');
+  }
+
+  function extractCTA(item) {
+    // return the first anchor with href
+    const a = item.querySelector('a[href]');
+    if (a) {
+      return { href: a.href, text: (a.textContent || 'READ MORE').trim(), title: a.title || a.textContent.trim() };
+    }
+    // fallback: any link-like text
+    return null;
+  }
+
+  // Build items
+  itemCandidates.forEach((item, index) => {
+    const accordionItem = document.createElement('div');
+    accordionItem.className = `accordion-item ${index === 0 ? 'active' : ''}`;
+
+    const accordionHeader = document.createElement('h2');
+    accordionHeader.className = `accordion-header ${index === 0 ? 'active' : ''}`;
+    accordionHeader.id = `heading${index}`;
+
+    const button = document.createElement('button');
+    button.className = `accordion-button ${index === 0 ? 'active' : ''}`;
+    button.type = 'button';
+    button.setAttribute('data-bs-toggle', 'collapse');
+    button.setAttribute('data-bs-target', `#collapse${index}`);
+    button.setAttribute('aria-expanded', index === 0 ? 'true' : 'false');
+    button.setAttribute('aria-controls', `collapse${index}`);
+
+    // Title
+    const titleSpan = document.createElement('span');
+    titleSpan.className = 'business-title';
+    titleSpan.textContent = extractTitle(item) || '';
     button.appendChild(titleSpan);
-    
-    // Accordion icon
-    const iconSpan = document.createElement("span");
-    iconSpan.className = "accordion-icon";
-    iconSpan.setAttribute("aria-hidden", "true");
-    
-    const iconWrapper = document.createElement("span");
-    iconWrapper.className = "icon-wrapper";
-    
-    // Plus icon SVG
-    const plusIcon = document.createElement("span");
-    plusIcon.className = `plus-icon ${index === 0 ? "d-none" : ""}`;
-    plusIcon.innerHTML = `<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
-</svg>`;
-    
-    // Minus icon SVG
-    const minusIcon = document.createElement("span");
-    minusIcon.className = `minus-icon ${index === 0 ? "" : "d-none"}`;
-    minusIcon.innerHTML = `<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14"/>
-</svg>`;
-    
+
+    // Icon wrapper (same as your original)
+    const iconSpan = document.createElement('span');
+    iconSpan.className = 'accordion-icon';
+    iconSpan.setAttribute('aria-hidden', 'true');
+
+    const iconWrapper = document.createElement('span');
+    iconWrapper.className = 'icon-wrapper';
+
+    const plusIcon = document.createElement('span');
+    plusIcon.className = `plus-icon ${index === 0 ? 'd-none' : ''}`;
+    plusIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/></svg>`;
+
+    const minusIcon = document.createElement('span');
+    minusIcon.className = `minus-icon ${index === 0 ? '' : 'd-none'}`;
+    minusIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14"/></svg>`;
+
     iconWrapper.appendChild(plusIcon);
     iconWrapper.appendChild(minusIcon);
     iconSpan.appendChild(iconWrapper);
     button.appendChild(iconSpan);
-    
+
     accordionHeader.appendChild(button);
     accordionItem.appendChild(accordionHeader);
-    
-    // --- ACCORDION COLLAPSE ---
-    const collapseDiv = document.createElement("div");
+
+    // Collapse body
+    const collapseDiv = document.createElement('div');
     collapseDiv.id = `collapse${index}`;
-    collapseDiv.className = `accordion-collapse collapse ${index === 0 ? "show" : ""}`;
-    collapseDiv.setAttribute("aria-labelledby", `heading${index}`);
-    collapseDiv.setAttribute("data-bs-parent", "#businessAccordion");
-    
-    const accordionBody = document.createElement("div");
-    accordionBody.className = "accordion-body";
-    
-    // Business description (third child of item)
-    const descriptionDiv = document.createElement("div");
-    descriptionDiv.className = "business-description";
-    const descriptionElement = item.children[2];
-    if (descriptionElement) {
-      const p = document.createElement("p");
-      p.textContent = descriptionElement.textContent;
-      descriptionDiv.appendChild(p);
+    collapseDiv.className = `accordion-collapse collapse ${index === 0 ? 'show' : ''}`;
+    collapseDiv.setAttribute('aria-labelledby', `heading${index}`);
+    collapseDiv.setAttribute('data-bs-parent', '#businessAccordion');
+
+    const accordionBody = document.createElement('div');
+    accordionBody.className = 'accordion-body';
+
+    // Description (join multiple paragraphs)
+    const descriptionDiv = document.createElement('div');
+    descriptionDiv.className = 'business-description';
+    const desc = extractDescription(item);
+    if (desc) {
+      // preserve HTML if any
+      descriptionDiv.innerHTML = desc;
     }
     accordionBody.appendChild(descriptionDiv);
-    
-    // CTA button - Get URL from button container or link
-    const ctaDiv = document.createElement("div");
-    ctaDiv.className = "business-cta";
-    
-    // Find the actual link URL
-    let linkUrl = "#";
-    let linkTitle = "#";
-    
-    // Check for button container (fifth child, contains <a> with href="#")
-    const buttonContainer = item.children[4];
-    if (buttonContainer) {
-      const buttonLink = buttonContainer.querySelector("a");
-      if (buttonLink) {
-        linkUrl = buttonLink.href || "#";
-        linkTitle = buttonLink.title || "#";
-      }
-    }
-    
-    // Check for direct link (in case of Foundation with Google link)
-    const directLink = item.querySelector("a[href*='http']");
-    if (directLink && directLink.href.includes("http")) {
-      linkUrl = directLink.href;
-      linkTitle = directLink.title || directLink.textContent;
-    }
-    
-    // Create CTA link - Use "READ MORE" text from fourth child
-    const ctaLink = document.createElement("a");
-    ctaLink.href = linkUrl;
-    ctaLink.title = linkTitle;
-    ctaLink.className = "btn btn-transparent";
-    
-    // Get "READ MORE" text from fourth child
-    const readMoreElement = item.children[3];
-    if (readMoreElement) {
-      ctaLink.textContent = readMoreElement.textContent;
+
+    // CTA
+    const ctaDiv = document.createElement('div');
+    ctaDiv.className = 'business-cta';
+    const cta = extractCTA(item);
+    const ctaLink = document.createElement('a');
+    ctaLink.className = 'btn btn-transparent';
+    if (cta) {
+      ctaLink.href = cta.href;
+      ctaLink.title = cta.title || '';
+      ctaLink.textContent = cta.text || 'READ MORE';
     } else {
-      ctaLink.textContent = "READ MORE";
+      ctaLink.href = '#';
+      ctaLink.textContent = 'READ MORE';
     }
-    
     ctaDiv.appendChild(ctaLink);
     accordionBody.appendChild(ctaDiv);
-    
-    // MOBILE BUSINESS IMAGE (shown below CTA button on mobile)
-    const mobileImageDiv = document.createElement("div");
-    mobileImageDiv.className = "mobile-business-image";
-    mobileImageDiv.setAttribute("data-index", index);
-    
-    const pictureElement = item.children[0]?.querySelector("picture");
-    if (pictureElement) {
-      // Clone the picture element for mobile
-      const mobilePicture = pictureElement.cloneNode(true);
-      mobileImageDiv.appendChild(mobilePicture);
-    }
-    
+
+    // Mobile image — clone picture/img if present
+    const mobileImageDiv = document.createElement('div');
+    mobileImageDiv.className = 'mobile-business-image';
+    mobileImageDiv.setAttribute('data-index', index);
+    const mobilePicture = extractImage(item);
+    if (mobilePicture) mobileImageDiv.appendChild(mobilePicture);
     accordionBody.appendChild(mobileImageDiv);
+
     collapseDiv.appendChild(accordionBody);
     accordionItem.appendChild(collapseDiv);
     accordion.appendChild(accordionItem);
+
+    // Desktop preview images (kept outside accordion body)
+    const desktopImageDiv = document.createElement('div');
+    desktopImageDiv.className = `desktop-business-image ${index === 0 ? 'active' : ''}`;
+    desktopImageDiv.setAttribute('data-index', index);
+    const desktopPicture = extractImage(item);
+    if (desktopPicture) desktopImageDiv.appendChild(desktopPicture);
+    imageContainer.appendChild(desktopImageDiv);
   });
-  
+
+  imagePreview.appendChild(imageContainer);
+  accordionContainer.appendChild(imagePreview);
   accordionContainer.appendChild(accordion);
   wrapper.appendChild(accordionContainer);
-  
-  // Replace original block
-  block.innerHTML = "";
+
+  // Replace original block content with our wrapper
+  block.innerHTML = '';
   block.appendChild(wrapper);
-  
-  // Add CSS for responsive behavior
+
+  // add minimal responsive style safeguards (keeps your CSS intact)
   const style = document.createElement('style');
   style.textContent = `
     @media (max-width: 767px) {
-      .business-image-preview {
-        display: none !important;
-      }
-      .mobile-business-image {
-        display: block !important;
-        margin-top: 20px;
-      }
-      .mobile-business-image picture,
-      .mobile-business-image img {
-        width: 100%;
-        height: auto;
-      }
+      .business-image-preview { display: none !important; }
+      .mobile-business-image { display: block !important; margin-top: 20px; }
+      .mobile-business-image picture, .mobile-business-image img { width: 100%; height: auto; }
     }
-    
     @media (min-width: 768px) {
-      .mobile-business-image {
-        display: none !important;
-      }
-      .business-image-preview {
-        display: block !important;
-      }
+      .mobile-business-image { display: none !important; }
+      .business-image-preview { display: block !important; }
     }
   `;
   document.head.appendChild(style);
-  
-  // Add Bootstrap collapse event listeners
+
+  // Event wiring for collapse toggle (keeps your existing behavior)
   setTimeout(() => {
-    const collapseElements = wrapper.querySelectorAll('.accordion-collapse');
-    const desktopImages = wrapper.querySelectorAll('.desktop-business-image');
-    const accordionItems = wrapper.querySelectorAll('.accordion-item');
-    const accordionHeaders = wrapper.querySelectorAll('.accordion-header');
-    const accordionButtons = wrapper.querySelectorAll('.accordion-button');
-    
-    // Listen to Bootstrap's collapse events
-    collapseElements.forEach((collapseEl, index) => {
-      collapseEl.addEventListener('show.bs.collapse', function () {
-        // Update active classes
-        accordionItems.forEach(item => item.classList.remove('active'));
-        accordionHeaders.forEach(header => header.classList.remove('active'));
-        accordionButtons.forEach(button => button.classList.remove('active'));
-        desktopImages.forEach(img => img.classList.remove('active'));
-        
-        // Add active classes to current item
-        accordionItems[index].classList.add('active');
-        accordionHeaders[index].classList.add('active');
-        accordionButtons[index].classList.add('active');
-        desktopImages[index].classList.add('active');
-        
-        // Update icons
-        const allPlusIcons = wrapper.querySelectorAll('.plus-icon');
-        const allMinusIcons = wrapper.querySelectorAll('.minus-icon');
-        
-        allPlusIcons.forEach(icon => icon.classList.remove('d-none'));
-        allMinusIcons.forEach(icon => icon.classList.add('d-none'));
-        
-        const currentPlusIcon = accordionButtons[index].querySelector('.plus-icon');
-        const currentMinusIcon = accordionButtons[index].querySelector('.minus-icon');
-        
-        if (currentPlusIcon) currentPlusIcon.classList.add('d-none');
-        if (currentMinusIcon) currentMinusIcon.classList.remove('d-none');
+    const wrapperEl = wrapper;
+    const collapseEls = wrapperEl.querySelectorAll('.accordion-collapse');
+    const desktopImages = wrapperEl.querySelectorAll('.desktop-business-image');
+    const accordionItems = wrapperEl.querySelectorAll('.accordion-item');
+    const accordionHeaders = wrapperEl.querySelectorAll('.accordion-header');
+    const accordionButtons = wrapperEl.querySelectorAll('.accordion-button');
+
+    // If Bootstrap is present, use its events; otherwise fall back to manual toggling
+    collapseEls.forEach((el, idx) => {
+      el.addEventListener('show.bs.collapse', function () {
+        accordionItems.forEach(i => i.classList.remove('active'));
+        accordionHeaders.forEach(h => h.classList.remove('active'));
+        accordionButtons.forEach(b => b.classList.remove('active'));
+        desktopImages.forEach(d => d.classList.remove('active'));
+
+        accordionItems[idx].classList.add('active');
+        accordionHeaders[idx].classList.add('active');
+        accordionButtons[idx].classList.add('active');
+        desktopImages[idx] && desktopImages[idx].classList.add('active');
+
+        wrapperEl.querySelectorAll('.plus-icon').forEach(p => p.classList.remove('d-none'));
+        wrapperEl.querySelectorAll('.minus-icon').forEach(m => m.classList.add('d-none'));
+        const curPlus = accordionButtons[idx].querySelector('.plus-icon');
+        const curMinus = accordionButtons[idx].querySelector('.minus-icon');
+        if (curPlus) curPlus.classList.add('d-none');
+        if (curMinus) curMinus.classList.remove('d-none');
       });
-      
-      collapseEl.addEventListener('hide.bs.collapse', function () {
-        // When collapsing, check if this is the last open item
-        const openItems = wrapper.querySelectorAll('.accordion-collapse.show');
-        if (openItems.length === 1 && openItems[0] === collapseEl) {
-          // This is the last open item being closed
-          accordionItems[index].classList.remove('active');
-          accordionHeaders[index].classList.remove('active');
-          accordionButtons[index].classList.remove('active');
-          
-          // Update icons
-          const currentPlusIcon = accordionButtons[index].querySelector('.plus-icon');
-          const currentMinusIcon = accordionButtons[index].querySelector('.minus-icon');
-          
-          if (currentPlusIcon) currentPlusIcon.classList.remove('d-none');
-          if (currentMinusIcon) currentMinusIcon.classList.add('d-none');
+
+      el.addEventListener('hide.bs.collapse', function () {
+        // keep icon state correct if last open closes
+        const open = wrapperEl.querySelectorAll('.accordion-collapse.show');
+        if (open.length === 0) {
+          accordionItems[idx].classList.remove('active');
+          accordionHeaders[idx].classList.remove('active');
+          accordionButtons[idx].classList.remove('active');
+          const curPlus = accordionButtons[idx].querySelector('.plus-icon');
+          const curMinus = accordionButtons[idx].querySelector('.minus-icon');
+          if (curPlus) curPlus.classList.remove('d-none');
+          if (curMinus) curMinus.classList.add('d-none');
         }
       });
     });
-    
-    // Optional: Manual toggle for non-Bootstrap environments
-    accordionButtons.forEach((button, index) => {
-      button.addEventListener('click', function(e) {
-        // Only run if Bootstrap is not loaded
-        if (typeof bootstrap !== 'undefined') {
-          return;
-        }
-        
+
+    // Manual toggles when bootstrap isn't present
+    accordionButtons.forEach((btn, i) => {
+      btn.addEventListener('click', function (e) {
+        if (typeof bootstrap !== 'undefined') return; // let bootstrap handle it
         const targetId = this.getAttribute('data-bs-target');
-        const target = wrapper.querySelector(targetId);
-        
-        if (target.classList.contains('show')) {
-          // Close it
+        const target = wrapperEl.querySelector(targetId);
+        const isOpen = target.classList.contains('show');
+
+        if (isOpen) {
           target.classList.remove('show');
-          accordionItems[index].classList.remove('active');
-          accordionHeaders[index].classList.remove('active');
+          accordionItems[i].classList.remove('active');
+          accordionHeaders[i].classList.remove('active');
           this.classList.remove('active');
-          
-          // Update icons
-          const plusIcon = this.querySelector('.plus-icon');
-          const minusIcon = this.querySelector('.minus-icon');
-          if (plusIcon) plusIcon.classList.remove('d-none');
-          if (minusIcon) minusIcon.classList.add('d-none');
+          const plus = this.querySelector('.plus-icon');
+          const minus = this.querySelector('.minus-icon');
+          if (plus) plus.classList.remove('d-none');
+          if (minus) minus.classList.add('d-none');
         } else {
-          // Close all others
-          wrapper.querySelectorAll('.accordion-collapse.show').forEach(el => {
-            el.classList.remove('show');
-          });
-          accordionItems.forEach(item => item.classList.remove('active'));
-          accordionHeaders.forEach(header => header.classList.remove('active'));
-          accordionButtons.forEach(btn => btn.classList.remove('active'));
-          desktopImages.forEach(img => img.classList.remove('active'));
-          
-          // Open this one
+          // close others
+          wrapperEl.querySelectorAll('.accordion-collapse.show').forEach(x => x.classList.remove('show'));
+          accordionItems.forEach(it => it.classList.remove('active'));
+          accordionHeaders.forEach(h => h.classList.remove('active'));
+          accordionButtons.forEach(b => b.classList.remove('active'));
+          desktopImages.forEach(d => d.classList.remove('active'));
+
           target.classList.add('show');
-          accordionItems[index].classList.add('active');
-          accordionHeaders[index].classList.add('active');
+          accordionItems[i].classList.add('active');
+          accordionHeaders[i].classList.add('active');
           this.classList.add('active');
-          desktopImages[index].classList.add('active');
-          
-          // Update icons
-          wrapper.querySelectorAll('.plus-icon').forEach(icon => icon.classList.remove('d-none'));
-          wrapper.querySelectorAll('.minus-icon').forEach(icon => icon.classList.add('d-none'));
-          
-          const plusIcon = this.querySelector('.plus-icon');
-          const minusIcon = this.querySelector('.minus-icon');
-          if (plusIcon) plusIcon.classList.add('d-none');
-          if (minusIcon) minusIcon.classList.remove('d-none');
+          desktopImages[i] && desktopImages[i].classList.add('active');
+
+          wrapperEl.querySelectorAll('.plus-icon').forEach(p => p.classList.remove('d-none'));
+          wrapperEl.querySelectorAll('.minus-icon').forEach(m => m.classList.add('d-none'));
+
+          const plus = this.querySelector('.plus-icon');
+          const minus = this.querySelector('.minus-icon');
+          if (plus) plus.classList.add('d-none');
+          if (minus) minus.classList.remove('d-none');
         }
       });
     });
-    
-    // Handle window resize for responsive behavior
-    function handleResponsiveLayout() {
-      const isMobile = window.innerWidth <= 767;
-      const mobileImages = wrapper.querySelectorAll('.mobile-business-image');
-      
-      if (isMobile) {
-        // On mobile, ensure mobile images are visible in accordion body
-        mobileImages.forEach(imgDiv => {
-          imgDiv.style.display = 'block';
-        });
-      } else {
-        // On desktop, hide mobile images in accordion body
-        mobileImages.forEach(imgDiv => {
-          imgDiv.style.display = 'none';
-        });
-      }
+
+    // responsive behavior
+    function handleResponsive() {
+      const mobile = window.innerWidth <= 767;
+      wrapperEl.querySelectorAll('.mobile-business-image').forEach(mi => {
+        mi.style.display = mobile ? 'block' : 'none';
+      });
     }
-    
-    // Initial check
-    handleResponsiveLayout();
-    
-    // Listen for window resize
-    window.addEventListener('resize', handleResponsiveLayout);
-  }, 100);
+    handleResponsive();
+    window.addEventListener('resize', handleResponsive);
+  }, 50);
 }
