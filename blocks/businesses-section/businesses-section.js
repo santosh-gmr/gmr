@@ -10,8 +10,8 @@ export default function decorate(block) {
 
   // H2 + span (from first two divs)
   const h2 = document.createElement("h2");
-  const title = children[0]?.textContent?.trim() || "";
-  const subtitle = children[1]?.textContent?.trim() || "";
+  const title = children[0]?.textContent || "";
+  const subtitle = children[1]?.textContent || "";
   h2.innerHTML = `<span class="title">${title}</span> <span class="subtitle"> ${subtitle}</span>`;
   header.appendChild(h2);
 
@@ -107,7 +107,7 @@ export default function decorate(block) {
     titleSpan.className = "business-title";
     const titleElement = item.children[1];
     if (titleElement) {
-      titleSpan.textContent = titleElement.textContent.trim();
+      titleSpan.textContent = titleElement.textContent;
     }
     button.appendChild(titleSpan);
     
@@ -157,7 +157,7 @@ export default function decorate(block) {
     const descriptionElement = item.children[2];
     if (descriptionElement) {
       const p = document.createElement("p");
-      p.textContent = descriptionElement.textContent.trim();
+      p.textContent = descriptionElement.textContent;
       descriptionDiv.appendChild(p);
     }
     accordionBody.appendChild(descriptionDiv);
@@ -184,7 +184,7 @@ export default function decorate(block) {
     const directLink = item.querySelector("a[href*='http']");
     if (directLink && directLink.href.includes("http")) {
       linkUrl = directLink.href;
-      linkTitle = directLink.title || directLink.textContent.trim();
+      linkTitle = directLink.title || directLink.textContent;
     }
     
     // Create CTA link - Use "READ MORE" text from fourth child
@@ -196,7 +196,7 @@ export default function decorate(block) {
     // Get "READ MORE" text from fourth child
     const readMoreElement = item.children[3];
     if (readMoreElement) {
-      ctaLink.textContent = readMoreElement.textContent.trim();
+      ctaLink.textContent = readMoreElement.textContent;
     } else {
       ctaLink.textContent = "READ MORE";
     }
