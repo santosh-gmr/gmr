@@ -1,7 +1,7 @@
 export default function decorate(block) {
   // Create the new structure
   const header = document.createElement('header');
-  header.className = 'd-flex';
+  header.className = 'd-md-flex align-items-center gap-3';
   
   const companiesCol = document.createElement('div');
   companiesCol.className = 'companiesCol';
@@ -12,7 +12,7 @@ export default function decorate(block) {
   if (children.length >= 4) {
     // Create headerCol div
     const headerCol = document.createElement('div');
-    headerCol.className = 'headerCol';
+    headerCol.className = 'entry-container';
     
     // First child: Title (Listed Companies)
     const titleDiv = children[0];
@@ -36,6 +36,7 @@ export default function decorate(block) {
     const linkDiv = children[2];
     const linkText = linkDiv.textContent || linkDiv.innerText;
     const link = document.createElement('a');
+    link.className = 'btn btn-primary';
     link.href = '#';
     link.textContent = linkText.replace('Visit Investor Relations', '').trim() || 'Visit Investor Relations';
     header.appendChild(link);
