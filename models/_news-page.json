@@ -3,7 +3,7 @@
     {
       "title": "News Article Page",
       "id": "news-page",
-      "groups": ["News"],
+      "groups": ["pages"],
       "plugins": {
         "xwalk": {
           "page": {
