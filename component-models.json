@@ -312,16 +312,16 @@
       { "component": "text", "name": "ctaLink", "label": "Top Button Link", "valueType": "string" },
       {
         "component": "multifield", "name": "companies", "label": "Company Cards List",
-        "valueType": "string[]", "type": "listed-company-item"
+        "valueType": "string[]", "type": "listed-company-card"
       }
     ]
   },
   {
-    "id": "listed-company-item",
+    "id": "listed-company-card",
     "fields": [
       { "component": "text", "name": "companyName", "label": "Company Name", "valueType": "string" },
       { "component": "richtext", "name": "companyDesc", "label": "Company Description", "valueType": "string" },
-      { "component": "text", "name": "stockSymbol", "label": "Stock API Symbol / ID", "valueType": "string", "required": true },
+      { "component": "text", "name": "stockSymbol", "label": "Stock API Symbol / ID", "valueType": "string", "required": true, "comment": "e.g., 'GAL' or 'GPUIL'" },
       { "component": "text", "name": "visitWebsiteText", "label": "Visit Website Button Label", "valueType": "string", "defaultValue": "Visit Website" },
       { "component": "text", "name": "websiteLink", "label": "Visit Website URL", "valueType": "string" },
       { "component": "text", "name": "exploreHighlightsText", "label": "Explore Highlights Button Label", "valueType": "string", "defaultValue": "Explore Highlights" },

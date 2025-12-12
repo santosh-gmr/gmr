@@ -18,21 +18,6 @@
               }
             }
           }
-        },
-        {
-          "title": "News Page",
-          "id": "news",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/page/v1/page",
-                "template": {
-                  "name": "News Page",
-                  "model": "news"
-                }
-              }
-            }
-          }
         }
       ]
     },
@@ -673,14 +658,14 @@
         },
         {
           "title": "Company Card",
-          "id": "listed-company-item",
+          "id": "listed-company-card",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "name": "listed-company-item",
-                  "model": "listed-company-item"
+                  "name": "listed-company-card",
+                  "model": "listed-company-card"
                 }
               }
             }
