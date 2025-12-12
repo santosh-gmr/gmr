@@ -1,6 +1,27 @@
 {
   "groups": [
     {
+      "title": "Pages",
+      "id": "pages",
+      "components": [
+        {
+          "title": "News Article Page",
+          "id": "news-page",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/page/v1/page",
+                "template": {
+                  "name": "News Article Page",
+                  "model": "news-page"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
       "title": "Default Content",
       "id": "default",
       "components": [
@@ -116,9 +137,6 @@
         {
           "title": "Article Body",
           "id": "article-body",
-          "groups": [
-            "General"
-          ],
           "plugins": {
             "xwalk": {
               "page": {
@@ -135,9 +153,6 @@
         {
           "title": "Article Header",
           "id": "article-header",
-          "groups": [
-            "General"
-          ],
           "plugins": {
             "xwalk": {
               "page": {
@@ -353,9 +368,6 @@
         {
           "title": "Cookie Consent",
           "id": "cookie-consent",
-          "groups": [
-            "General"
-          ],
           "plugins": {
             "xwalk": {
               "page": {
@@ -615,9 +627,6 @@
         {
           "title": "Inner Banner",
           "id": "inner-banner",
-          "groups": [
-            "General"
-          ],
           "plugins": {
             "xwalk": {
               "page": {
@@ -634,9 +643,6 @@
         {
           "title": "Listed Companies",
           "id": "listed-companies",
-          "groups": [
-            "General"
-          ],
           "plugins": {
             "xwalk": {
               "page": {
@@ -717,9 +723,6 @@
         {
           "title": "Privacy Request Form",
           "id": "privacy-request",
-          "groups": [
-            "General"
-          ],
           "plugins": {
             "xwalk": {
               "page": {
