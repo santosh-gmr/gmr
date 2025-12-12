@@ -658,14 +658,14 @@
         },
         {
           "title": "Company Card",
-          "id": "listed-company-card",
+          "id": "listed-company-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "name": "listed-company-card",
-                  "model": "listed-company-card"
+                  "name": "listed-company-item",
+                  "model": "listed-company-item"
                 }
               }
             }
