@@ -85,7 +85,7 @@
         {
           "component": "text",
           "name": "stockSymbol",
-          "label": "Stock API Symbol / ID",
+          "label": "Stock API Symbol / IDD",
           "valueType": "string",
           "required": true
         },
