@@ -3,7 +3,9 @@
     {
       "title": "Listed Companies",
       "id": "listed-companies",
-      "groups": ["General"],
+      "groups": [
+        "General"
+      ],
       "plugins": {
         "xwalk": {
           "page": {
@@ -48,8 +50,7 @@
           "component": "richtext",
           "name": "description",
           "label": "Description",
-          "valueType": "string",
-          "comment": "The main text describing GEPL etc."
+          "valueType": "string"
         },
         {
           "component": "text",
@@ -73,8 +74,7 @@
           "component": "text",
           "name": "companyName",
           "label": "Company Name",
-          "valueType": "string",
-          "comment": "e.g. GMR Airports Limited (GAL)"
+          "valueType": "string"
         },
         {
           "component": "richtext",
@@ -87,8 +87,7 @@
           "name": "stockSymbol",
           "label": "Stock API Symbol / ID",
           "valueType": "string",
-          "required": true,
-          "comment": "CRITICAL: Enter the ID used by the API to fetch NSE/BSE data (e.g., 'GAL' or 'GPUIL')."
+          "required": true
         },
         {
           "component": "text",
