@@ -1,39 +1,49 @@
-// export default function decorate(block) {
-//   const rows = [...block.children];
+export default function decorate(block) {
+  const rows = [...block.children];
 
-//   const sectionTitle = rows[0]?.children[0]?.innerText || "";
-//   const sectionDescription = rows[1]?.children[0]?.innerHTML || "";
+  const title = rows[0]?.querySelector("[data-aue-prop='sectionTitle']");
+  const desc = rows[1]?.querySelector("[data-aue-prop='sectionDescription']");
 
-//   block.innerHTML = `
-//     <h2 class="section-title" data-aue-prop="sectionTitle">${sectionTitle}</h2>
-//     <div class="section-description" data-aue-prop="sectionDescription">${sectionDescription}</div>
-//     <div class="innovation-card-grid"></div>
-//   `;
+  // Create new wrapper WITHOUT deleting original author DOM
+  const header = document.createElement("div");
+  header.className = "innovation-header";
 
-//   const grid = block.querySelector(".innovation-card-grid");
+  if (title) header.append(title.cloneNode(true));
+  if (desc) header.append(desc.cloneNode(true));
 
-//   rows.slice(2).forEach((row) => {
-    
-//     const cols = [...row.children];
+  const grid = document.createElement("div");
+  grid.className = "innovation-card-grid";
 
-//     // Skip rows that have no authored values
-//     if (cols.every(col => !col.innerText.trim() && !col.innerHTML.trim())) return;
+  // Now build cards
+  rows.slice(2).forEach((row) => {
+    const image = row.querySelector("[data-aue-prop='image']");
+    const t = row.querySelector("[data-aue-prop='title']");
+    const d = row.querySelector("[data-aue-prop='description']");
+    const cta = row.querySelector("[data-aue-prop='ctaText']");
 
+    if (!image && !t && !d && !cta) return; // skip empty rows
 
-//     const [imageCol, titleCol, descCol, ctaCol] = row.children;
+    const card = document.createElement("div");
+    card.className = "innovation-card";
 
-//     const card = document.createElement("div");
-//     card.className = "innovation-card";
+    card.innerHTML = `
+      <div class="innovation-card-image">${image?.closest("picture")?.outerHTML || ""}</div>
+      <div class="innovation-card-overlay">
+        <h3>${t?.innerText || ""}</h3>
+        <p>${d?.innerHTML || ""}</p>
+        <a class="innovation-cta">${cta?.innerText || ""} ›</a>
+      </div>
+    `;
 
-//     card.innerHTML = `
-//       <picture>${imageCol.innerHTML}</picture>
-//       <div class="innovation-card-content">
-//         <h3>${titleCol.innerText}</h3>
-//         <p>${descCol.innerHTML}</p>
-//         <div class="innovation-card-cta">${ctaCol.innerText}</div>
-//       </div>
-//     `;
+    grid.append(card);
+  });
 
-//     grid.append(card);
-//   });
-// }
+  // Final output wrapper
+  const wrapper = document.createElement("div");
+  wrapper.className = "innovation-cards-wrapper";
+  wrapper.append(header);
+  wrapper.append(grid);
+
+  // Replace only visible HTML, NOT authoring DOM
+  block.replaceChildren(wrapper);
+}
