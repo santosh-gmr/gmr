@@ -25,7 +25,18 @@
       "cookie-consent",
       "privacy-request",
       "news-updates",
-      "careers-highlight"
+      "careers-highlight",
+      "success-stories",
+      "aviation-expertise",
+      "content-fragment-block",
+      "airport-overview",
+      "recognition-awards",
+      "awards-carousel",
+      "experience-banner",
+      "committed-banner",
+      "passenger-experience",
+      "commitment-cards",
+      "innovation-cards"
     ]
   },
   {
@@ -162,5 +173,21 @@
   {
     "id": "careers-highlight",
     "components": []
+  },
+  {
+    "id": "content-fragment-block",
+    "components": []
+  },
+  {
+    "id": "recognition-awards",
+    "components": []
+  },
+  {
+    "id": "commitment-cards",
+    "components": ["commitment-card"]
+  },
+  {
+    "id": "innovation-cards",
+    "components": ["innovation-card-item"]
   }
 ]

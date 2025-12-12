@@ -1,0 +1,92 @@
+.innovation-cards {
+  width: 100%;
+  padding: 80px 0 120px;
+  background: #f8edd9;
+}
+
+.innovation-cards .section-title {
+  font-size: 48px;
+  font-weight: 600;
+  text-align: center;
+  color: #003366;
+  margin-bottom: 20px;
+}
+
+.innovation-cards .section-description {
+  font-size: 22px;
+  color: #444;
+  text-align: center;
+  width: 60%;
+  margin: 0 auto 60px;
+}
+
+.innovation-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  width: 85%;
+  margin: 0 auto;
+}
+
+/* Each Card */
+.innovation-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  height: 420px;
+  cursor: pointer;
+}
+
+.innovation-card picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Gradient overlay */
+.innovation-card::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+}
+
+/* Card Text Overlay */
+.innovation-card-content {
+  position: absolute;
+  bottom: 25px;
+  left: 25px;
+  right: 25px;
+  color: #fff;
+  z-index: 10;
+}
+
+.innovation-card-content h3 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.innovation-card-content p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+/* CTA */
+.innovation-card-cta {
+  color: #f4ad32;
+  font-size: 18px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.innovation-card-cta::after {
+  content: "›";
+  font-size: 22px;
+  margin-top: -2px;
+}
