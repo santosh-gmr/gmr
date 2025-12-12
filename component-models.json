@@ -1016,74 +1016,37 @@
     "fields": [
       {
         "component": "text",
+        "name": "filterTag",
+        "label": "Filter Tag",
         "valueType": "string",
-        "name": "sectionTitle",
-        "label": "Section Title"
+        "comment": "Type 'Aero' to show only Aero news. Leave empty to show all."
       },
       {
-        "component": "richtext",
-        "valueType": "string",
-        "name": "sectionDescription",
-        "label": "Section Description"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "ctaText",
-        "label": "Section CTA Text"
+        "component": "number",
+        "name": "limit",
+        "label": "Number of Items",
+        "valueType": "long",
+        "defaultValue": 3
       },
       {
         "component": "text",
-        "valueType": "string",
-        "name": "ctaLink",
-        "label": "Section CTA Link"
-      }
-    ]
-  },
-  {
-    "id": "news-item",
-    "fields": [
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "image",
-        "label": "Image"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "category",
-        "label": "Category"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "date",
-        "label": "Date"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
         "name": "title",
-        "label": "News Title"
-      },
-      {
-        "component": "richtext",
+        "label": "Title",
         "valueType": "string",
-        "name": "description",
-        "label": "Description"
+        "defaultValue": "News & Updates"
       },
       {
         "component": "text",
+        "name": "ctaLabel",
+        "label": "Button Label",
         "valueType": "string",
-        "name": "ctaText",
-        "label": "CTA Text"
+        "defaultValue": "Go to Newsroom"
       },
       {
         "component": "text",
-        "valueType": "string",
         "name": "ctaLink",
-        "label": "CTA Link"
+        "label": "Button Link",
+        "valueType": "string"
       }
     ]
   },
