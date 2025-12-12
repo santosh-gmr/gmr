@@ -286,4 +286,4 @@ let markerIndex = 1;
   }else{
    block.innerHTML = '';
 }
-
+}
