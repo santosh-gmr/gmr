@@ -1,13 +1,13 @@
-.careerImg{border-radius:8px;overflow:hidden;margin-bottom:24px}
+.careerImg{border-radius:.5rem;overflow:hidden;margin-bottom:1.5rem}
 .careerImg:last-child{margin-bottom:0}
-.cardContent{background:url('../../img/careerbg.svg');background-repeat:no-repeat;background-size:100%;background-position:center;border-radius:8px;overflow:hidden;padding:46px 64px;color:var(--white)}
-.cardContent h3{font-size:40px;font-weight:400;line-height:60px;margin-bottom:26px}
-.cardContent p{font-size:24px;font-weight:400;margin-bottom:0}
-.careerImg.picthree{height:435px}
+.cardContent{background:url('../../img/careerbg.svg') no-repeat center;background-size:100%;border-radius:.5rem;overflow:hidden;padding:2.875rem 4rem;color:var(--white)}
+.cardContent h3{font-size:2.5rem;font-weight:400;line-height:3.75rem;margin-bottom:1.625rem}
+.cardContent p{font-size:1.5rem;font-weight:400;margin-bottom:0}
+.careerImg.picthree{height:27.188rem}
 .careerImg.picthree img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.careerImg img{width:100%}
 @media (max-width:767px){
 .careerImg.picone{display:none}
 .careerImg.picthree{height:auto}
-.careerImg img{width: 100%;}
-.cardContent{margin:26px 0;background-size:cover;padding:26px}
+.cardContent{margin:1.625rem 0;background-size:cover;padding:1.625rem}
 }
