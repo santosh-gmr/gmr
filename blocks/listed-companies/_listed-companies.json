@@ -85,22 +85,14 @@
         {
           "component": "text",
           "name": "stockSymbol",
-          "label": "Stock API Symbol / IDD",
+          "label": "Stock API Symbol / ID",
           "valueType": "string",
           "required": true
         },
-
         {
           "component": "text",
           "name": "visitWebsiteText",
           "label": "Visit Website Button Label",
-          "valueType": "string",
-          "defaultValue": "Visit Website"
-        },
-        {
-          "component": "text",
-          "name": "visitWebsiteLabel",
-          "label": "Visit Website Button Label (alt)",
           "valueType": "string",
           "defaultValue": "Visit Website"
         },
@@ -112,13 +104,6 @@
         },
         {
           "component": "text",
-          "name": "websiteLink",
-          "label": "Visit Website URL (legacy)",
-          "valueType": "string"
-        },
-
-        {
-          "component": "text",
           "name": "exploreHighlightsText",
           "label": "Explore Highlights Button Label",
           "valueType": "string",
@@ -126,21 +111,8 @@
         },
         {
           "component": "text",
-          "name": "exploreHighlightsLabel",
-          "label": "Explore Highlights Button Label (alt)",
-          "valueType": "string",
-          "defaultValue": "Explore Highlights"
-        },
-        {
-          "component": "text",
           "name": "exploreHighlightsUrl",
           "label": "Explore Highlights URL",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "name": "highlightsLink",
-          "label": "Explore Highlights URL (legacy)",
           "valueType": "string"
         }
       ]
