@@ -1,19 +1,25 @@
 export default function decorate(block) {
-  // Create outer wrapper for preview (NOT inserted inside block)
+  // Only decorate on published/preview, NOT in authoring (Universal Editor)
+  if (document.querySelector('html[data-aue-mode]')) {
+    // We're in Universal Editor - do NOT decorate, keep original structure
+    return;
+  }
+
+  // Create outer wrapper for published site
   const preview = document.createElement("div");
   preview.className = "innovation-cards";
 
   const rows = [...block.children];
 
-  // Extract authored props (DO NOT MODIFY these)
-  const titleNode = rows[0]?.querySelector("[data-aue-prop='sectionTitle']");
-  const descNode = rows[1]?.querySelector("[data-aue-prop='sectionDescription']");
+  // Extract content from rows
+  const titleText = rows[0]?.textContent?.trim() || "";
+  const descHTML = rows[1]?.innerHTML || "";
 
-  // Header for preview
+  // Header for published site
   const headerHTML = `
-    <h2 class="section-title">${titleNode?.innerText || ""}</h2>
+    <h2 class="section-title">${titleText}</h2>
     <div class="section-description">
-      ${descNode?.innerHTML || ""}
+      ${descHTML}
     </div>
   `;
 
@@ -21,16 +27,15 @@ export default function decorate(block) {
 
   const grid = preview.querySelector(".innovation-card-grid");
 
-  // Build cards safely using cloned values
+  // Build cards from remaining rows
   rows.slice(2).forEach(row => {
-    const img = row.querySelector("[data-aue-prop='image']");
-    const ttl = row.querySelector("[data-aue-prop='title']");
-    const des = row.querySelector("[data-aue-prop='description']");
-    const cta = row.querySelector("[data-aue-prop='ctaText']");
+    const cells = [...row.children];
+    if (cells.length < 4) return;
 
-    if (!img && !ttl && !des && !cta) return;
-
-    const picture = img?.closest("picture")?.cloneNode(true)?.outerHTML || "";
+    const picture = cells[0]?.querySelector("picture")?.cloneNode(true)?.outerHTML || "";
+    const title = cells[1]?.textContent?.trim() || "";
+    const description = cells[2]?.innerHTML || "";
+    const ctaText = cells[3]?.textContent?.trim() || "";
 
     const card = document.createElement("div");
     card.className = "innovation-card";
@@ -38,15 +43,16 @@ export default function decorate(block) {
     card.innerHTML = `
       ${picture}
       <div class="innovation-card-content">
-        <h3>${ttl?.innerText || ""}</h3>
-        <p>${des?.innerHTML || ""}</p>
-        <div class="innovation-card-cta">${cta?.innerText || ""}</div>
+        <h3>${title}</h3>
+        <p>${description}</p>
+        <div class="innovation-card-cta">${ctaText}</div>
       </div>
     `;
 
     grid.append(card);
   });
 
-  // Insert PREVIEW *after* the block — never touching authored DOM
-  block.after(preview);
+  // Replace block content with decorated version
+  block.textContent = '';
+  block.append(preview);
 }
