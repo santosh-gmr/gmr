@@ -447,6 +447,61 @@
     ]
   },
   {
+    "id": "careers-highlight",
+    "fields": [
+      {
+        "component": "text",
+        "name": "sectionTitle",
+        "label": "Section Title",
+        "valueType": "string",
+        "defaultValue": "Grow With a Purpose-Driven Team"
+      },
+      {
+        "component": "reference",
+        "name": "imageOffice",
+        "label": "Image 1 (Top Left)",
+        "valueType": "string",
+        "comment": "The office interior shot (e.g., Green Wall)"
+      },
+      {
+        "component": "reference",
+        "name": "imageTeamSmall",
+        "label": "Image 2 (Bottom Left)",
+        "valueType": "string",
+        "comment": "The smaller group photo (e.g., Team in suits)"
+      },
+      {
+        "component": "reference",
+        "name": "imageTeamLarge",
+        "label": "Image 3 (Right Side)",
+        "valueType": "string",
+        "comment": "The large vertical group photo"
+      },
+      {
+        "component": "richtext",
+        "name": "cardContent",
+        "label": "Blue Card Text",
+        "valueType": "string",
+        "defaultValue": "<h2>Be part of a team that values Innovation...</h2><p>Build your career in a company...</p>",
+        "comment": "The content inside the center blue box"
+      },
+      {
+        "component": "text",
+        "name": "ctaLabel",
+        "label": "CTA Button Label",
+        "valueType": "string",
+        "defaultValue": "Explore Life at GMR"
+      },
+      {
+        "component": "text",
+        "name": "ctaLink",
+        "label": "CTA Link URL",
+        "valueType": "string",
+        "defaultValue": "/careers"
+      }
+    ]
+  },
+  {
     "id": "slide",
     "fields": [
       {
@@ -860,7 +915,7 @@
         "comment": "URL or page link for the CTA button"
       },
       {
-        "component": "file",
+        "component": "reference",
         "name": "video",
         "label": "Background Video",
         "valueType": "string",
@@ -871,14 +926,14 @@
         "comment": "Optional video for desktop view"
       },
       {
-        "component": "image",
+        "component": "reference",
         "name": "desktopBanner",
         "label": "Desktop Banner Image",
         "valueType": "string",
         "comment": "Recommended size: 1920px width"
       },
       {
-        "component": "image",
+        "component": "reference",
         "name": "mobileBanner",
         "label": "Mobile Banner Image",
         "valueType": "string",
@@ -975,74 +1030,37 @@
     "fields": [
       {
         "component": "text",
+        "name": "filterTag",
+        "label": "Filter Tag",
         "valueType": "string",
-        "name": "sectionTitle",
-        "label": "Section Title"
+        "comment": "Type 'Aero' to show only Aero news. Leave empty to show all."
       },
       {
-        "component": "richtext",
-        "valueType": "string",
-        "name": "sectionDescription",
-        "label": "Section Description"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "ctaText",
-        "label": "Section CTA Text"
+        "component": "number",
+        "name": "limit",
+        "label": "Number of Items",
+        "valueType": "long",
+        "defaultValue": 3
       },
       {
         "component": "text",
-        "valueType": "string",
-        "name": "ctaLink",
-        "label": "Section CTA Link"
-      }
-    ]
-  },
-  {
-    "id": "news-item",
-    "fields": [
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "image",
-        "label": "Image"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "category",
-        "label": "Category"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "date",
-        "label": "Date"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
         "name": "title",
-        "label": "News Title"
-      },
-      {
-        "component": "richtext",
+        "label": "Title",
         "valueType": "string",
-        "name": "description",
-        "label": "Description"
+        "defaultValue": "News & Updates"
       },
       {
         "component": "text",
+        "name": "ctaLabel",
+        "label": "Button Label",
         "valueType": "string",
-        "name": "ctaText",
-        "label": "CTA Text"
+        "defaultValue": "Go to Newsroom"
       },
       {
         "component": "text",
-        "valueType": "string",
         "name": "ctaLink",
-        "label": "CTA Link"
+        "label": "Button Link",
+        "valueType": "string"
       }
     ]
   },

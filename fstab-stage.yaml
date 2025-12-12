@@ -1,5 +1,0 @@
-mountpoints:
-  /:
-    url: "https://author-p168597-e1857399.adobeaemcloud.com/bin/franklin.delivery/santosh-gmr/gmr/stage"
-    type: "markup"
-    suffix: ".html"
