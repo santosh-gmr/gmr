@@ -55,12 +55,7 @@
   "filters": [
     {
       "id": "innovation-cards",
-      "elements": [
-        "sectionTitle",
-        "sectionDescription"
-      ],
       "components": ["innovation-card-item"]
     }
   ]
-
 }

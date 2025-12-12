@@ -195,11 +195,7 @@
     "components": ["commitment-card"]
   },
   {
-      "id": "innovation-cards",
-      "elements": [
-        "sectionTitle",
-        "sectionDescription"
-      ],
-      "components": ["innovation-card-item"]
-    }
+    "id": "innovation-cards",
+    "components": ["innovation-card-item"]
+  }
 ]
