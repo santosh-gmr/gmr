@@ -1,3 +1,4 @@
+.businesses-section-container { background-color: var(--sky-blue);}
 .businesses-section-wrapper .accordion {
   width: 100%;
 }
@@ -70,21 +71,20 @@
 }
 
 .business-accordion-wrapper {
-  max-width: 1200px;
   margin: 0 auto;
-  padding: 5rem; /* 80px */
+  padding: 6rem;
   background: var(--white);
   border-radius: 10px;
-  margin-top: -5rem; /* -80px */
-  position: relative;
+  margin-top: -4.688rem;
+  position: relative; z-index: 2;
 }
 
 .business-accordion-header {
-  margin-bottom: 3rem;
+  margin-bottom: 4rem;
 }
 
 .business-accordion-header h2 {
-  font-size: 2.5rem; /* 40px */
+  font-size: 2.8rem;
   font-weight: 400;
   color: var(--blue);
   margin-bottom: 1rem;
@@ -92,10 +92,9 @@
   align-items: center;
   gap: 8px;
 }
-
 .business-accordion-header h2 .subtitle {
   display: inline-block;
-  font-size: 1.75rem; /* 28px */
+  font-size: 2rem;
   font-weight: 300;
   font-style: italic;
   color: var(--turquoise);
@@ -103,16 +102,16 @@
   position: relative;
 }
 
-.business-accordion-header .title { position: relative; }
+.business-accordion-header .title { position: relative; text-transform: uppercase; }
 .business-accordion-header .title:after {
   content: '/';
   color: var(--blue);
 }
 
 .intro-text {
-  font-size: 1.25rem; /* 20px */
+  font-size: 1.5rem;
   color: var(--charcoal);
-  max-width: 775px;
+  max-width: 900px;
   margin: 0;
   line-height: 1.6;
 }
@@ -168,7 +167,7 @@
   text-align: left;
   padding-right: 1rem;
   font-weight: 300;
-  font-size: 1.5rem; /* 24px */
+  font-size: 1.8rem;
 }
 
 .businesses-section-wrapper .accordion-button.active .business-title {
@@ -176,10 +175,10 @@
 }
 
 .business-description {
-  font-size: 1rem;
+  font-size: 1.125rem;
   line-height: 1.4;
   color: var(--black);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.5rem; max-width: 450px;
 }
 
 .business-description p {
