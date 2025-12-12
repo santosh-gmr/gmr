@@ -1,0 +1,116 @@
+{
+  "definitions": [
+    {
+      "title": "Listed Companies",
+      "id": "listed-companies",
+      "groups": ["General"],
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "listed-companies",
+              "model": "listed-companies"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "listed-companies",
+      "fields": [
+        {
+          "component": "text",
+          "name": "title",
+          "label": "Section Title",
+          "valueType": "string",
+          "defaultValue": "Listed Companies"
+        },
+        {
+          "component": "textarea",
+          "name": "description",
+          "label": "Description",
+          "valueType": "string",
+          "defaultValue": "GEPL is the holding company of the GMR Group..."
+        },
+        {
+          "component": "text",
+          "name": "ctaLabel",
+          "label": "Main Button Label",
+          "valueType": "string",
+          "defaultValue": "Visit Investor Relations"
+        },
+        {
+          "component": "text",
+          "name": "ctaLink",
+          "label": "Main Button Link",
+          "valueType": "string",
+          "defaultValue": "/investor-relations"
+        },
+        {
+          "component": "multifield",
+          "name": "companies",
+          "label": "Company Cards",
+          "valueType": "string[]",
+          "type": "company-card"
+        }
+      ]
+    },
+    {
+      "id": "company-card",
+      "fields": [
+        {
+          "component": "text",
+          "name": "name",
+          "label": "Company Name",
+          "valueType": "string",
+          "defaultValue": "GMR Airports Limited (GAL)"
+        },
+        {
+          "component": "textarea",
+          "name": "cardDesc",
+          "label": "Card Description",
+          "valueType": "string",
+          "defaultValue": "GAL operates airports, manages airport cities..."
+        },
+        {
+          "component": "text",
+          "name": "websiteLabel",
+          "label": "Link 1 Label (e.g. Website)",
+          "valueType": "string",
+          "defaultValue": "VISIT WEBSITE"
+        },
+        {
+          "component": "text",
+          "name": "websiteLink",
+          "label": "Link 1 URL",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "name": "highlightLabel",
+          "label": "Link 2 Label (e.g. Highlights)",
+          "valueType": "string",
+          "defaultValue": "EXPLORE HIGHLIGHTS"
+        },
+        {
+          "component": "text",
+          "name": "highlightLink",
+          "label": "Link 2 URL",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "name": "stockSymbol",
+          "label": "Stock API Symbol",
+          "valueType": "string",
+          "comment": "Enter the symbol (e.g., GMRINFRA) to fetch live stock data.",
+          "defaultValue": "GMRINFRA"
+        }
+      ]
+    }
+  ],
+  "filters": []
+}
