@@ -937,16 +937,30 @@
       {
         "component": "text",
         "name": "stockSymbol",
-        "label": "Stock API Symbol / ID",
+        "label": "Stock API Symbol / IDD",
         "valueType": "string",
         "required": true,
         "comment": "CRITICAL: Enter the ID used by the API to fetch NSE/BSE data (e.g., 'GAL' or 'GPUIL')."
       },
       {
         "component": "text",
+        "name": "visitWebsiteText",
+        "label": "Visit Website Button Label",
+        "valueType": "string",
+        "defaultValue": "Visit Website"
+      },
+      {
+        "component": "text",
         "name": "websiteLink",
         "label": "Visit Website URL",
         "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "exploreHighlightsText",
+        "label": "Explore Highlights Button Label",
+        "valueType": "string",
+        "defaultValue": "Explore Highlights"
       },
       {
         "component": "text",
